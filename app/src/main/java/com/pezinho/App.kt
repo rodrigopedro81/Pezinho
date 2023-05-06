@@ -15,7 +15,7 @@ fun App(navController: NavHostController){
         startDestination = NavigationRoutes.Home.destination
     ){
         loginRoute(navController)
-        homeRoute(navController)
+//        homeRoute(navController)
     }
 }
 
@@ -30,8 +30,8 @@ fun NavGraphBuilder.loginRoute(navController: NavHostController) {
     }
 }
 
-fun NavGraphBuilder.homeRoute(navController: NavHostController) {
-    composable(route = NavigationRoutes.Home.destination) {
-
-    }
-}
+//fun NavGraphBuilder.homeRoute(navController: NavHostController) {
+//    composable(route = NavigationRoutes.Home.destination) {
+//
+//    }
+//}
