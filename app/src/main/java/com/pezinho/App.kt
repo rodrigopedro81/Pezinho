@@ -12,7 +12,7 @@ import com.login.LoginScreen
 fun App(navController: NavHostController){
     NavHost(
         navController = navController,
-        startDestination = NavigationRoutes.Home.destination
+        startDestination = NavigationRoutes.Login.destination
     ){
         loginRoute(navController)
 //        homeRoute(navController)

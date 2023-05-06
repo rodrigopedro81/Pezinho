@@ -8,6 +8,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
 import javax.inject.Singleton
 
 
@@ -17,21 +18,15 @@ object AppModule {
 
     private const val BASE_URL = "https://www.google.com"
 
-//    @Provides
-//    @Singleton
-//    fun provideAuthenticator() : FirebaseAuthenticator =
-//        FirebaseAuthenticatorImpl()
-//
-
     @Provides
     @Singleton
-    fun providesRetrofit() = NetworkUtils.getRetrofitInstance(BASE_URL)
-
-    @Provides
-    @Singleton
-    fun providesLoginRepository() : LoginRepository = LoginRepositoryImpl(providesLoginService())
+    fun providesRetrofit(): Retrofit = NetworkUtils.getRetrofitInstance(BASE_URL)
 
     @Provides
     @Singleton
     fun providesLoginService() = NetworkUtils.getApi(providesRetrofit(), LoginService::class.java)
+
+    @Provides
+    @Singleton
+    fun providesLoginRepository() : LoginRepository = LoginRepositoryImpl(providesLoginService())
 }
