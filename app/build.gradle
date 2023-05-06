@@ -58,6 +58,7 @@ dependencies {
     implementation project(path: ':Core')
     implementation project(path: ':Features:Login')
     implementation project(path: ':Features:Authentication')
+    implementation project(path: ':Features:DesignSystem')
 }
 
 kapt {

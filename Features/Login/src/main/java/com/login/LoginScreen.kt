@@ -8,11 +8,15 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.designsystem.MainEditText
+import com.designsystem.PrimaryMainButton
+import com.designsystem.SecondaryMainButton
+import com.designsystem.SimpleHeader
+import com.designsystem.VerticalSpacer
 
 @Composable
 fun LoginScreen(
@@ -38,28 +42,37 @@ fun LoginScreenContent(
             .fillMaxSize()
             .padding(12.dp)
     ) {
-        TextField(
-            value = state.email,
-            onValueChange = {
+        SimpleHeader(text = "Login")
+        VerticalSpacer(dp = 32.dp)
+        MainEditText(
+            isValid = true,
+            label = "Email",
+            hint = "Digite seu email",
+            text = state.email,
+            onTextChange = {
                 onTypeEvent.invoke(LoginScreenEvent.TypeEvent.UPDATE_EMAIL, it)
             }
         )
-        TextField(
-            value = state.password,
-            onValueChange = {
+        MainEditText(
+            isValid = true,
+            label = "Senha",
+            hint = "Digite sua senha",
+            text = state.password,
+            onTextChange = {
                 onTypeEvent.invoke(LoginScreenEvent.TypeEvent.UPDATE_PASSWORD, it)
             }
         )
-        Button(
-            onClick = { onClickEvent.invoke(LoginScreenEvent.ClickEvent.CLICK_LOGIN) }
-        ) {
-            Text(text = "Logar")
-        }
-        Button(
-            onClick = { onClickEvent.invoke(LoginScreenEvent.ClickEvent.CLICK_REGISTER) }
-        ) {
-            Text(text = "Registrar")
-        }
+        VerticalSpacer(dp = 20.dp)
+        PrimaryMainButton(
+            onClick = { onClickEvent.invoke(LoginScreenEvent.ClickEvent.CLICK_LOGIN) },
+            isButtonEnabled = true,
+            buttonText = "Logar"
+        )
+        VerticalSpacer(dp = 20.dp)
+        SecondaryMainButton(
+            onClick = { onClickEvent.invoke(LoginScreenEvent.ClickEvent.CLICK_REGISTER) },
+            buttonText = "Registrar"
+        )
     }
 }
 

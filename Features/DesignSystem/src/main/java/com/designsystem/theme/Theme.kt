@@ -1,4 +1,4 @@
-package com.pezinho.ui.theme
+package com.designsystem.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape

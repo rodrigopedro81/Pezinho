@@ -1,4 +1,4 @@
-package com.pezinho.ui.theme
+package com.designsystem.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
