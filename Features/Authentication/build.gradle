@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.features'
+    namespace 'com.authentication'
     compileSdk 33
 
     defaultConfig {
@@ -31,8 +31,6 @@ android {
 }
 
 dependencies {
-
-    implementation composeUIDependencies.values()
-    implementation debugDependencies.values()
-    implementation androidX.values()
+    implementation(project(path:':Core:Repositories'))
+    implementation(project(path:':Features:Network'))
 }

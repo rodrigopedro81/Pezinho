@@ -12,10 +12,14 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+
 rootProject.name = "Pezinho"
 include ':app'
 include ':Core'
 include ':Features'
-include ':core:Entities'
-include ':core:Repositories'
-include ':core:Interactors'
+include ':Core:Entities'
+include ':Core:Repositories'
+include ':Core:Interactors'
+include ':Features:Login'
+include ':Features:Authentication'
+include ':Features:Network'

@@ -1,25 +1,19 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'com.google.dagger.hilt.android'
     id 'kotlin-kapt'
 }
 
 android {
-    namespace 'com.pezinho'
+    namespace 'com.login'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.pezinho"
         minSdk 24
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary true
-        }
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -41,25 +35,14 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion '1.4.3'
     }
-    packagingOptions {
-        resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
-        }
-    }
 }
 
 dependencies {
+
     implementation composeUIDependencies.values()
+    implementation debugDependencies.values()
+    implementation androidX.values()
     implementation dagger.values()
     kapt daggerCompiler.values()
-    implementation retrofit.values()
-    implementation project(path: ':Features:Network')
-    implementation project(path: ':Core:Repositories')
-    implementation project(path: ':Core')
-    implementation project(path: ':Features:Login')
-    implementation project(path: ':Features:Authentication')
-}
-
-kapt {
-    correctErrorTypes true
+    implementation(project(":Core:Repositories"))
 }
