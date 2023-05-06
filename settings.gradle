@@ -14,3 +14,8 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Pezinho"
 include ':app'
+include ':Core'
+include ':Features'
+include ':core:Entities'
+include ':core:Repositories'
+include ':core:Interactors'
