@@ -21,14 +21,16 @@ fun LoginScreen(
 ) {
     val loginScreenState = viewModel.uiState.collectAsStateWithLifecycle()
     LoginScreenContent(
-        onEvent = viewModel::onEvent,
+        onTypeEvent = viewModel::onTypeEvent,
+        onClickEvent = viewModel::onClickEvent,
         state = loginScreenState.value
     )
 }
 
 @Composable
 fun LoginScreenContent(
-    onEvent: (LoginScreenEvent, Any?) -> Unit,
+    onTypeEvent: (LoginScreenEvent.TypeEvent, String) -> Unit,
+    onClickEvent: (LoginScreenEvent.ClickEvent) -> Unit,
     state: LoginScreenState
 ) {
     Column(
@@ -39,22 +41,22 @@ fun LoginScreenContent(
         TextField(
             value = state.email,
             onValueChange = {
-                onEvent.invoke(LoginScreenEvent.UPDATE_EMAIL, it)
+                onTypeEvent.invoke(LoginScreenEvent.TypeEvent.UPDATE_EMAIL, it)
             }
         )
         TextField(
             value = state.password,
             onValueChange = {
-                onEvent.invoke(LoginScreenEvent.UPDATE_PASSWORD, it)
+                onTypeEvent.invoke(LoginScreenEvent.TypeEvent.UPDATE_PASSWORD, it)
             }
         )
         Button(
-            onClick = { onEvent.invoke(LoginScreenEvent.CLICK_LOGIN, null) }
+            onClick = { onClickEvent.invoke(LoginScreenEvent.ClickEvent.CLICK_LOGIN) }
         ) {
             Text(text = "Logar")
         }
         Button(
-            onClick = { onEvent.invoke(LoginScreenEvent.CLICK_REGISTER, null) }
+            onClick = { onClickEvent.invoke(LoginScreenEvent.ClickEvent.CLICK_REGISTER) }
         ) {
             Text(text = "Registrar")
         }
@@ -66,7 +68,8 @@ fun LoginScreenContent(
 @Composable
 fun LoginScreenPreview() {
     LoginScreenContent(
-        onEvent = { _,_ -> },
+        onTypeEvent = { _,_ -> },
+        onClickEvent = { },
         state = LoginScreenState(),
     )
 }

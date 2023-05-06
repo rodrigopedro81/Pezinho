@@ -14,11 +14,15 @@ data class LoginScreenState(
     val password: String = ""
 )
 
-enum class LoginScreenEvent {
-    UPDATE_PASSWORD,
-    UPDATE_EMAIL,
-    CLICK_LOGIN,
-    CLICK_REGISTER
+class LoginScreenEvent {
+    enum class TypeEvent {
+        UPDATE_PASSWORD,
+        UPDATE_EMAIL,
+    }
+    enum class ClickEvent {
+        CLICK_LOGIN,
+        CLICK_REGISTER
+    }
 }
 
 @HiltViewModel
@@ -29,15 +33,22 @@ class LoginScreenViewModel @Inject constructor(
     private val _uiState: MutableStateFlow<LoginScreenState> = MutableStateFlow(LoginScreenState())
     val uiState: StateFlow<LoginScreenState> = _uiState.asStateFlow()
 
-    fun <T> onEvent(
-        event: LoginScreenEvent,
-        value: T? = null
+    fun onClickEvent(
+        event: LoginScreenEvent.ClickEvent
     ) {
         when(event) {
-            LoginScreenEvent.UPDATE_PASSWORD -> updatePassword(value as String)
-            LoginScreenEvent.UPDATE_EMAIL -> updateEmail(value as String)
-            LoginScreenEvent.CLICK_LOGIN -> login()
-            LoginScreenEvent.CLICK_REGISTER -> register()
+            LoginScreenEvent.ClickEvent.CLICK_LOGIN -> login()
+            LoginScreenEvent.ClickEvent.CLICK_REGISTER -> register()
+        }
+    }
+
+    fun onTypeEvent(
+        event: LoginScreenEvent.TypeEvent,
+        value: String
+    ) {
+        when(event) {
+            LoginScreenEvent.TypeEvent.UPDATE_PASSWORD -> updatePassword(value)
+            LoginScreenEvent.TypeEvent.UPDATE_EMAIL -> updateEmail(value)
         }
     }
 
