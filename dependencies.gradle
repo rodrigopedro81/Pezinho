@@ -69,4 +69,9 @@ ext {
             retrofit:  'com.squareup.retrofit2:retrofit:2.5.0',
             gsonConverter: 'com.squareup.retrofit2:converter-gson:2.5.0'
     ]
+
+    maps = [
+            mapsCompose: 'com.google.maps.android:maps-compose:2.11.2',
+            servicesMaps: 'com.google.android.gms:play-services-maps:18.0.2'
+    ]
 }

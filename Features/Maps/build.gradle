@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace 'com.login'
+    namespace 'com.maps'
     compileSdk 33
 
     defaultConfig {
@@ -43,8 +43,7 @@ dependencies {
     implementation debugDependencies.values()
     implementation androidX.values()
     implementation dagger.values()
+    implementation maps.values()
     kapt daggerCompiler.values()
-    implementation(project(":Core:Repositories"))
     implementation(project(":Features:DesignSystem"))
-    implementation(project(":Features:Maps"))
 }

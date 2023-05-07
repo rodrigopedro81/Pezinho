@@ -17,6 +17,7 @@ import com.designsystem.PrimaryMainButton
 import com.designsystem.SecondaryMainButton
 import com.designsystem.SimpleHeader
 import com.designsystem.VerticalSpacer
+import com.maps.GoogleMaps
 
 @Composable
 fun LoginScreen(
@@ -73,6 +74,8 @@ fun LoginScreenContent(
             onClick = { onClickEvent.invoke(LoginScreenEvent.ClickEvent.CLICK_REGISTER) },
             buttonText = "Registrar"
         )
+        VerticalSpacer(dp = 20.dp)
+        GoogleMaps()
     }
 }
 
