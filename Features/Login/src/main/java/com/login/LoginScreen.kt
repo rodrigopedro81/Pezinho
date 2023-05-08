@@ -75,7 +75,6 @@ fun LoginScreenContent(
             buttonText = "Registrar"
         )
         VerticalSpacer(dp = 20.dp)
-        GoogleMaps()
     }
 }
 
