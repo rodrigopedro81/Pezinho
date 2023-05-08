@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.designsystem.theme.PezinhoTheme
+import com.pezinho.graph.MainNavGraph
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
