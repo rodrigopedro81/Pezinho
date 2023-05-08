@@ -23,6 +23,6 @@ fun GoogleMaps() {
 
 @Preview
 @Composable
-fun previewGoogleMaps() {
+fun PreviewGoogleMaps() {
     GoogleMaps()
 }

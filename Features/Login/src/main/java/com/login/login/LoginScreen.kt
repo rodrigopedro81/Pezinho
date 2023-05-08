@@ -1,11 +1,8 @@
-package com.login
+package com.login.login
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,15 +14,21 @@ import com.designsystem.PrimaryMainButton
 import com.designsystem.SecondaryMainButton
 import com.designsystem.SimpleHeader
 import com.designsystem.VerticalSpacer
-import com.maps.GoogleMaps
+import com.designsystem.theme.PezinhoTheme
+import com.login.Event
+import com.login.LoginScreenState
+import com.login.LoginScreenViewModel
 
 @Composable
 fun LoginScreen(
     goToRegisterScreen: () -> Unit,
+    goToHomeScreen: () -> Unit,
     viewModel: LoginScreenViewModel = hiltViewModel()
 ) {
-    val loginScreenState = viewModel.uiState.collectAsStateWithLifecycle()
+    val loginScreenState = viewModel.loginScreenState.collectAsStateWithLifecycle()
     LoginScreenContent(
+        goToRegisterScreen = goToRegisterScreen,
+        goToHomeScreen = goToHomeScreen,
         onTypeEvent = viewModel::onTypeEvent,
         onClickEvent = viewModel::onClickEvent,
         state = loginScreenState.value
@@ -34,9 +37,11 @@ fun LoginScreen(
 
 @Composable
 fun LoginScreenContent(
-    onTypeEvent: (LoginScreenEvent.TypeEvent, String) -> Unit,
-    onClickEvent: (LoginScreenEvent.ClickEvent) -> Unit,
-    state: LoginScreenState
+    onTypeEvent: (Event.TypeEvent, String) -> Unit,
+    onClickEvent: (Event.ClickEvent) -> Unit,
+    state: LoginScreenState,
+    goToRegisterScreen: () -> Unit,
+    goToHomeScreen: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -50,9 +55,7 @@ fun LoginScreenContent(
             label = "Email",
             hint = "Digite seu email",
             text = state.email,
-            onTextChange = {
-                onTypeEvent.invoke(LoginScreenEvent.TypeEvent.UPDATE_EMAIL, it)
-            }
+            onTextChange = { onTypeEvent.invoke(Event.TypeEvent.UPDATE_EMAIL, it) }
         )
         MainEditText(
             isValid = true,
@@ -60,18 +63,24 @@ fun LoginScreenContent(
             hint = "Digite sua senha",
             text = state.password,
             onTextChange = {
-                onTypeEvent.invoke(LoginScreenEvent.TypeEvent.UPDATE_PASSWORD, it)
+                onTypeEvent.invoke(Event.TypeEvent.UPDATE_PASSWORD, it)
             }
         )
         VerticalSpacer(dp = 20.dp)
         PrimaryMainButton(
-            onClick = { onClickEvent.invoke(LoginScreenEvent.ClickEvent.CLICK_LOGIN) },
+            onClick = {
+                onClickEvent.invoke(Event.ClickEvent.CLICK_LOGIN)
+                goToHomeScreen.invoke()
+            },
             isButtonEnabled = true,
             buttonText = "Logar"
         )
         VerticalSpacer(dp = 20.dp)
         SecondaryMainButton(
-            onClick = { onClickEvent.invoke(LoginScreenEvent.ClickEvent.CLICK_REGISTER) },
+            onClick = {
+                onClickEvent.invoke(Event.ClickEvent.CLICK_REGISTER)
+                goToRegisterScreen.invoke()
+            },
             buttonText = "Registrar"
         )
         VerticalSpacer(dp = 20.dp)
@@ -82,9 +91,13 @@ fun LoginScreenContent(
 @Preview
 @Composable
 fun LoginScreenPreview() {
-    LoginScreenContent(
-        onTypeEvent = { _,_ -> },
-        onClickEvent = { },
-        state = LoginScreenState(),
-    )
+    PezinhoTheme {
+        LoginScreenContent(
+            onTypeEvent = { _, _ -> },
+            onClickEvent = { },
+            state = LoginScreenState(),
+            goToRegisterScreen = {},
+            goToHomeScreen = {},
+        )
+    }
 }

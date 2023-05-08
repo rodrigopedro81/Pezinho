@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             PezinhoTheme {
                 navController = rememberNavController()
-                App(navController = navController)
+                MainNavGraph(navController = navController)
             }
         }
     }

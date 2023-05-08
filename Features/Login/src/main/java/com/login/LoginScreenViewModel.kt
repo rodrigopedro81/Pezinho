@@ -14,7 +14,7 @@ data class LoginScreenState(
     val password: String = ""
 )
 
-class LoginScreenEvent {
+class Event {
     enum class TypeEvent {
         UPDATE_PASSWORD,
         UPDATE_EMAIL,
@@ -30,45 +30,45 @@ class LoginScreenViewModel @Inject constructor(
     private val loginRepository: LoginRepository
 ) : ViewModel() {
 
-    private val _uiState: MutableStateFlow<LoginScreenState> = MutableStateFlow(LoginScreenState())
-    val uiState: StateFlow<LoginScreenState> = _uiState.asStateFlow()
+    private val _loginScreenState: MutableStateFlow<LoginScreenState> = MutableStateFlow(LoginScreenState())
+    val loginScreenState: StateFlow<LoginScreenState> = _loginScreenState.asStateFlow()
 
     fun onClickEvent(
-        event: LoginScreenEvent.ClickEvent
+        event: Event.ClickEvent
     ) {
         when(event) {
-            LoginScreenEvent.ClickEvent.CLICK_LOGIN -> login()
-            LoginScreenEvent.ClickEvent.CLICK_REGISTER -> register()
+            Event.ClickEvent.CLICK_LOGIN -> login()
+            Event.ClickEvent.CLICK_REGISTER -> register()
         }
     }
 
     fun onTypeEvent(
-        event: LoginScreenEvent.TypeEvent,
+        event: Event.TypeEvent,
         value: String
     ) {
         when(event) {
-            LoginScreenEvent.TypeEvent.UPDATE_PASSWORD -> updatePassword(value)
-            LoginScreenEvent.TypeEvent.UPDATE_EMAIL -> updateEmail(value)
+            Event.TypeEvent.UPDATE_PASSWORD -> updatePassword(value)
+            Event.TypeEvent.UPDATE_EMAIL -> updateEmail(value)
         }
     }
 
     private fun updatePassword(newPassword: String) {
-        _uiState.update { currentState ->
+        _loginScreenState.update { currentState ->
             return@update currentState.copy(password = newPassword)
         }
     }
 
     private fun updateEmail(newEmail: String) {
-        _uiState.update { currentState ->
+        _loginScreenState.update { currentState ->
             return@update currentState.copy(email = newEmail)
         }
     }
 
     private fun login() {
-        loginRepository.login(uiState.value.email, uiState.value.password)
+        loginRepository.login(loginScreenState.value.email, loginScreenState.value.password)
     }
 
     private fun register() {
-        loginRepository.register(uiState.value.email, uiState.value.password)
+        loginRepository.register(loginScreenState.value.email, loginScreenState.value.password)
     }
 }
