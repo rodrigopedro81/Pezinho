@@ -44,10 +44,9 @@ fun GoogleMaps(modifier: Modifier = Modifier) {
     }
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(LocalContext.current)
     val locationCallback = object : LocationCallback() {
-        override fun onLocationResult(p0: LocationResult) {
-            for (lo in p0.locations) {
-                // Update UI with location data
-                currentLocation = LatLng(lo.latitude, lo.longitude)
+        override fun onLocationResult(result: LocationResult) {
+            for (coordinate in result.locations) {
+                currentLocation = LatLng(coordinate.latitude, coordinate.longitude)
             }
         }
     }
@@ -80,10 +79,6 @@ fun GoogleMaps(modifier: Modifier = Modifier) {
             fusedLocationClient.requestLocationUpdates(locationCallback)
         }
     }
-}
-
-fun Context.showToast(message: String) {
-    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
 
 @Composable
