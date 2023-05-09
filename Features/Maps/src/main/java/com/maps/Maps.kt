@@ -4,25 +4,17 @@ import android.Manifest
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.designsystem.VerticalSpacer
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
-fun GoogleMaps() {
+fun GoogleMaps(modifier: Modifier = Modifier) {
     val launcherMultiplePermissions = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissionsMap ->
@@ -41,18 +33,16 @@ fun GoogleMaps() {
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(singapore, 10f)
     }
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(bottom = 12.dp)) {
+//    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(bottom = 12.dp)) {
         GoogleMap(
-            modifier = Modifier
-                .height(400.dp)
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
             cameraPositionState = cameraPositionState,
         )
-        VerticalSpacer(dp = 20.dp)
-        Button(onClick = { launcherMultiplePermissions.launch(permissions) }) {
-            Text(text = "Click me to ask for permissions")
-        }
-    }
+//        VerticalSpacer(dp = 20.dp)
+//        Button(onClick = { launcherMultiplePermissions.launch(permissions) }) {
+//            Text(text = "Click me to ask for permissions")
+//        }
+//    }
 }
 
 @Preview

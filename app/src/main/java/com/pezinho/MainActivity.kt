@@ -20,14 +20,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             PezinhoTheme {
                 navController = rememberNavController()
-                MainNavGraph(mainNavController = navController)
+                MainNavGraph(navController = navController)
             }
         }
     }
-
-    data class LocationDetails(val latitude: Double, val longitude: Double)
-}
-
-fun ComponentActivity.showToast(message: String) {
-    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }

@@ -3,15 +3,16 @@ package com.home
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Card
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.designsystem.theme.PezinhoTheme
+import com.home.home.HomeScreen
 import navigation.Routes
 
 @Composable
@@ -23,38 +24,31 @@ fun HomeContainer(navigateTo: (String) -> Unit) {
 fun HomeContainerContent(
     navigateTo: (String) -> Unit
 ) {
+    val navController = rememberNavController()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        bottomBar = { MainBottomBar() }
+        bottomBar = { MainBottomNavigation(navController) },
     ) { padding ->
         Column(
             modifier = Modifier.padding(padding),
         ) {
-            val containerNavController = rememberNavController()
             NavHost(
-                navController = containerNavController,
+                navController = navController,
                 startDestination = Routes.Home.destination
             ) {
-
+                composable(route = Routes.Home.destination) {
+                    HomeScreen()
+                }
             }
         }
-    }
-}
-
-@Composable
-fun MainBottomBar() {
-    BottomNavigation {
-        BottomNavigationItem(
-            selected =true,
-            onClick = { },
-            icon = { Text(text = "Icone") }
-        )
     }
 }
 
 @Preview
 @Composable
 fun HomeContainerPreview() {
-    val navController = rememberNavController()
-    HomeContainerContent(navigateTo = { navController.navigate(it) })
+    PezinhoTheme {
+        val navController = rememberNavController()
+        HomeContainerContent(navigateTo = { navController.navigate(it) })
+    }
 }
