@@ -55,7 +55,7 @@ fun GoogleMaps(modifier: Modifier = Modifier) {
         Log.d("Teste", "Permissions granted = $it")
     }
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(currentLocation, 10f)
+        position = CameraPosition.fromLatLngZoom(currentLocation, 12f)
     }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
