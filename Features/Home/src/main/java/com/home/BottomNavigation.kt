@@ -5,11 +5,16 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.designsystem.WhiteBoard
 import com.designsystem.theme.PezinhoTheme
@@ -27,11 +32,12 @@ sealed class BottomNavigationScreens(
 @Composable
 fun MainBottomNavigation(navController: NavHostController) {
     val items = listOf(
-        BottomNavigationScreens.Home,
+        BottomNavigationScreens.Home
     )
-    val currentRoute = navController.currentDestination?.route
     BottomNavigation {
-        for (item in items) {
+        val backStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = backStackEntry?.destination?.route
+        items.forEach { item ->
             BottomNavigationItem(
                 selected = currentRoute == item.route,
                 onClick = {
