@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import navigation.Routes
+import javax.inject.Inject
 
 data class HomeContainerState(
     val isBottomBarVisible: Boolean = true,
@@ -20,7 +21,7 @@ enum class HomeContainerEvent {
 }
 
 @HiltViewModel
-class HomeContainerViewModel: ViewModel() {
+class HomeContainerViewModel @Inject constructor(): ViewModel() {
 
     private val _uiState : MutableStateFlow<HomeContainerState> =
         MutableStateFlow(HomeContainerState())
