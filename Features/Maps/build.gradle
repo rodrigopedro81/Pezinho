@@ -45,5 +45,6 @@ dependencies {
     implementation dagger.values()
     implementation maps.values()
     kapt daggerCompiler.values()
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation(project(":Features:DesignSystem"))
 }

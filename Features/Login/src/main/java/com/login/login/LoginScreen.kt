@@ -15,9 +15,6 @@ import com.designsystem.SecondaryMainButton
 import com.designsystem.SimpleHeader
 import com.designsystem.VerticalSpacer
 import com.designsystem.theme.PezinhoTheme
-import com.login.Event
-import com.login.LoginScreenState
-import com.login.LoginScreenViewModel
 import navigation.Routes
 
 @Composable
@@ -36,8 +33,8 @@ fun LoginScreen(
 
 @Composable
 fun LoginScreenContent(
-    onTypeEvent: (Event.TypeEvent, String) -> Unit,
-    onClickEvent: (Event.ClickEvent) -> Unit,
+    onTypeEvent: (LoginEvent.TypeEvent, String) -> Unit,
+    onClickEvent: (LoginEvent.ClickEvent) -> Unit,
     state: LoginScreenState,
     navigateTo: (String) -> Unit
 ) {
@@ -53,7 +50,7 @@ fun LoginScreenContent(
             label = "Email",
             hint = "Digite seu email",
             text = state.email,
-            onTextChange = { onTypeEvent.invoke(Event.TypeEvent.UPDATE_EMAIL, it) }
+            onTextChange = { onTypeEvent.invoke(LoginEvent.TypeEvent.UPDATE_EMAIL, it) }
         )
         MainEditText(
             isValid = true,
@@ -61,13 +58,13 @@ fun LoginScreenContent(
             hint = "Digite sua senha",
             text = state.password,
             onTextChange = {
-                onTypeEvent.invoke(Event.TypeEvent.UPDATE_PASSWORD, it)
+                onTypeEvent.invoke(LoginEvent.TypeEvent.UPDATE_PASSWORD, it)
             }
         )
         VerticalSpacer(dp = 20.dp)
         PrimaryMainButton(
             onClick = {
-                onClickEvent.invoke(Event.ClickEvent.CLICK_LOGIN)
+                onClickEvent.invoke(LoginEvent.ClickEvent.CLICK_LOGIN)
                 navigateTo.invoke(Routes.HomeContainer.destination)
             },
             isButtonEnabled = true,
@@ -76,7 +73,7 @@ fun LoginScreenContent(
         VerticalSpacer(dp = 20.dp)
         SecondaryMainButton(
             onClick = {
-                onClickEvent.invoke(Event.ClickEvent.CLICK_REGISTER)
+                onClickEvent.invoke(LoginEvent.ClickEvent.CLICK_REGISTER)
                 navigateTo.invoke(Routes.Register.destination)
             },
             buttonText = "Registrar"

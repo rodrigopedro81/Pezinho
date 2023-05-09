@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.home.HomeContainer
+import com.home.container.HomeContainer
 import navigation.Routes
 
 @Composable

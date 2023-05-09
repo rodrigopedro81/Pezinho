@@ -1,4 +1,4 @@
-package com.login
+package com.login.login
 
 import androidx.lifecycle.ViewModel
 import com.repositories.LoginRepository
@@ -14,7 +14,7 @@ data class LoginScreenState(
     val password: String = ""
 )
 
-class Event {
+class LoginEvent {
     enum class TypeEvent {
         UPDATE_PASSWORD,
         UPDATE_EMAIL,
@@ -30,25 +30,27 @@ class LoginScreenViewModel @Inject constructor(
     private val loginRepository: LoginRepository
 ) : ViewModel() {
 
-    private val _loginScreenState: MutableStateFlow<LoginScreenState> = MutableStateFlow(LoginScreenState())
+    private val _loginScreenState: MutableStateFlow<LoginScreenState> = MutableStateFlow(
+        LoginScreenState()
+    )
     val loginScreenState: StateFlow<LoginScreenState> = _loginScreenState.asStateFlow()
 
     fun onClickEvent(
-        event: Event.ClickEvent
+        loginEvent: LoginEvent.ClickEvent
     ) {
-        when(event) {
-            Event.ClickEvent.CLICK_LOGIN -> login()
-            Event.ClickEvent.CLICK_REGISTER -> register()
+        when(loginEvent) {
+            LoginEvent.ClickEvent.CLICK_LOGIN -> login()
+            LoginEvent.ClickEvent.CLICK_REGISTER -> register()
         }
     }
 
     fun onTypeEvent(
-        event: Event.TypeEvent,
+        loginEvent: LoginEvent.TypeEvent,
         value: String
     ) {
-        when(event) {
-            Event.TypeEvent.UPDATE_PASSWORD -> updatePassword(value)
-            Event.TypeEvent.UPDATE_EMAIL -> updateEmail(value)
+        when(loginEvent) {
+            LoginEvent.TypeEvent.UPDATE_PASSWORD -> updatePassword(value)
+            LoginEvent.TypeEvent.UPDATE_EMAIL -> updateEmail(value)
         }
     }
 
