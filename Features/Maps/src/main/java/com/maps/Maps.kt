@@ -38,7 +38,12 @@ val permissions = arrayOf(
 )
 
 @Composable
-fun GoogleMaps(modifier: Modifier = Modifier) {
+fun GoogleMaps(
+    modifier: Modifier = Modifier,
+    markers: List<LatLng> = emptyList(),
+    onMarkerClick: (LatLng) -> Unit = {},
+    onMarkerDrag: (LatLng) -> Unit = {},
+) {
     var currentLocation by remember {
         mutableStateOf(LatLng(0.toDouble(), 0.toDouble()))
     }
