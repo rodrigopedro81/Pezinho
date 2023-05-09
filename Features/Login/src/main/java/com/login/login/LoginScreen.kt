@@ -18,17 +18,16 @@ import com.designsystem.theme.PezinhoTheme
 import com.login.Event
 import com.login.LoginScreenState
 import com.login.LoginScreenViewModel
+import navigation.Routes
 
 @Composable
 fun LoginScreen(
-    goToRegisterScreen: () -> Unit,
-    goToHomeScreen: () -> Unit,
+    navigateTo: (String) -> Unit,
     viewModel: LoginScreenViewModel = hiltViewModel()
 ) {
     val loginScreenState = viewModel.loginScreenState.collectAsStateWithLifecycle()
     LoginScreenContent(
-        goToRegisterScreen = goToRegisterScreen,
-        goToHomeScreen = goToHomeScreen,
+        navigateTo = navigateTo,
         onTypeEvent = viewModel::onTypeEvent,
         onClickEvent = viewModel::onClickEvent,
         state = loginScreenState.value
@@ -40,8 +39,7 @@ fun LoginScreenContent(
     onTypeEvent: (Event.TypeEvent, String) -> Unit,
     onClickEvent: (Event.ClickEvent) -> Unit,
     state: LoginScreenState,
-    goToRegisterScreen: () -> Unit,
-    goToHomeScreen: () -> Unit
+    navigateTo: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -70,7 +68,7 @@ fun LoginScreenContent(
         PrimaryMainButton(
             onClick = {
                 onClickEvent.invoke(Event.ClickEvent.CLICK_LOGIN)
-                goToHomeScreen.invoke()
+                navigateTo.invoke(Routes.HomeContainer.destination)
             },
             isButtonEnabled = true,
             buttonText = "Logar"
@@ -79,7 +77,7 @@ fun LoginScreenContent(
         SecondaryMainButton(
             onClick = {
                 onClickEvent.invoke(Event.ClickEvent.CLICK_REGISTER)
-                goToRegisterScreen.invoke()
+                navigateTo.invoke(Routes.Register.destination)
             },
             buttonText = "Registrar"
         )
@@ -96,8 +94,7 @@ fun LoginScreenPreview() {
             onTypeEvent = { _, _ -> },
             onClickEvent = { },
             state = LoginScreenState(),
-            goToRegisterScreen = {},
-            goToHomeScreen = {},
+            navigateTo = {}
         )
     }
 }

@@ -5,22 +5,21 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.login.login.LoginScreen
+import com.login.register.RegisterScreen
 import navigation.Destinations
-import navigation.HomeRoutes
-import navigation.LoginRoutes
-import navigation.NavigationGraphs
+import navigation.Routes
 
-// Navigation graph for Login Flow
-fun NavGraphBuilder.loginGraph(navController: NavHostController) {
-    navigation(startDestination = Destinations.LOGIN, route = NavigationGraphs.LOGIN) {
-        composable(route = LoginRoutes.Login.destination) {
+fun NavGraphBuilder.loginGraph(route: String, navController: NavHostController) {
+    navigation(startDestination = Destinations.LOGIN, route = route) {
+        composable(route = Routes.Login.destination) {
             LoginScreen(
-                goToRegisterScreen = { navController.navigate(LoginRoutes.Register.destination) },
-                goToHomeScreen = { navController.navigate(HomeRoutes.Home.destination) }
+                navigateTo = { destination -> navController.navigate(destination) }
             )
         }
-        composable(route = LoginRoutes.Register.destination) {
-//            RegisterScreen()
+        composable(route = Routes.Register.destination) {
+            RegisterScreen(
+                navigateTo = { destination -> navController.navigate(destination) }
+            )
         }
     }
 }

@@ -43,6 +43,7 @@ dependencies {
     implementation debugDependencies.values()
     implementation androidX.values()
     implementation dagger.values()
+    implementation project(path: ':Core')
     kapt daggerCompiler.values()
     implementation(project(":Core:Repositories"))
     implementation(project(":Features:DesignSystem"))

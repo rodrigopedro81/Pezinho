@@ -3,16 +3,26 @@ package com.pezinho.graph
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import navigation.NavigationGraphs
+import androidx.navigation.compose.composable
+import com.home.HomeContainer
+import navigation.Routes
 
 @Composable
 fun MainNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = NavigationGraphs.LOGIN
+        startDestination = Routes.LoginGraph.destination
     ) {
-        loginGraph(navController)
-        homeGraph(navController)
-        // All other navigation graphs come here
+        loginGraph(
+            route = Routes.LoginGraph.destination,
+            navController = navController
+        )
+        composable(
+            route = Routes.HomeContainer.destination
+        ) {
+            HomeContainer(
+                navigateTo = { destination -> navController.navigate(destination) }
+            )
+        }
     }
 }
