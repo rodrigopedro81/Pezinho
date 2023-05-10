@@ -32,10 +32,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.rememberCameraPositionState
 
-val permissions = arrayOf(
-    Manifest.permission.ACCESS_COARSE_LOCATION,
-    Manifest.permission.ACCESS_FINE_LOCATION,
-)
+
 
 @Composable
 fun GoogleMaps(
@@ -55,9 +52,6 @@ fun GoogleMaps(
             }
         }
     }
-    val permissionRequester = permissionRequester {
-        Log.d("Teste", "Permissions granted = $it")
-    }
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(currentLocation, 12f)
     }
@@ -73,27 +67,12 @@ fun GoogleMaps(
         )
         VerticalSpacer(dp = 20.dp)
         Button(onClick = {
-            permissionRequester.launch(permissions)
-            Log.d(
-                "Teste",
-                "Latitude e Longitude ${currentLocation.latitude} --- ${currentLocation.longitude}"
-            )
             cameraPositionState.move(CameraUpdateFactory.newLatLng(currentLocation))
         }) {
             Text(text = if (currentLocation.latitude == 0.0) "Click me to ask for permissions" else currentLocation.toString())
             fusedLocationClient.requestLocationUpdates(locationCallback)
         }
     }
-}
-
-@Composable
-fun permissionRequester(
-    onResult: (Boolean) -> Unit
-) = rememberLauncherForActivityResult(
-    ActivityResultContracts.RequestMultiplePermissions()
-) { permissionsMap ->
-    val areGranted = permissionsMap.values.reduce { acc, next -> acc && next }
-    onResult.invoke(areGranted)
 }
 
 @SuppressLint("MissingPermission")

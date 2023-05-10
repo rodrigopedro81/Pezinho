@@ -1,9 +1,13 @@
 package com.login.login
 
+import android.Manifest
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,7 +31,7 @@ fun LoginScreen(
         navigateTo = navigateTo,
         onTypeEvent = viewModel::onTypeEvent,
         onClickEvent = viewModel::onClickEvent,
-        state = loginScreenState.value
+        state = loginScreenState.value,
     )
 }
 
@@ -36,7 +40,7 @@ fun LoginScreenContent(
     onTypeEvent: (LoginEvent.TypeEvent, String) -> Unit,
     onClickEvent: (LoginEvent.ClickEvent) -> Unit,
     state: LoginScreenState,
-    navigateTo: (String) -> Unit
+    navigateTo: (String) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -91,7 +95,7 @@ fun LoginScreenPreview() {
             onTypeEvent = { _, _ -> },
             onClickEvent = { },
             state = LoginScreenState(),
-            navigateTo = {}
+            navigateTo = {},
         )
     }
 }
