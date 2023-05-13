@@ -9,18 +9,16 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
-import com.google.android.gms.maps.model.LatLng
-
 
 @SuppressLint("MissingPermission")
 object LocationProvider {
 
     private const val DEFAULT_INTERVAL = 10000L
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    var locationPermissionsGranted: Boolean = false
     private var currentLocationCallback: LocationCallback? = null
     private val locationRequestBuilder =
         LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, DEFAULT_INTERVAL)
+    var locationPermissionsGranted: Boolean = false
 
     fun initialize(context: Context) {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
@@ -41,12 +39,6 @@ object LocationProvider {
     ) {
         requestRealTimeLocations(interval) { latitude, longitude ->
             onLocation.invoke(latitude, longitude)
-        }
-    }
-
-    fun getCurrentLocation(): LatLng {
-        with(fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null).result) {
-            return LatLng(this.latitude, this.longitude)
         }
     }
 

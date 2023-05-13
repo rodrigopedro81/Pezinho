@@ -2,11 +2,11 @@ package com.maps
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.entities.Barber
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationResult
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -19,15 +19,26 @@ import com.google.maps.android.compose.rememberMarkerState
 
 @Composable
 fun GoogleMaps(
-    currentLocation: LatLng,
     modifier: Modifier = Modifier,
+    lastLocation: LatLng = LatLng(0.0, 0.0),
     barberList: List<Barber> = emptyList(),
     onMarkerClick: (LatLng) -> Unit = {},
     mapProperties: MapProperties = MapProperties(),
-    mapUiSettings: MapUiSettings = MapUiSettings(),
+    mapUiSettings: MapUiSettings = MapUiSettings()
 ) {
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(currentLocation, 15f)
+        position = CameraPosition.fromLatLngZoom(lastLocation, 15f)
+    }
+    DisposableEffect(Unit) {
+        LocationProvider.setCurrentLocationCallback { latitude, longitude ->
+            cameraPositionState.position = CameraPosition.fromLatLngZoom(
+                LatLng(latitude, longitude),
+                15f
+            )
+        }
+        onDispose {
+            LocationProvider.removeCurrentLocationCallback()
+        }
     }
     GoogleMap(
         modifier = modifier,
@@ -54,8 +65,8 @@ fun GoogleMaps(
 @Preview
 @Composable
 fun PreviewGoogleMaps() {
+    LocationProvider.initialize(LocalContext.current)
     GoogleMaps(
-        currentLocation = LatLng(0.0, 0.0),
-        barberList = emptyList()
+        barberList = emptyList(),
     )
 }

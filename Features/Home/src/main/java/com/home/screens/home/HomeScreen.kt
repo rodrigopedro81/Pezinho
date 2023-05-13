@@ -14,11 +14,11 @@ import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.entities.Barber
-import com.google.android.gms.maps.model.LatLng
 import com.maps.GoogleMaps
 import com.maps.LocationProvider
 
@@ -27,7 +27,6 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
     val state = viewModel.uiState.collectAsStateWithLifecycle()
     HomeScreenContent(
         state = state.value,
-        currentLocation = LocationProvider.getCurrentLocation()
     )
 }
 
@@ -35,7 +34,6 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
 @Composable
 fun HomeScreenContent(
     state: HomeState,
-    currentLocation: LatLng
 ) {
     val bottomSheetState = rememberBottomSheetState(
         initialValue = BottomSheetValue.Expanded,
@@ -51,12 +49,9 @@ fun HomeScreenContent(
         content = {
             ScrollableColumn {
                 GoogleMaps(
-                    currentLocation = currentLocation,
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight(0.7f),
-                    barberList = mockedMarkers(),
-
                 )
             }
         },
@@ -86,7 +81,10 @@ fun MainBottomSheet() {
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    HomeScreenContent(HomeState(), LatLng(0.0, 0.0))
+    LocationProvider.initialize(LocalContext.current)
+    HomeScreenContent(
+        state = HomeState()
+    )
 }
 
 @Composable
