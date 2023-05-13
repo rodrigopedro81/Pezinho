@@ -23,7 +23,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        LocationProvider.initialize(this)
         setContent {
             PezinhoTheme {
                 navController = rememberNavController()

@@ -1,8 +1,5 @@
 package com.home.screens.home
 
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.rememberModalBottomSheetState
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

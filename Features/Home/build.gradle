@@ -44,6 +44,7 @@ dependencies {
     implementation androidX.values()
     implementation dagger.values()
     implementation maps.values()
+    implementation locationServices.values()
     kapt daggerCompiler.values()
     implementation project(path: ':Core')
     implementation project(path: ':Core:Entities')
