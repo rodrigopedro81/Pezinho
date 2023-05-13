@@ -1,8 +1,8 @@
 package com.pezinho.di
 
-import com.network.service.LoginService
 import com.authentication.LoginRepositoryImpl
 import com.network.retrofit.NetworkUtils
+import com.network.service.LoginService
 import com.repositories.LoginRepository
 import dagger.Module
 import dagger.Provides
@@ -10,7 +10,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import javax.inject.Singleton
-
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -28,5 +27,5 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesLoginRepository() : LoginRepository = LoginRepositoryImpl(providesLoginService())
+    fun providesLoginRepository(): LoginRepository = LoginRepositoryImpl(providesLoginService())
 }

@@ -11,6 +11,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.designsystem.theme.PezinhoTheme
+import com.maps.LocationProvider
 import com.pezinho.graph.MainNavGraph
 import dagger.hilt.android.AndroidEntryPoint
 import navigation.Routes
@@ -28,15 +29,14 @@ class MainActivity : ComponentActivity() {
                 MainNavGraph(navController = navController)
                 RequestPermissions(
                     onResult = { areGranted ->
+                        LocationProvider.locationPermissionsGranted = areGranted
                         if (areGranted) {
                             // Checar se usuário está logado
                             // Se estiver logado, navegar para HomeContainer
-                            // Se não estiver logado, navegar para LoginContainer
+                            // Se não estiver logado, não fazer nada
 
                             // Para ir direto para Home
                             navController.navigate(Routes.HomeContainer.destination)
-                        } else {
-                            // Mostrar que precisa das permissões para continuar (Travar tela)
                         }
                     }
                 )
@@ -44,9 +44,13 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        LocationProvider.removeCurrentLocationCallback()
+    }
 
     @Composable
-    fun RequestPermissions(onResult: (Boolean) -> Unit) {
+    fun RequestPermissions(onResult: (Boolean) -> Unit = {}) {
         val permissionRequester = rememberLauncherForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) { permissionsMap ->

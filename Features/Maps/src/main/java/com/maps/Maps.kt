@@ -1,96 +1,61 @@
 package com.maps
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.content.Context
-import android.os.Looper
-import android.util.Log
-import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.designsystem.VerticalSpacer
-import com.google.android.gms.location.*
-import com.google.android.gms.maps.CameraUpdateFactory
+import com.entities.Barber
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapProperties
+import com.google.maps.android.compose.MapUiSettings
+import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
-
-
+import com.google.maps.android.compose.rememberMarkerState
 
 @Composable
 fun GoogleMaps(
+    currentLocation: LatLng,
     modifier: Modifier = Modifier,
-    markers: List<LatLng> = emptyList(),
+    barberList: List<Barber> = emptyList(),
     onMarkerClick: (LatLng) -> Unit = {},
-    onMarkerDrag: (LatLng) -> Unit = {},
+    mapProperties: MapProperties = MapProperties(),
+    mapUiSettings: MapUiSettings = MapUiSettings(),
 ) {
-    var currentLocation by remember {
-        mutableStateOf(LatLng(0.toDouble(), 0.toDouble()))
-    }
-    val fusedLocationClient = LocationServices.getFusedLocationProviderClient(LocalContext.current)
-    val locationCallback = object : LocationCallback() {
-        override fun onLocationResult(result: LocationResult) {
-            for (coordinate in result.locations) {
-                currentLocation = LatLng(coordinate.latitude, coordinate.longitude)
-            }
-        }
-    }
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(currentLocation, 12f)
+        position = CameraPosition.fromLatLngZoom(currentLocation, 15f)
     }
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(bottom = 12.dp)
+    GoogleMap(
+        modifier = modifier,
+        cameraPositionState = cameraPositionState,
+        properties = mapProperties,
+        uiSettings = mapUiSettings
     ) {
-        GoogleMap(
-            modifier = modifier
-                .height(400.dp)
-                .fillMaxWidth(),
-            cameraPositionState = cameraPositionState,
-        )
-        VerticalSpacer(dp = 20.dp)
-        Button(onClick = {
-            cameraPositionState.move(CameraUpdateFactory.newLatLng(currentLocation))
-        }) {
-            Text(text = if (currentLocation.latitude == 0.0) "Click me to ask for permissions" else currentLocation.toString())
-            fusedLocationClient.requestLocationUpdates(locationCallback)
+        for (barber in barberList) {
+            Marker(
+                state = rememberMarkerState(
+                    position = LatLng(
+                        barber.latitude,
+                        barber.longitude
+                    )
+                ),
+                title = barber.title,
+                snippet = barber.snippet,
+                icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)
+            )
         }
     }
-}
-
-@SuppressLint("MissingPermission")
-fun FusedLocationProviderClient.requestLocationUpdates(locationCallback: LocationCallback) {
-    val locationRequest = LocationRequest.create().apply {
-        interval = 10000
-        fastestInterval = 5000
-        priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-    }
-    requestLocationUpdates(
-        locationRequest,
-        locationCallback,
-        Looper.getMainLooper()
-    )
 }
 
 @Preview
 @Composable
 fun PreviewGoogleMaps() {
-    GoogleMaps()
+    GoogleMaps(
+        currentLocation = LatLng(0.0, 0.0),
+        barberList = emptyList()
+    )
 }
