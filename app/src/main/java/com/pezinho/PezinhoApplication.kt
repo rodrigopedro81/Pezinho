@@ -11,6 +11,9 @@ class PezinhoApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         LocationProvider.initialize(this)
-        Places.initialize(applicationContext, "AIzaSyApvKhClMg8Ei2pNhrM8jS2g98BV2-wIfU")
+        Places.initialize(
+            applicationContext,
+            "AIzaSyAIGOeWaLNCiT7Xk9v2AcSsNQstRrqK3c0"
+        )
     }
 }
