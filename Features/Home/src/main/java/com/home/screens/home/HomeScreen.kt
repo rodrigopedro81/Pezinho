@@ -30,8 +30,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.entities.Barber
-import com.maps.OpenSourceMaps
 import com.maps.LocationProvider
+import com.maps.OpenSourceMaps
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
@@ -46,7 +46,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
 @Composable
 fun HomeScreenContent(
     state: HomeState,
-    onTypeEvent: (HomeEvent.TypeEvent, String) -> Unit = {_,_ ->}
+    onTypeEvent: (HomeEvent.TypeEvent, String) -> Unit = { _, _ -> }
 ) {
     val bottomSheetState = rememberBottomSheetState(
         initialValue = BottomSheetValue.Expanded,
@@ -67,13 +67,6 @@ fun HomeScreenContent(
             )
         },
         scaffoldState = scaffoldState
-    )
-}
-
-fun mockedMarkers(): List<Barber> {
-    return listOf(
-        Barber(-22.91, -43.29, "Casa", "Sua casa"),
-        Barber(-22.89, -43.29, "Bruna", "Casa da Bruna"),
     )
 }
 
@@ -104,7 +97,10 @@ fun MainBottomSheet(
                                     .fillMaxWidth()
                                     .padding(16.dp)
                                     .clickable {
-                                        onTypeEvent.invoke(HomeEvent.TypeEvent.SELECT_ADDRESS, it.address)
+                                        onTypeEvent.invoke(
+                                            HomeEvent.TypeEvent.SELECT_ADDRESS,
+                                            it.address
+                                        )
                                     }
                             ) {
                                 Text(it.address)

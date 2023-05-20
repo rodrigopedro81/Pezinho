@@ -24,6 +24,12 @@ fun MapView.placeMarker(marker: MarkerInfo) {
     overlayManager.add(marker.toMarker(this))
 }
 
+fun MapView.placeMarkers(markers: List<MarkerInfo>) {
+    for (marker in markers) {
+        placeMarker(marker)
+    }
+}
+
 fun MapView.center(marker: MarkerInfo) {
     controller.setCenter(GeoPoint(marker.lat, marker.lng))
 }
@@ -39,12 +45,6 @@ fun MapView.moveCameraTo(currentLocation: Pair<Double, Double>) {
 
 fun MapView.setZoom(zoom: Double) {
     controller.setZoom(zoom)
-}
-
-fun MapView.placeMarkers(markers: List<MarkerInfo>) {
-    for (marker in markers) {
-        placeMarker(marker)
-    }
 }
 
 fun MarkerInfo.toMarker(mapView: MapView): Marker = Marker(mapView).apply {

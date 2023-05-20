@@ -1,5 +1,6 @@
 package com.maps
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -10,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
+import com.designsystem.NoPreviewComponent
 import com.entities.MarkerInfo
 
 @Composable
@@ -37,31 +39,31 @@ private fun Map(
     currentLocation: Pair<Double, Double>,
     markers: List<MarkerInfo>,
 ) {
-    AndroidView(
-        modifier = modifier,
-        factory = { context ->
-            return@AndroidView buildMapView(context, currentLocation).then {
-                placeMarkers(markers)
-                moveCameraTo(currentLocation)
+    NoPreviewComponent(modifier) {
+        AndroidView(
+            modifier = modifier,
+            factory = { context ->
+                return@AndroidView buildMapView(context, currentLocation).then {
+                    placeMarkers(markers)
+                    moveCameraTo(currentLocation)
+                }
+            },
+            update = { map ->
+                map.run {
+                    moveCameraTo(currentLocation)
+                    removeMarkers()
+                    placeMarkers(markers)
+                }
             }
-        },
-        update = { map ->
-            map.run {
-                moveCameraTo(currentLocation)
-                removeMarkers()
-                placeMarkers(markers)
-            }
-        }
-    )
+        )
+    }
 }
 
 @Preview
 @Composable
 fun PreviewMaps() {
     LocationProvider.initialize(LocalContext.current)
-    OpenSourceMaps(
-//        barberList = emptyList(),
-    )
+    OpenSourceMaps(modifier = Modifier.fillMaxSize())
 }
 
 fun myMarker(lat: Double, lng: Double): MarkerInfo {
