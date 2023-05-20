@@ -11,7 +11,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.designsystem.theme.PezinhoTheme
-import com.maps.LocationProvider
+import com.maps.GPSClient
 import com.pezinho.graph.MainNavGraph
 import dagger.hilt.android.AndroidEntryPoint
 import navigation.Routes
@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
                 MainNavGraph(navController = navController)
                 RequestPermissions(
                     onResult = { areGranted ->
-                        LocationProvider.locationPermissionsGranted = areGranted
+                        GPSClient.locationPermissionsGranted = areGranted
                         if (areGranted) {
                             // Checar se usuário está logado
                             // Se estiver logado, navegar para HomeContainer
@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onPause() {
         super.onPause()
-        LocationProvider.removeCurrentLocationCallback()
+        GPSClient.removeCurrentLocationCallback()
     }
 
     @Composable

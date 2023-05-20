@@ -11,7 +11,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 
 @SuppressLint("MissingPermission")
-object LocationProvider {
+object GPSClient {
 
     private const val DEFAULT_INTERVAL = 10000L
     private lateinit var fusedLocationClient: FusedLocationProviderClient

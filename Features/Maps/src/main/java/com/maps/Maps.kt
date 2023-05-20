@@ -23,11 +23,11 @@ fun OpenSourceMaps(
     var updatedLocation by remember { mutableStateOf(initialLocation) }
     val allMarkers = barbersMarkers + myMarker(updatedLocation.first, updatedLocation.second)
     DisposableEffect(Unit) {
-        LocationProvider.setCurrentLocationCallback { latitude, longitude ->
+        GPSClient.setCurrentLocationCallback { latitude, longitude ->
             updatedLocation = Pair(latitude, longitude)
         }
         onDispose {
-            LocationProvider.removeCurrentLocationCallback()
+            GPSClient.removeCurrentLocationCallback()
         }
     }
     Map(modifier, updatedLocation, allMarkers)
@@ -62,7 +62,7 @@ private fun Map(
 @Preview
 @Composable
 fun PreviewMaps() {
-    LocationProvider.initialize(LocalContext.current)
+    GPSClient.initialize(LocalContext.current)
     OpenSourceMaps(modifier = Modifier.fillMaxSize())
 }
 
