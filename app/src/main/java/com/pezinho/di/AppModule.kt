@@ -1,6 +1,6 @@
 package com.pezinho.di
 
-import com.maps.GeoCodingRepositoryImpl
+import com.maps.repository.GeoCodingRepositoryImpl
 import com.network.retrofit.NetworkUtils
 import com.network.service.GeoCodingService
 import com.repositories.GeoCodingRepository

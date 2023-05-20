@@ -1,4 +1,4 @@
-package com.maps
+package com.maps.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -13,6 +13,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import com.designsystem.NoPreviewComponent
 import com.entities.MarkerInfo
+import com.maps.GPSClient
+import com.maps.R
+import com.maps.utils.buildMapView
+import com.maps.utils.moveCameraTo
+import com.maps.utils.placeMarkers
+import com.maps.utils.removeMarkers
+import com.maps.utils.then
 
 @Composable
 fun OpenSourceMaps(

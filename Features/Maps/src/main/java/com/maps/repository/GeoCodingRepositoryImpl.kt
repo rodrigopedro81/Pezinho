@@ -1,4 +1,4 @@
-package com.maps
+package com.maps.repository
 
 import com.network.service.GeoCodingService
 import com.repositories.GeoCodingRepository
