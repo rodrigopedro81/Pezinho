@@ -27,6 +27,10 @@ class LoginEvent {
 
 @HiltViewModel
 class LoginScreenViewModel @Inject constructor(
+    // TODO () -> Pode testar aqui nessa view model, basta incluir no construtor o repository novo
+    // Que o sistema de injeção de dependências do Hilt vai se encarregar de injetar
+    // E aí você já consegue ver o retorno da chamada.
+    // Pode até botar a chamada de teste num bloco init pra não ter de linkar a nada da ui
     private val loginRepository: LoginRepository
 ) : ViewModel() {
 
