@@ -53,7 +53,6 @@ dependencies {
     implementation dagger.values()
     kapt daggerCompiler.values()
     implementation retrofit.values()
-    implementation locationServices.values()
     implementation project(path: ':Core:Repositories')
     implementation project(path: ':Core')
     implementation project(path: ':Features:Network')

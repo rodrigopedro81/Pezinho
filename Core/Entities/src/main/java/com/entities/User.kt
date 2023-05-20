@@ -12,3 +12,10 @@ enum class UserType{
     BARBER,
     CLIENT
 }
+
+class MarkerInfo(
+    val lat: Double,
+    val lng: Double,
+    val title: String,
+    val icon: Int
+)

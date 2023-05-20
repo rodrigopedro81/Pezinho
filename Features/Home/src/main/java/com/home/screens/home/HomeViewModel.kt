@@ -4,7 +4,6 @@ import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.entities.AutoComplete
-import com.maps.PlacesHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -33,9 +32,7 @@ class HomeEvent {
 
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val placesHelper: PlacesHelper
-) : ViewModel() {
+class HomeViewModel @Inject constructor() : ViewModel() {
 
     private val _uiState: MutableStateFlow<HomeState> = MutableStateFlow(HomeState())
     val uiState: StateFlow<HomeState> = _uiState.asStateFlow()
@@ -58,10 +55,6 @@ class HomeViewModel @Inject constructor(
         job = viewModelScope.launch {
             startScreenLoading()
             delay(500)
-            placesHelper.findAutoCompletePredictions(search) {
-                stopScreenLoading()
-                setAutoCompletePredictions(it)
-            }
         }
     }
 

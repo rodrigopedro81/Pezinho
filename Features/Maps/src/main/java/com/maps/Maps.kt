@@ -1,72 +1,97 @@
 package com.maps
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.entities.Barber
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.MapProperties
-import com.google.maps.android.compose.MapUiSettings
-import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.rememberCameraPositionState
-import com.google.maps.android.compose.rememberMarkerState
+import androidx.compose.ui.viewinterop.AndroidView
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Marker
 
 @Composable
 fun GoogleMaps(
     modifier: Modifier = Modifier,
-    lastLocation: LatLng = LatLng(0.0, 0.0),
-    barberList: List<Barber> = emptyList(),
-    onMarkerClick: (LatLng) -> Unit = {},
-    mapProperties: MapProperties = MapProperties(),
-    mapUiSettings: MapUiSettings = MapUiSettings()
+    currentLocation: Pair<Double, Double> = Pair(-22.91, -43.29),
+    markers: List<Marker> = emptyList(),
 ) {
-    val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(lastLocation, 15f)
-    }
+    val updatedLocation = remember { mutableStateOf(currentLocation) }
     DisposableEffect(Unit) {
         LocationProvider.setCurrentLocationCallback { latitude, longitude ->
-            cameraPositionState.position = CameraPosition.fromLatLngZoom(
-                LatLng(latitude, longitude),
-                15f
-            )
+            updatedLocation.value = Pair(latitude, longitude)
         }
         onDispose {
             LocationProvider.removeCurrentLocationCallback()
         }
     }
-    GoogleMap(
+    Map(modifier, updatedLocation.value)
+}
+
+@Composable
+private fun Map(
+    modifier: Modifier,
+    currentLocation: Pair<Double, Double>
+) {
+    AndroidView(
         modifier = modifier,
-        cameraPositionState = cameraPositionState,
-        properties = mapProperties,
-        uiSettings = mapUiSettings
-    ) {
-        for (barber in barberList) {
-            Marker(
-                state = rememberMarkerState(
-                    position = LatLng(
-                        barber.latitude,
-                        barber.longitude
-                    )
-                ),
-                title = barber.title,
-                snippet = barber.snippet,
-                icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)
-            )
+        factory = { context ->
+            val map = buildMapView(context, currentLocation)
+            map.addMarker(currentLocation)
+            return@AndroidView map
+        },
+        update = { map ->
+            map.removeMarkers()
+            map.updateLocation(currentLocation)
+            map.addMarker(currentLocation)
         }
+    )
+}
+
+private fun MapView.removeMarkers() {
+    overlayManager.clear()
+}
+
+private fun MapView.addMarker(currentLocation: Pair<Double, Double>) {
+    val marker = Marker(this)
+    with(marker) {
+        snippet = "Hello world, bug 512 part 1"
+        position = currentLocation.toGeoPoint()
     }
+    controller.setCenter(marker.position)
+    overlayManager.add(marker)
+}
+
+private fun buildMapView(context: Context, startLocation: Pair<Double, Double>): MapView =
+    MapView(context).also {
+        it.setZoom(12.5)
+        it.updateLocation(startLocation)
+        it.setTileSource(TileSourceFactory.MAPNIK)
+        it.onResume()
+    }
+
+
+private fun <A, B> Pair<A, B>.toGeoPoint(): GeoPoint {
+    return GeoPoint(first as Double, second as Double)
+}
+
+private fun MapView.updateLocation(currentLocation: Pair<Double, Double>) {
+    controller.setCenter(currentLocation.toGeoPoint())
+}
+
+fun MapView.setZoom(zoom: Double) {
+    controller.setZoom(zoom)
 }
 
 @Preview
 @Composable
-fun PreviewGoogleMaps() {
+fun PreviewMaps() {
     LocationProvider.initialize(LocalContext.current)
     GoogleMaps(
-        barberList = emptyList(),
+//        barberList = emptyList(),
     )
 }
