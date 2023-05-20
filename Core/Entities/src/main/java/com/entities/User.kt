@@ -13,9 +13,10 @@ enum class UserType{
     CLIENT
 }
 
-class MarkerInfo(
+open class MarkerInfo(
     val lat: Double,
     val lng: Double,
     val title: String,
+    val snippet: String,
     val icon: Int
 )
