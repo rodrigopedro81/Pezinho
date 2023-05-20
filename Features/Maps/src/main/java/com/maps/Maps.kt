@@ -19,11 +19,7 @@ fun OpenSourceMaps(
     barbersMarkers: List<MarkerInfo> = emptyList(),
 ) {
     val updatedLocation = remember { mutableStateOf(currentLocation) }
-    val markers by remember {
-        derivedStateOf {
-            barbersMarkers + myMarker(currentLocation.first, currentLocation.second)
-        }
-    }
+    val allMarkers = barbersMarkers + myMarker(currentLocation.first, currentLocation.second)
     DisposableEffect(Unit) {
         LocationProvider.setCurrentLocationCallback { latitude, longitude ->
             updatedLocation.value = Pair(latitude, longitude)
@@ -32,7 +28,7 @@ fun OpenSourceMaps(
             LocationProvider.removeCurrentLocationCallback()
         }
     }
-    Map(modifier, updatedLocation.value, markers)
+    Map(modifier, updatedLocation.value, allMarkers)
 }
 
 @Composable
