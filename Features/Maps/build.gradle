@@ -47,6 +47,7 @@ dependencies {
     implementation dagger.values()
     implementation locationServices.values()
     implementation project(path: ':Core:Repositories')
+    implementation project(path: ':Features:Network')
     kapt daggerCompiler.values()
     implementation project(path: ':Core:Entities')
     implementation(project(":Features:DesignSystem"))

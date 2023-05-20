@@ -1,5 +1,4 @@
 package com.network.service
 
-interface LoginService {
-
+interface GeoCodingService {
 }

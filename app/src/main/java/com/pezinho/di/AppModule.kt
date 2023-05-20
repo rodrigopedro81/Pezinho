@@ -1,9 +1,9 @@
 package com.pezinho.di
 
-import com.authentication.LoginRepositoryImpl
+import com.maps.GeoCodingRepositoryImpl
 import com.network.retrofit.NetworkUtils
-import com.network.service.LoginService
-import com.repositories.LoginRepository
+import com.network.service.GeoCodingService
+import com.repositories.GeoCodingRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,17 +15,19 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    private const val BASE_URL = "https://www.google.com"
+    private const val GEO_CODING_BASE_URL = "http://api.positionstack.com/v1/"
 
     @Provides
     @Singleton
-    fun providesRetrofit(): Retrofit = NetworkUtils.getRetrofitInstance(BASE_URL)
+    fun providesRetrofit(baseUrl: String): Retrofit = NetworkUtils.getRetrofitInstance(baseUrl)
 
     @Provides
     @Singleton
-    fun providesLoginService() = NetworkUtils.getApi(providesRetrofit(), LoginService::class.java)
+    fun providesGeoCodingService() =
+        NetworkUtils.getApi(providesRetrofit(GEO_CODING_BASE_URL), GeoCodingService::class.java)
 
     @Provides
     @Singleton
-    fun providesLoginRepository(): LoginRepository = LoginRepositoryImpl(providesLoginService())
+    fun providesAddressRepository(): GeoCodingRepository =
+        GeoCodingRepositoryImpl(providesGeoCodingService())
 }
