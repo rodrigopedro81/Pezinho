@@ -9,18 +9,18 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 
 fun buildMapView(context: Context, startLocation: Pair<Double, Double>): MapView =
-    MapView(context).also {
-        it.setZoom(12.5)
-        it.moveCameraTo(startLocation)
-        it.setTileSource(TileSourceFactory.MAPNIK)
-        it.onResume()
+    MapView(context).then {
+        setZoom(12.5)
+        moveCameraTo(startLocation)
+        setTileSource(TileSourceFactory.MAPNIK)
+        onResume()
     }
 
 fun MapView.removeMarkers() {
     overlayManager.clear()
 }
 
-fun MapView.addMarker(marker: MarkerInfo) {
+fun MapView.placeMarker(marker: MarkerInfo) {
     overlayManager.add(marker.toMarker(this))
 }
 
@@ -43,7 +43,7 @@ fun MapView.setZoom(zoom: Double) {
 
 fun MapView.placeMarkers(markers: List<MarkerInfo>) {
     for (marker in markers) {
-        addMarker(marker)
+        placeMarker(marker)
     }
 }
 
@@ -55,4 +55,9 @@ fun MarkerInfo.toMarker(mapView: MapView): Marker = Marker(mapView).apply {
 
 fun <A, B> Pair<A, B>.toGeoPoint(): GeoPoint {
     return GeoPoint(first as Double, second as Double)
+}
+
+inline fun <T> T.then(block: T.() -> Unit): T {
+    block(this)
+    return this
 }

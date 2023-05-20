@@ -2,15 +2,20 @@ package com.maps
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import com.entities.MarkerInfo
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 @Composable
 fun OpenSourceMaps(
@@ -18,17 +23,17 @@ fun OpenSourceMaps(
     currentLocation: Pair<Double, Double> = Pair(-22.91, -43.29),
     barbersMarkers: List<MarkerInfo> = emptyList(),
 ) {
-    val updatedLocation = remember { mutableStateOf(currentLocation) }
-    val allMarkers = barbersMarkers + myMarker(currentLocation.first, currentLocation.second)
+    var updatedLocation by remember { mutableStateOf(currentLocation) }
+    val allMarkers = barbersMarkers + myMarker(updatedLocation.first, updatedLocation.second)
     DisposableEffect(Unit) {
         LocationProvider.setCurrentLocationCallback { latitude, longitude ->
-            updatedLocation.value = Pair(latitude, longitude)
+            updatedLocation = Pair(latitude, longitude)
         }
         onDispose {
             LocationProvider.removeCurrentLocationCallback()
         }
     }
-    Map(modifier, updatedLocation.value, allMarkers)
+    Map(modifier, updatedLocation, allMarkers)
 }
 
 @Composable
@@ -40,9 +45,10 @@ private fun Map(
     AndroidView(
         modifier = modifier,
         factory = { context ->
-            val map = buildMapView(context, currentLocation)
-            map.placeMarkers(markers)
-            return@AndroidView map
+            return@AndroidView buildMapView(context, currentLocation).then {
+                placeMarkers(markers)
+                moveCameraTo(currentLocation)
+            }
         },
         update = { map ->
             map.run {
