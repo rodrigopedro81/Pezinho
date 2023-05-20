@@ -1,6 +1,8 @@
 package com.maps
 
 import android.content.Context
+import android.graphics.drawable.Drawable
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.mutableStateOf
@@ -9,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
@@ -61,6 +64,7 @@ private fun MapView.addMarker(currentLocation: Pair<Double, Double>) {
     with(marker) {
         snippet = "Hello world, bug 512 part 1"
         position = currentLocation.toGeoPoint()
+        icon = ContextCompat.getDrawable(context, R.drawable.ic_baseline_location_on_24)
     }
     controller.setCenter(marker.position)
     overlayManager.add(marker)
