@@ -5,25 +5,20 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import com.entities.MarkerInfo
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
 @Composable
 fun OpenSourceMaps(
     modifier: Modifier = Modifier,
-    currentLocation: Pair<Double, Double> = Pair(-22.91, -43.29),
+    initialLocation: Pair<Double, Double> = Pair(-22.91, -43.29),
     barbersMarkers: List<MarkerInfo> = emptyList(),
 ) {
-    var updatedLocation by remember { mutableStateOf(currentLocation) }
+    var updatedLocation by remember { mutableStateOf(initialLocation) }
     val allMarkers = barbersMarkers + myMarker(updatedLocation.first, updatedLocation.second)
     DisposableEffect(Unit) {
         LocationProvider.setCurrentLocationCallback { latitude, longitude ->
