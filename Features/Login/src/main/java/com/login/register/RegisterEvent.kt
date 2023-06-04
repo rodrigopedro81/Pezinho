@@ -6,11 +6,8 @@ class RegisterEvent {
         UPDATE_EMAIL,
         UPDATE_NAME,
         UPDATE_PHONE,
-        UPDATE_ADDRESS
-    }
-
-    enum class AuthEvent {
-        CLICK_REGISTER
+        UPDATE_ADDRESS,
+        SELECT_ADDRESS
     }
 
     enum class ClickEvent {

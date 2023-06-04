@@ -1,24 +1,11 @@
 package com.home.screens.home
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.runtime.Composable
@@ -26,15 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.designsystem.AutoCompleteTextField
 import com.maps.GPSClient
-import com.maps.ui.OpenSourceMaps
+import com.maps.ui.Maps
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
-    val state = viewModel.uiState.collectAsStateWithLifecycle()
+fun HomeScreen(viewModel: HomeScreenViewModel = hiltViewModel()) {
+    val state = viewModel.state.collectAsStateWithLifecycle()
     HomeScreenContent(
         state = state.value,
         onTypeEvent = viewModel::onTypeEvent
@@ -44,8 +31,8 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreenContent(
-    state: HomeState,
-    onTypeEvent: (HomeEvent.TypeEvent, String) -> Unit = { _, _ -> }
+    state: HomeScreenState,
+    onTypeEvent: (HomeScreenEvent.TypeEvent, String) -> Unit = { _, _ -> }
 ) {
     val bottomSheetState = rememberBottomSheetState(
         initialValue = BottomSheetValue.Expanded,
@@ -59,10 +46,12 @@ fun HomeScreenContent(
             MainBottomSheet(state, onTypeEvent)
         },
         content = {
-            OpenSourceMaps(
+            val barberCoordinates = state.barbers.map { Pair(it.latitude, it.longitude) }
+            Maps(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(),
+                barbersCoordinates = barberCoordinates,
             )
         },
         scaffoldState = scaffoldState
@@ -71,8 +60,8 @@ fun HomeScreenContent(
 
 @Composable
 fun MainBottomSheet(
-    state: HomeState,
-    onTypeEvent: (HomeEvent.TypeEvent, String) -> Unit
+    state: HomeScreenState,
+    onTypeEvent: (HomeScreenEvent.TypeEvent, String) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -80,39 +69,14 @@ fun MainBottomSheet(
             .fillMaxHeight(0.5f),
         backgroundColor = Color.LightGray
     ) {
-        Column {
-            AnimatedVisibility(
-                state.selectedAddress.not(),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                LazyColumn {
-                    items(
-                        state.autoCompletePredictions,
-                        itemContent = {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp)
-                                    .clickable {
-                                        onTypeEvent.invoke(HomeEvent.TypeEvent.SELECT_ADDRESS, it)
-                                    }
-                            ) {
-                                Text(it)
-                            }
-                        }
-                    )
-                }
-                Spacer(Modifier.height(16.dp))
-            }
-            TextField(
-                value = state.address,
-                onValueChange = {
-                    onTypeEvent.invoke(HomeEvent.TypeEvent.NEW_SEARCH, it)
-                }
-            )
-        }
+        AutoCompleteTextField(
+            modifier = Modifier.fillMaxWidth(0.8f),
+            text = state.address,
+            isTextValid = state.isAddressValid,
+            autoCompletePredictions = state.autoCompletePredictions.map { it.formattedAddress },
+            onSelect = { onTypeEvent(HomeScreenEvent.TypeEvent.SELECT_ADDRESS, it) },
+            onSearch = { onTypeEvent(HomeScreenEvent.TypeEvent.NEW_SEARCH, it) }
+        )
     }
 }
 
@@ -121,17 +85,6 @@ fun MainBottomSheet(
 fun HomeScreenPreview() {
     GPSClient.initialize(LocalContext.current)
     HomeScreenContent(
-        state = HomeState()
+        state = HomeScreenState()
     )
-}
-
-@Composable
-fun ScrollableColumn(
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
-) {
-    val scrollState = rememberScrollState()
-    Column(modifier = modifier.verticalScroll(scrollState)) {
-        content.invoke()
-    }
 }

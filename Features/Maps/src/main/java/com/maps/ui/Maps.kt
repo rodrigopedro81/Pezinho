@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.designsystem.NoPreviewComponent
 import com.entities.MarkerInfo
 import com.maps.GPSClient
@@ -22,12 +23,13 @@ import com.maps.utils.removeMarkers
 import com.maps.utils.then
 
 @Composable
-fun OpenSourceMaps(
+fun Maps(
     modifier: Modifier = Modifier,
     initialLocation: Pair<Double, Double> = Pair(-22.91, -43.29),
-    barbersMarkers: List<MarkerInfo> = emptyList(),
+    barbersCoordinates: List<Pair<Double, Double>> = emptyList(),
 ) {
     var updatedLocation by remember { mutableStateOf(initialLocation) }
+    val barbersMarkers = barbersCoordinates.getMarkers()
     val allMarkers = barbersMarkers + myMarker(updatedLocation.first, updatedLocation.second)
     DisposableEffect(Unit) {
         GPSClient.setCurrentLocationCallback { latitude, longitude ->
@@ -37,11 +39,23 @@ fun OpenSourceMaps(
             GPSClient.removeCurrentLocationCallback()
         }
     }
-    Map(modifier, updatedLocation, allMarkers)
+    MapsContent(modifier, updatedLocation, allMarkers)
+}
+
+private fun List<Pair<Double, Double>>.getMarkers(): List<MarkerInfo> {
+    return map {
+        MarkerInfo(
+            lat = it.first,
+            lng = it.second,
+            title = "Barbeiro",
+            snippet = "Barbeiro",
+            icon = R.drawable.ic_baseline_location_on_24
+        )
+    }
 }
 
 @Composable
-private fun Map(
+private fun MapsContent(
     modifier: Modifier,
     currentLocation: Pair<Double, Double>,
     markers: List<MarkerInfo>,
@@ -70,7 +84,7 @@ private fun Map(
 @Composable
 fun PreviewMaps() {
     GPSClient.initialize(LocalContext.current)
-    OpenSourceMaps(modifier = Modifier.fillMaxSize())
+    Maps(modifier = Modifier.fillMaxSize())
 }
 
 fun myMarker(lat: Double, lng: Double): MarkerInfo {

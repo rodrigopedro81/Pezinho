@@ -13,15 +13,16 @@ import androidx.navigation.compose.rememberNavController
 import com.designsystem.theme.PezinhoTheme
 import com.maps.GPSClient
 import com.pezinho.graph.MainNavGraph
-import com.repositories.Authenticator
+import com.repositories.authentication.AuthenticationRepository
 import dagger.hilt.android.AndroidEntryPoint
+import navigation.Routes
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private lateinit var navController: NavHostController
-    @Inject lateinit var authenticator: Authenticator
+    @Inject lateinit var authenticationRepository: AuthenticationRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +34,7 @@ class MainActivity : ComponentActivity() {
                     onResult = { areGranted ->
                         GPSClient.locationPermissionsGranted = areGranted
                         if (areGranted) {
-                            if (authenticator.userIsLoggedIn()) {
+                            if (authenticationRepository.userIsLoggedIn()) {
 //                                navController.navigate(Routes.HomeContainer.destination)
                             }
                         }

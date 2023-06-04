@@ -1,4 +1,4 @@
-package com.entities.autoComplete
+package com.entities.geoApifyResponse
 
 data class Properties(
     val address_line1: String,
@@ -11,6 +11,7 @@ data class Properties(
     val datasource: Datasource,
     val district: String,
     val formatted: String,
+    val housenumber: String,
     val hamlet: String,
     val lat: Double,
     val lon: Double,
@@ -23,6 +24,7 @@ data class Properties(
     val result_type: String,
     val state: String,
     val state_code: String,
+    val street: String,
     val state_district: String,
     val suburb: String,
     val timezone: Timezone

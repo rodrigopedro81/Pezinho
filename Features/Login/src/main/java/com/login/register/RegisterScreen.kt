@@ -11,13 +11,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.designsystem.AutoCompleteTextField
 import com.designsystem.MainEditText
 import com.designsystem.PrimaryMainButton
 import com.designsystem.SecondaryMainButton
 import com.designsystem.SimpleHeader
 import com.designsystem.VerticalSpacer
 import com.entities.AuthResult
+import com.entities.UserType
 import navigation.Routes
+import java.lang.Exception
 
 @Composable
 fun RegisterScreen(
@@ -42,7 +45,7 @@ fun RegisterScreenContent(
     onClickEvent: (RegisterEvent.ClickEvent) -> Unit,
     state: RegisterScreenState
 ) {
-    AnimatedVisibility(visible = state.isClient == null) {
+    AnimatedVisibility(visible = state.userType == UserType.UNKNOWN) {
         Column(modifier = Modifier.fillMaxSize()) {
             SimpleHeader(text = "Registrar")
             VerticalSpacer(dp = 50.dp)
@@ -58,7 +61,7 @@ fun RegisterScreenContent(
             )
         }
     }
-    AnimatedVisibility(visible = state.isClient != null) {
+    AnimatedVisibility(visible = state.userType != UserType.UNKNOWN) {
         val scrollState: ScrollState = rememberScrollState()
         Column(
             modifier = Modifier
@@ -66,7 +69,7 @@ fun RegisterScreenContent(
                 .verticalScroll(scrollState)
         ) {
             VerticalSpacer(dp = 16.dp)
-            if (state.isClient == true) {
+            if (state.userType == UserType.CLIENT) {
                 SimpleHeader(text = "Cliente")
                 BasicForm(state, onTypeEvent)
             } else {
@@ -77,9 +80,13 @@ fun RegisterScreenContent(
                 buttonText = "Registrar",
                 isButtonEnabled = state.isFormValid,
                 onClick = {
-                    onRegister.invoke() {
-                        if (it.success) {
-                            navigateTo.invoke(Routes.HomeContainer.destination)
+                    onRegister.invoke() { authResult ->
+                        if (authResult.success) {
+                            when (state.userType) {
+                                UserType.CLIENT -> navigateTo.invoke(Routes.HomeContainer.destination)
+                                UserType.BARBER -> navigateTo.invoke(Routes.HomeContainer.destination)
+                                else -> throw Exception("Invalid User type")
+                            }
                         } else {
                             // TODO () -> O que fazer se registrar falhar?
                         }
@@ -97,12 +104,12 @@ fun BarberForm(
     onTypeEvent: (RegisterEvent.TypeEvent, String) -> Unit,
 ) {
     BasicForm(state = state, onTypeEvent = onTypeEvent)
-    MainEditText(
-        onTextChange = { onTypeEvent.invoke(RegisterEvent.TypeEvent.UPDATE_ADDRESS, it) },
+    AutoCompleteTextField(
         text = state.address,
-        hint = "Qual seu endereço?",
-        isValid = state.isAddressValid,
         label = "Endereço",
+        autoCompletePredictions = state.autoCompletePredictions.map { it.formattedAddress },
+        onSelect = { onTypeEvent.invoke(RegisterEvent.TypeEvent.SELECT_ADDRESS, it) },
+        onSearch = { onTypeEvent.invoke(RegisterEvent.TypeEvent.UPDATE_ADDRESS, it) },
     )
     VerticalSpacer(dp = 16.dp)
 }

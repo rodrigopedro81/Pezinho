@@ -1,4 +1,4 @@
-package com.entities.autoComplete
+package com.entities.geoApifyResponse
 
 data class Timezone(
     val abbreviation_DST: String,

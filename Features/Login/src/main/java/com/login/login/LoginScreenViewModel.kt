@@ -2,7 +2,7 @@ package com.login.login
 
 import androidx.lifecycle.ViewModel
 import com.entities.AuthResult
-import com.repositories.Authenticator
+import com.repositories.authentication.AuthenticationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -31,7 +31,7 @@ class LoginEvent {
 
 @HiltViewModel
 class LoginScreenViewModel @Inject constructor(
-    private val authenticator: Authenticator
+    private val authenticationRepository: AuthenticationRepository
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<LoginScreenState> = MutableStateFlow(
@@ -78,7 +78,7 @@ class LoginScreenViewModel @Inject constructor(
 
     private fun login(onResult: (AuthResult) -> Unit) {
         if (dataIsValid()) {
-            authenticator.login(
+            authenticationRepository.login(
                 state.value.email,
                 state.value.password,
                 onResult

@@ -1,6 +1,6 @@
-package com.repositories
+package com.repositories.network
 
-import com.entities.autoComplete.AutoCompleteResponse
+import com.entities.AutoComplete
 
 interface GeoCodingRepository {
 
@@ -11,11 +11,10 @@ interface GeoCodingRepository {
     )
 
     suspend fun getCoordinateByAddress(
-        apiKey: String,
         address: String
-    )
+    ): Pair<Double, Double>?
 
     suspend fun getAutoCompletes(
         query: String
-    ): List<String>
+    ): List<AutoComplete>
 }

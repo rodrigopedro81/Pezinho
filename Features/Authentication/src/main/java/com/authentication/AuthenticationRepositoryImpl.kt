@@ -1,15 +1,17 @@
 package com.authentication
 
 import com.entities.AuthResult
+import com.entities.Barber
+import com.entities.Client
 import com.entities.User
 import com.google.firebase.auth.FirebaseAuth
-import com.repositories.Authenticator
-import com.repositories.FirestoreRepository
+import com.repositories.authentication.AuthenticationRepository
+import com.repositories.database.FirestoreRepository
 import javax.inject.Inject
 
-class AuthenticatorImpl @Inject constructor(
+class AuthenticationRepositoryImpl @Inject constructor(
     private val databaseRepository: FirestoreRepository,
-) : Authenticator {
+) : AuthenticationRepository {
 
     private val auth = FirebaseAuth.getInstance()
 
@@ -25,14 +27,18 @@ class AuthenticatorImpl @Inject constructor(
         }
     }
 
-    override fun register(user: User, onResult: (AuthResult) -> Unit) {
-        register(user.email, user.password) {
+    override fun registerBarber(barber: Barber, password: String, onResult: (AuthResult) -> Unit) {
+        register(barber.email, password) {
             onResult.invoke(it)
-            if (it.success) {
-                auth.currentUser?.sendEmailVerification()
-                databaseRepository.createUserInDatabase(user)
-            }
+            databaseRepository.createBarberInDatabase(barber)
         }
+    }
+
+    override fun registerClient(client: Client, password: String, onResult: (AuthResult) -> Unit) {
+//        register(client.email, password) {
+//            onResult.invoke(it)
+//            databaseRepository.createClientInDatabase(client)
+//        }
     }
 
     private fun register(
@@ -44,6 +50,8 @@ class AuthenticatorImpl @Inject constructor(
             onResult.invoke(AuthResult(success = true, error = null))
         }.addOnFailureListener {
             onResult.invoke(AuthResult(success = false, error = it))
+        }.continueWithTask {
+            auth.currentUser?.sendEmailVerification()
         }
     }
 
