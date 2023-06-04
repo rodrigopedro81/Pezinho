@@ -47,9 +47,6 @@ class FirestoreRepositoryImpl : FirestoreRepository {
             }
     }
 
-    private fun getUserCollection(user: User) =
-        if (user.userType == UserType.CLIENT) USERS_COLLECTION else BARBERS_COLLECTION
-
     companion object {
         private const val USERS_COLLECTION = "users"
         private const val BARBERS_COLLECTION = "barbers"

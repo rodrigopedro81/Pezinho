@@ -14,8 +14,8 @@ data class ApiResponse(
         val autoCompletes = features.map {
             AutoComplete(
                 it.properties.formatted,
-                it.geometry.coordinates[0],
-                it.geometry.coordinates[1]
+                it.geometry.coordinates[1],
+                it.geometry.coordinates[0]
             )
         }
         return autoCompletes.ifEmpty { emptyList() }
