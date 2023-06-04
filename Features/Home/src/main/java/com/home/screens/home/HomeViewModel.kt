@@ -3,7 +3,7 @@ package com.home.screens.home
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.entities.AutoComplete
+import com.repositories.GeoCodingRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -18,7 +18,7 @@ import javax.inject.Inject
 data class HomeState(
     val isLoading: Boolean = false,
     val error: String = "",
-    val autoCompletePredictions: List<AutoComplete> = emptyList(),
+    val autoCompletePredictions: List<String> = emptyList(),
     val selectedAddress: Boolean = false,
     val address: String = "",
 )
@@ -32,14 +32,16 @@ class HomeEvent {
 
 
 @HiltViewModel
-class HomeViewModel @Inject constructor() : ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val geoCodingRepository: GeoCodingRepository
+) : ViewModel() {
 
     private val _uiState: MutableStateFlow<HomeState> = MutableStateFlow(HomeState())
     val uiState: StateFlow<HomeState> = _uiState.asStateFlow()
     private var job: Job? = null
 
     fun onTypeEvent(event: HomeEvent.TypeEvent, text: String) {
-        when(event){
+        when (event) {
             HomeEvent.TypeEvent.NEW_SEARCH -> searchPlaces(text)
             HomeEvent.TypeEvent.SELECT_ADDRESS -> {
                 clearAutoCompletePredictions()
@@ -49,14 +51,29 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun searchPlaces(search: String) {
+        updateAddress(search)
         job?.cancel()
         clearAutoCompletePredictions()
-        updateAddress(search)
-        job = viewModelScope.launch {
-            startScreenLoading()
-            delay(500)
+        if (shouldSearchCompletions(search)) {
+            job = viewModelScope.launch {
+                delay(1000)
+                setAutoCompletePredictions(geoCodingRepository.getAutoCompletes(search))
+            }
         }
     }
+
+    private fun shouldSearchCompletions(search: String): Boolean =
+        with(search.withoutBlank){
+            when {
+                length < 4 -> false
+                lowercase().contains("rua") && length < 6 -> false
+                else -> true
+            }
+        }
+
+    // remove blank from string
+    private val String.withoutBlank: String
+        get() = replace(" ", "")
 
     private fun updateAddress(search: String) {
         _uiState.update {
@@ -82,7 +99,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private fun setAutoCompletePredictions(autoCompleteList: List<AutoComplete>) {
+    private fun setAutoCompletePredictions(autoCompleteList: List<String>) {
         _uiState.update {
             it.copy(autoCompletePredictions = autoCompleteList)
         }

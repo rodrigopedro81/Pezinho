@@ -66,8 +66,8 @@ ext {
     ]
 
     retrofit = [
-            retrofit:  'com.squareup.retrofit2:retrofit:2.5.0',
-            gsonConverter: 'com.squareup.retrofit2:converter-gson:2.5.0'
+            retrofit:  'com.squareup.retrofit2:retrofit:2.6.0',
+            gsonConverter: 'com.squareup.retrofit2:converter-gson:2.6.0'
     ]
 
     locationServices = [

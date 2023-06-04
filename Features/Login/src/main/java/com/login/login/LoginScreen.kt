@@ -68,12 +68,11 @@ fun LoginScreenContent(
             onClick = {
                 onAuthEvent.invoke(LoginEvent.AuthEvent.CLICK_LOGIN) { result ->
                     if (result.success) {
-                        Log.d("Teste", "Logado com sucesso")
-//                        navigateTo.invoke(Routes.HomeContainer.destination)
+                        navigateTo.invoke(Routes.HomeContainer.destination)
                     } else {
                         Log.d("Teste", "deu ruim por causa disso -> ${result.error}")
+                        // TODO () -> O que fazer caso não logue?
                     }
-                    // TODO () -> O que fazer caso não logue?
                 }
             },
             isButtonEnabled = true,

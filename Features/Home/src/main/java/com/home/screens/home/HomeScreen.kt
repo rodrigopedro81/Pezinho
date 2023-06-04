@@ -96,13 +96,10 @@ fun MainBottomSheet(
                                     .fillMaxWidth()
                                     .padding(16.dp)
                                     .clickable {
-                                        onTypeEvent.invoke(
-                                            HomeEvent.TypeEvent.SELECT_ADDRESS,
-                                            it.address
-                                        )
+                                        onTypeEvent.invoke(HomeEvent.TypeEvent.SELECT_ADDRESS, it)
                                     }
                             ) {
-                                Text(it.address)
+                                Text(it)
                             }
                         }
                     )

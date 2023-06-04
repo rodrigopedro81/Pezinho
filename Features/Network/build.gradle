@@ -33,4 +33,6 @@ android {
 dependencies {
 
     implementation retrofit.values()
+    implementation project(path: ':Core:Entities')
+    implementation project(path: ':Core:Repositories')
 }
