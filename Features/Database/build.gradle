@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.authentication'
+    namespace 'com.database'
     compileSdk 33
 
     defaultConfig {
@@ -31,8 +31,7 @@ android {
 }
 
 dependencies {
-    implementation(project(path:':Core:Repositories'))
     implementation(project(path:':Core:Entities'))
-    implementation(firebaseAuth.auth)
     implementation(firebaseFirestore.firestore)
+    implementation project(path: ':Core:Repositories')
 }

@@ -13,13 +13,15 @@ import androidx.navigation.compose.rememberNavController
 import com.designsystem.theme.PezinhoTheme
 import com.maps.GPSClient
 import com.pezinho.graph.MainNavGraph
+import com.repositories.Authenticator
 import dagger.hilt.android.AndroidEntryPoint
-import navigation.Routes
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private lateinit var navController: NavHostController
+    @Inject lateinit var authenticator: Authenticator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,12 +33,9 @@ class MainActivity : ComponentActivity() {
                     onResult = { areGranted ->
                         GPSClient.locationPermissionsGranted = areGranted
                         if (areGranted) {
-                            // Checar se usuário está logado
-                            // Se estiver logado, navegar para HomeContainer
-                            // Se não estiver logado, não fazer nada
-
-                            // Para ir direto para Home
-                            navController.navigate(Routes.HomeContainer.destination)
+                            if (authenticator.userIsLoggedIn()) {
+//                                navController.navigate(Routes.HomeContainer.destination)
+                            }
                         }
                     }
                 )

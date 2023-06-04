@@ -13,12 +13,10 @@ fun MainNavGraph(navController: NavHostController) {
         navController = navController,
         startDestination = Routes.LoginGraph.destination
     ) {
-        // Represents the whole login flow
         loginGraph(
             route = Routes.LoginGraph.destination,
             navController = navController
         )
-        // Represents the whole home flow
         composable(
             route = Routes.HomeContainer.destination
         ) {

@@ -1,13 +1,10 @@
 package com.login.login
 
-import android.Manifest
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,6 +16,7 @@ import com.designsystem.SecondaryMainButton
 import com.designsystem.SimpleHeader
 import com.designsystem.VerticalSpacer
 import com.designsystem.theme.PezinhoTheme
+import com.entities.AuthResult
 import navigation.Routes
 
 @Composable
@@ -26,11 +24,11 @@ fun LoginScreen(
     navigateTo: (String) -> Unit,
     viewModel: LoginScreenViewModel = hiltViewModel()
 ) {
-    val loginScreenState = viewModel.loginScreenState.collectAsStateWithLifecycle()
+    val loginScreenState = viewModel.state.collectAsStateWithLifecycle()
     LoginScreenContent(
         navigateTo = navigateTo,
         onTypeEvent = viewModel::onTypeEvent,
-        onClickEvent = viewModel::onClickEvent,
+        onAuthEvent = viewModel::onAuthEvent,
         state = loginScreenState.value,
     )
 }
@@ -38,7 +36,7 @@ fun LoginScreen(
 @Composable
 fun LoginScreenContent(
     onTypeEvent: (LoginEvent.TypeEvent, String) -> Unit,
-    onClickEvent: (LoginEvent.ClickEvent) -> Unit,
+    onAuthEvent: (LoginEvent.AuthEvent, (AuthResult) -> Unit) -> Unit,
     state: LoginScreenState,
     navigateTo: (String) -> Unit,
 ) {
@@ -68,18 +66,22 @@ fun LoginScreenContent(
         VerticalSpacer(dp = 20.dp)
         PrimaryMainButton(
             onClick = {
-                onClickEvent.invoke(LoginEvent.ClickEvent.CLICK_LOGIN)
-                navigateTo.invoke(Routes.HomeContainer.destination)
+                onAuthEvent.invoke(LoginEvent.AuthEvent.CLICK_LOGIN) { result ->
+                    if (result.success) {
+                        Log.d("Teste", "Logado com sucesso")
+//                        navigateTo.invoke(Routes.HomeContainer.destination)
+                    } else {
+                        Log.d("Teste", "deu ruim por causa disso -> ${result.error}")
+                    }
+                    // TODO () -> O que fazer caso não logue?
+                }
             },
             isButtonEnabled = true,
             buttonText = "Logar"
         )
         VerticalSpacer(dp = 20.dp)
         SecondaryMainButton(
-            onClick = {
-                onClickEvent.invoke(LoginEvent.ClickEvent.CLICK_REGISTER)
-                navigateTo.invoke(Routes.Register.destination)
-            },
+            onClick = { navigateTo.invoke(Routes.Register.destination) },
             buttonText = "Registrar"
         )
         VerticalSpacer(dp = 20.dp)
@@ -93,7 +95,7 @@ fun LoginScreenPreview() {
     PezinhoTheme {
         LoginScreenContent(
             onTypeEvent = { _, _ -> },
-            onClickEvent = { },
+            onAuthEvent = { _, _ -> },
             state = LoginScreenState(),
             navigateTo = {},
         )

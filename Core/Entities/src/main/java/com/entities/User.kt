@@ -1,11 +1,12 @@
 package com.entities
 
 data class User(
+    val id: String = "",
     val name: String,
     val email: String,
     val userType: UserType,
-    val address: String,
-    val id: String
+    val address: String = "",
+    val password: String = ""
 )
 
 enum class UserType{
@@ -13,7 +14,7 @@ enum class UserType{
     CLIENT
 }
 
-open class MarkerInfo(
+class MarkerInfo(
     val lat: Double,
     val lng: Double,
     val title: String,

@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'com.google.dagger.hilt.android'
     id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -51,8 +52,11 @@ android {
 dependencies {
     implementation composeUIDependencies.values()
     implementation dagger.values()
+    implementation project(path: ':Features:Database')
     kapt daggerCompiler.values()
     implementation retrofit.values()
+    implementation platform('com.google.firebase:firebase-bom:32.1.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation project(path: ':Core:Repositories')
     implementation project(path: ':Core')
     implementation project(path: ':Features:Network')

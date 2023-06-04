@@ -1,7 +1,8 @@
 package com.login.login
 
 import androidx.lifecycle.ViewModel
-import com.repositories.LoginRepository
+import com.entities.AuthResult
+import com.repositories.Authenticator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,7 +12,10 @@ import javax.inject.Inject
 
 data class LoginScreenState(
     val email: String = "",
-    val password: String = ""
+    val password: String = "",
+    val isEmailValid: Boolean = false,
+    val isPasswordValid: Boolean = false,
+    val isLoading: Boolean = false
 )
 
 class LoginEvent {
@@ -19,32 +23,28 @@ class LoginEvent {
         UPDATE_PASSWORD,
         UPDATE_EMAIL,
     }
-    enum class ClickEvent {
-        CLICK_LOGIN,
-        CLICK_REGISTER
+
+    enum class AuthEvent {
+        CLICK_LOGIN
     }
 }
 
 @HiltViewModel
 class LoginScreenViewModel @Inject constructor(
-    // TODO () -> Pode testar aqui nessa view model, basta incluir no construtor o repository novo
-    // Que o sistema de injeção de dependências do Hilt vai se encarregar de injetar
-    // E aí você já consegue ver o retorno da chamada.
-    // Pode até botar a chamada de teste num bloco init pra não ter de linkar a nada da ui
-    private val loginRepository: LoginRepository
+    private val authenticator: Authenticator
 ) : ViewModel() {
 
-    private val _loginScreenState: MutableStateFlow<LoginScreenState> = MutableStateFlow(
+    private val _state: MutableStateFlow<LoginScreenState> = MutableStateFlow(
         LoginScreenState()
     )
-    val loginScreenState: StateFlow<LoginScreenState> = _loginScreenState.asStateFlow()
+    val state: StateFlow<LoginScreenState> = _state.asStateFlow()
 
-    fun onClickEvent(
-        loginEvent: LoginEvent.ClickEvent
+    fun onAuthEvent(
+        loginEvent: LoginEvent.AuthEvent,
+        onResult: (AuthResult) -> Unit,
     ) {
-        when(loginEvent) {
-            LoginEvent.ClickEvent.CLICK_LOGIN -> login()
-            LoginEvent.ClickEvent.CLICK_REGISTER -> register()
+        when (loginEvent) {
+            LoginEvent.AuthEvent.CLICK_LOGIN -> login(onResult)
         }
     }
 
@@ -52,29 +52,50 @@ class LoginScreenViewModel @Inject constructor(
         loginEvent: LoginEvent.TypeEvent,
         value: String
     ) {
-        when(loginEvent) {
+        when (loginEvent) {
             LoginEvent.TypeEvent.UPDATE_PASSWORD -> updatePassword(value)
             LoginEvent.TypeEvent.UPDATE_EMAIL -> updateEmail(value)
         }
     }
 
     private fun updatePassword(newPassword: String) {
-        _loginScreenState.update { currentState ->
-            return@update currentState.copy(password = newPassword)
+        _state.update { currentState ->
+            return@update currentState.copy(
+                password = newPassword,
+                isPasswordValid = checkPassword(newPassword)
+            )
         }
     }
 
     private fun updateEmail(newEmail: String) {
-        _loginScreenState.update { currentState ->
-            return@update currentState.copy(email = newEmail)
+        _state.update { currentState ->
+            return@update currentState.copy(
+                email = newEmail,
+                isEmailValid = checkEmail(newEmail)
+            )
         }
     }
 
-    private fun login() {
-        loginRepository.login(loginScreenState.value.email, loginScreenState.value.password)
+    private fun login(onResult: (AuthResult) -> Unit) {
+        if (dataIsValid()) {
+            authenticator.login(
+                state.value.email,
+                state.value.password,
+                onResult
+            )
+        }
     }
 
-    private fun register() {
-        loginRepository.register(loginScreenState.value.email, loginScreenState.value.password)
+    private fun checkEmail(newEmail: String): Boolean {
+        return true
+        // TODO () -> Checar validade do email
     }
+
+    private fun checkPassword(newPassword: String): Boolean {
+        return true
+        // TODO () -> Checar validade da senha
+    }
+
+    private fun dataIsValid(): Boolean =
+        state.value.isEmailValid && state.value.isPasswordValid
 }

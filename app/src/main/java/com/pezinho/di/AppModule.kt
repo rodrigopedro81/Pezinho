@@ -1,9 +1,13 @@
 package com.pezinho.di
 
+import com.authentication.AuthenticatorImpl
+import com.database.FirestoreRepositoryImpl
 import com.maps.repository.GeoCodingRepositoryImpl
 import com.network.retrofit.NetworkUtils
 import com.network.service.GeoCodingService
 import com.repositories.GeoCodingRepository
+import com.repositories.Authenticator
+import com.repositories.FirestoreRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,4 +34,12 @@ object AppModule {
     @Singleton
     fun providesAddressRepository(): GeoCodingRepository =
         GeoCodingRepositoryImpl(providesGeoCodingService())
+
+    @Provides
+    @Singleton
+    fun providesFirestoreRepository(): FirestoreRepository = FirestoreRepositoryImpl()
+
+    @Provides
+    @Singleton
+    fun providesAuthenticator(): Authenticator = AuthenticatorImpl(providesFirestoreRepository())
 }

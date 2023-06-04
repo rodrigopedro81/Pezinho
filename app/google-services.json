@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "861951025539",
+    "project_id": "pezinho-bf18d",
+    "storage_bucket": "pezinho-bf18d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861951025539:android:867e496d82f47d5d8396b6",
+        "android_client_info": {
+          "package_name": "com.pezinho"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "861951025539-76t3bs69iaql94c15eimgtp95eain7bl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJa666rI3W64RCTQTbDHEou47WLRDJ-nY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "861951025539-76t3bs69iaql94c15eimgtp95eain7bl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
