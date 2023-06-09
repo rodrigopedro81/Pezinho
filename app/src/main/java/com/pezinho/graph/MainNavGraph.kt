@@ -1,6 +1,7 @@
 package com.pezinho.graph
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -21,10 +22,11 @@ fun MainNavGraph(
     ) {
         composable(
             route = Routes.ContainerRoutes.LOGIN_CONTAINER,
-        ) {
+            arguments = listOf(startDestinationArg())
+        ) { backStackEntry ->
             LoginContainer(
                 mainNavController = mainNavController,
-                startDestination = Routes.LoginContainerRoutes.LOGIN
+                startDestination = backStackEntry.getStartDestination()
             )
         }
         composable(
@@ -33,7 +35,7 @@ fun MainNavGraph(
         ) { backStackEntry ->
             HomeContainer(
                 mainNavController = mainNavController,
-                startDestination = backStackEntry.arguments?.getString(START_DESTINATION_ARG)
+                startDestination = backStackEntry.getStartDestination()
             )
         }
     }
@@ -44,3 +46,5 @@ fun startDestinationArg(defaultValue: String? = null) = navArgument(START_DESTIN
     nullable = true
     this.defaultValue = defaultValue
 }
+
+fun NavBackStackEntry.getStartDestination() = arguments?.getString(START_DESTINATION_ARG)

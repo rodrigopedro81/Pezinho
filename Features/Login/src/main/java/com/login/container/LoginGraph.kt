@@ -40,7 +40,7 @@ fun LoginContainerContent(
         ) {
             NavHost(
                 navController = loginContainerNavController,
-                startDestination = startDestination ?: Routes.HomeContainerRoutes.HOME
+                startDestination = startDestination ?: Routes.LoginContainerRoutes.LOGIN
             ) {
                 composable(route = Directions.LoginContainer.loginScreen) {
                     LoginScreen(
