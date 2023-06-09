@@ -1,4 +1,4 @@
-package com.login.login
+package com.login.screens.login
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
@@ -85,7 +85,7 @@ fun LoginScreenContent(
         )
         VerticalSpacer(dp = 20.dp)
         SecondaryMainButton(
-            onClick = { loginContainerNavController.navigate(Directions.LoginGraph.registerScreen) },
+            onClick = { loginContainerNavController.navigate(Directions.LoginContainer.registerScreen) },
             buttonText = "Registrar"
         )
         VerticalSpacer(dp = 20.dp)

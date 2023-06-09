@@ -1,4 +1,4 @@
-package com.login.register
+package com.login.screens.register
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ScrollState

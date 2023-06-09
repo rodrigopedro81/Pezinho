@@ -1,4 +1,4 @@
-package com.login.register
+package com.login.screens.register
 
 import androidx.compose.runtime.Stable
 import com.entities.AutoComplete

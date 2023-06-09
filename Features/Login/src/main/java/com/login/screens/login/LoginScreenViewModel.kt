@@ -1,4 +1,4 @@
-package com.login.login
+package com.login.screens.login
 
 import androidx.lifecycle.ViewModel
 import com.entities.AuthResult

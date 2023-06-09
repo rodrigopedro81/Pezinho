@@ -1,4 +1,4 @@
-package com.pezinho.graph
+package com.login.container
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,8 +10,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.login.login.LoginScreen
-import com.login.register.RegisterScreen
+import com.login.screens.login.LoginScreen
+import com.login.screens.register.RegisterScreen
 import navigation.Directions
 import navigation.Routes
 
@@ -42,13 +42,13 @@ fun LoginContainerContent(
                 navController = loginContainerNavController,
                 startDestination = startDestination ?: Routes.HomeContainerRoutes.HOME
             ) {
-                composable(route = Directions.LoginGraph.loginScreen) {
+                composable(route = Directions.LoginContainer.loginScreen) {
                     LoginScreen(
                         mainNavController = mainNavController,
                         loginContainerNavController = loginContainerNavController
                     )
                 }
-                composable(route = Directions.LoginGraph.registerScreen) {
+                composable(route = Directions.LoginContainer.registerScreen) {
                     RegisterScreen(
                         mainNavController = mainNavController,
                         loginContainerNavController = loginContainerNavController

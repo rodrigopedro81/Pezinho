@@ -1,4 +1,4 @@
-package com.login.register
+package com.login.screens.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

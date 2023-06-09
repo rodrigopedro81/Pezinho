@@ -1,4 +1,4 @@
-package com.login.register
+package com.login.screens.register
 
 class RegisterEvent {
     enum class TypeEvent {

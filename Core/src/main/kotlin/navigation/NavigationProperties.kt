@@ -29,7 +29,7 @@ object Routes {
 
 sealed class Directions {
 
-    object LoginGraph : Directions() {
+    object LoginContainer : Directions() {
 
         val loginScreen
             get() = Routes.LoginContainerRoutes.LOGIN
