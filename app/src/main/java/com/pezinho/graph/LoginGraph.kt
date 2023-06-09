@@ -1,25 +1,60 @@
 package com.pezinho.graph
 
-import androidx.navigation.NavGraphBuilder
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navigation
+import androidx.navigation.compose.rememberNavController
 import com.login.login.LoginScreen
 import com.login.register.RegisterScreen
-import navigation.Destinations
+import navigation.Directions
 import navigation.Routes
 
-fun NavGraphBuilder.loginGraph(route: String, navController: NavHostController) {
-    navigation(startDestination = Destinations.LOGIN, route = route) {
-        composable(route = Routes.Login.destination) {
-            LoginScreen(
-                navigateTo = { destination -> navController.navigate(destination) }
-            )
-        }
-        composable(route = Routes.Register.destination) {
-            RegisterScreen(
-                navigateTo = { destination -> navController.navigate(destination) }
-            )
+@Composable
+fun LoginContainer(
+    mainNavController: NavHostController,
+    startDestination: String?
+) {
+    LoginContainerContent(
+        mainNavController = mainNavController,
+        startDestination = startDestination
+    )
+}
+
+@Composable
+fun LoginContainerContent(
+    mainNavController: NavHostController,
+    startDestination: String?
+) {
+    val loginContainerNavController = rememberNavController()
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+    ) { padding ->
+        Column(
+            modifier = Modifier.padding(padding),
+        ) {
+            NavHost(
+                navController = loginContainerNavController,
+                startDestination = startDestination ?: Routes.HomeContainerRoutes.HOME
+            ) {
+                composable(route = Directions.LoginGraph.loginScreen) {
+                    LoginScreen(
+                        mainNavController = mainNavController,
+                        loginContainerNavController = loginContainerNavController
+                    )
+                }
+                composable(route = Directions.LoginGraph.registerScreen) {
+                    RegisterScreen(
+                        mainNavController = mainNavController,
+                        loginContainerNavController = loginContainerNavController
+                    )
+                }
+            }
         }
     }
 }

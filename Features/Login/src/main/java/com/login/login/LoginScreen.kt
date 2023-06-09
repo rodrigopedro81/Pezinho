@@ -10,6 +10,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.designsystem.MainEditText
 import com.designsystem.PrimaryMainButton
 import com.designsystem.SecondaryMainButton
@@ -17,16 +19,18 @@ import com.designsystem.SimpleHeader
 import com.designsystem.VerticalSpacer
 import com.designsystem.theme.PezinhoTheme
 import com.entities.AuthResult
-import navigation.Routes
+import navigation.Directions
 
 @Composable
 fun LoginScreen(
-    navigateTo: (String) -> Unit,
+    mainNavController: NavHostController,
+    loginContainerNavController: NavHostController,
     viewModel: LoginScreenViewModel = hiltViewModel()
 ) {
     val loginScreenState = viewModel.state.collectAsStateWithLifecycle()
     LoginScreenContent(
-        navigateTo = navigateTo,
+        mainNavController = mainNavController,
+        loginContainerNavController = loginContainerNavController,
         onTypeEvent = viewModel::onTypeEvent,
         onAuthEvent = viewModel::onAuthEvent,
         state = loginScreenState.value,
@@ -35,10 +39,11 @@ fun LoginScreen(
 
 @Composable
 fun LoginScreenContent(
+    mainNavController: NavHostController,
+    loginContainerNavController: NavHostController,
     onTypeEvent: (LoginEvent.TypeEvent, String) -> Unit,
     onAuthEvent: (LoginEvent.AuthEvent, (AuthResult) -> Unit) -> Unit,
     state: LoginScreenState,
-    navigateTo: (String) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -68,7 +73,7 @@ fun LoginScreenContent(
             onClick = {
                 onAuthEvent.invoke(LoginEvent.AuthEvent.CLICK_LOGIN) { result ->
                     if (result.success) {
-                        navigateTo.invoke(Routes.HomeContainer.destination)
+                        mainNavController.navigate(Directions.HomeContainer.homeScreen)
                     } else {
                         Log.d("Teste", "deu ruim por causa disso -> ${result.error}")
                         // TODO () -> O que fazer caso não logue?
@@ -80,7 +85,7 @@ fun LoginScreenContent(
         )
         VerticalSpacer(dp = 20.dp)
         SecondaryMainButton(
-            onClick = { navigateTo.invoke(Routes.Register.destination) },
+            onClick = { loginContainerNavController.navigate(Directions.LoginGraph.registerScreen) },
             buttonText = "Registrar"
         )
         VerticalSpacer(dp = 20.dp)
@@ -96,7 +101,8 @@ fun LoginScreenPreview() {
             onTypeEvent = { _, _ -> },
             onAuthEvent = { _, _ -> },
             state = LoginScreenState(),
-            navigateTo = {},
+            mainNavController = rememberNavController(),
+            loginContainerNavController = rememberNavController()
         )
     }
 }

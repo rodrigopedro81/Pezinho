@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import com.designsystem.AutoCompleteTextField
 import com.designsystem.MainEditText
 import com.designsystem.PrimaryMainButton
@@ -19,17 +20,19 @@ import com.designsystem.SimpleHeader
 import com.designsystem.VerticalSpacer
 import com.entities.AuthResult
 import com.entities.UserType
-import navigation.Routes
+import navigation.Directions
 import java.lang.Exception
 
 @Composable
 fun RegisterScreen(
-    navigateTo: (String) -> Unit,
+    mainNavController: NavHostController,
+    loginContainerNavController: NavHostController,
     viewModel: RegisterScreenViewModel = hiltViewModel()
 ) {
     val registerScreenState = viewModel.state.collectAsStateWithLifecycle()
     RegisterScreenContent(
-        navigateTo = navigateTo,
+        mainNavController = mainNavController,
+        loginContainerNavController = loginContainerNavController,
         onRegister = viewModel::onRegisterEvent,
         onClickEvent = viewModel::onClickEvent,
         onTypeEvent = viewModel::onTypeEvent,
@@ -39,7 +42,8 @@ fun RegisterScreen(
 
 @Composable
 fun RegisterScreenContent(
-    navigateTo: (String) -> Unit,
+    mainNavController: NavHostController,
+    loginContainerNavController: NavHostController,
     onRegister: ((AuthResult) -> Unit) -> Unit,
     onTypeEvent: (RegisterEvent.TypeEvent, String) -> Unit,
     onClickEvent: (RegisterEvent.ClickEvent) -> Unit,
@@ -49,16 +53,12 @@ fun RegisterScreenContent(
         Column(modifier = Modifier.fillMaxSize()) {
             SimpleHeader(text = "Registrar")
             VerticalSpacer(dp = 50.dp)
-            PrimaryMainButton(
-                buttonText = "Sou Barbeiro",
+            PrimaryMainButton(buttonText = "Sou Barbeiro",
                 isButtonEnabled = true,
-                onClick = { onClickEvent.invoke(RegisterEvent.ClickEvent.CLICK_BARBER) }
-            )
+                onClick = { onClickEvent.invoke(RegisterEvent.ClickEvent.CLICK_BARBER) })
             VerticalSpacer(dp = 16.dp)
-            SecondaryMainButton(
-                buttonText = "Sou Cliente",
-                onClick = { onClickEvent.invoke(RegisterEvent.ClickEvent.CLICK_CLIENT) }
-            )
+            SecondaryMainButton(buttonText = "Sou Cliente",
+                onClick = { onClickEvent.invoke(RegisterEvent.ClickEvent.CLICK_CLIENT) })
         }
     }
     AnimatedVisibility(visible = state.userType != UserType.UNKNOWN) {
@@ -83,16 +83,15 @@ fun RegisterScreenContent(
                     onRegister.invoke() { authResult ->
                         if (authResult.success) {
                             when (state.userType) {
-                                UserType.CLIENT -> navigateTo.invoke(Routes.HomeContainer.destination)
-                                UserType.BARBER -> navigateTo.invoke(Routes.HomeContainer.destination)
+                                UserType.CLIENT -> mainNavController.navigate(Directions.HomeContainer.profileScreen)
+                                UserType.BARBER -> mainNavController.navigate(Directions.HomeContainer.homeScreen)
                                 else -> throw Exception("Invalid User type")
                             }
                         } else {
                             // TODO () -> O que fazer se registrar falhar?
                         }
                     }
-                }
-            )
+                })
             VerticalSpacer(dp = 16.dp)
         }
     }
@@ -116,8 +115,7 @@ fun BarberForm(
 
 @Composable
 fun BasicForm(
-    state: RegisterScreenState,
-    onTypeEvent: (RegisterEvent.TypeEvent, String) -> Unit
+    state: RegisterScreenState, onTypeEvent: (RegisterEvent.TypeEvent, String) -> Unit
 ) {
     MainEditText(
         onTextChange = { onTypeEvent.invoke(RegisterEvent.TypeEvent.UPDATE_NAME, it) },

@@ -9,45 +9,53 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.designsystem.theme.PezinhoTheme
 import com.home.container.bottomNavigation.BottomNavigationBar
 import com.home.screens.home.HomeScreen
+import navigation.Directions
 import navigation.Routes
 
 @Composable
 fun HomeContainer(
-    navigateTo: (String) -> Unit,
-    viewModel: HomeContainerViewModel = hiltViewModel()
+    mainNavController: NavHostController,
+    viewModel: HomeContainerViewModel = hiltViewModel(),
+    startDestination: String?
 ) {
     val homeContainerState = viewModel.uiState.collectAsStateWithLifecycle()
     HomeContainerContent(
-        navigateTo = navigateTo,
-        homeContainerState = homeContainerState.value
+        mainNavController = mainNavController,
+        homeContainerState = homeContainerState.value,
+        startDestination = startDestination
     )
 }
 
 @Composable
 fun HomeContainerContent(
-    navigateTo: (String) -> Unit,
-    homeContainerState: HomeContainerState
+    mainNavController: NavHostController,
+    homeContainerState: HomeContainerState,
+    startDestination: String?
 ) {
-    val navController = rememberNavController()
+    val homeContainerNavController = rememberNavController()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        bottomBar = { BottomNavigationBar(navController) },
+        bottomBar = { BottomNavigationBar(homeContainerNavController) },
     ) { padding ->
         Column(
             modifier = Modifier.padding(padding),
         ) {
             NavHost(
-                navController = navController,
-                startDestination = Routes.Home.destination
+                navController = homeContainerNavController,
+                startDestination = startDestination ?: Routes.HomeContainerRoutes.HOME
             ) {
-                composable(route = Routes.Home.destination) {
+                composable(route = Routes.HomeContainerRoutes.HOME) {
                     HomeScreen()
+                }
+                composable(route = Routes.HomeContainerRoutes.PROFILE) {
+
                 }
             }
         }
@@ -58,10 +66,11 @@ fun HomeContainerContent(
 @Composable
 fun HomeContainerPreview() {
     PezinhoTheme {
-        val navController = rememberNavController()
+        val mainNavController = rememberNavController()
         HomeContainerContent(
-            navigateTo = { navController.navigate(it) },
-            homeContainerState = HomeContainerState()
+            mainNavController = mainNavController,
+            homeContainerState = HomeContainerState(),
+            startDestination = Directions.HomeContainer.homeScreen
         )
     }
 }

@@ -114,23 +114,25 @@ class RegisterScreenViewModel @Inject constructor(
     }
 
     private fun registerBarber(onResult: (AuthResult) -> Unit) {
-        authenticationRepository.registerBarber(
-            getBarber(),
-            state.value.password
-        ) { authResult ->
-            updateIsLoading(false)
-            onResult(authResult)
-        }
+//        authenticationRepository.registerBarber(
+//            getBarber(),
+//            state.value.password
+//        ) { authResult ->
+//            updateIsLoading(false)
+//            onResult(authResult)
+//        }
+        onResult.invoke(AuthResult(true))
     }
 
     private fun registerClient(onResult: (AuthResult) -> Unit) {
-        authenticationRepository.registerClient(
-            getClient(),
-            state.value.password
-        ) { authResult ->
-            updateIsLoading(false)
-            onResult(authResult)
-        }
+//        authenticationRepository.registerClient(
+//            getClient(),
+//            state.value.password
+//        ) { authResult ->
+//            updateIsLoading(false)
+//            onResult(authResult)
+//        }
+        onResult.invoke(AuthResult(true))
     }
 
     private fun getClient(): Client = Client(

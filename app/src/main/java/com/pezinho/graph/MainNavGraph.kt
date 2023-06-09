@@ -2,27 +2,45 @@ package com.pezinho.graph
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.home.container.HomeContainer
+import navigation.Args.START_DESTINATION_ARG
+import navigation.Directions
 import navigation.Routes
 
 @Composable
-fun MainNavGraph(navController: NavHostController) {
+fun MainNavGraph(
+    mainNavController: NavHostController
+) {
     NavHost(
-        navController = navController,
-        startDestination = Routes.LoginGraph.destination
+        navController = mainNavController,
+        startDestination = Routes.ContainerRoutes.LOGIN_CONTAINER
     ) {
-        loginGraph(
-            route = Routes.LoginGraph.destination,
-            navController = navController
-        )
         composable(
-            route = Routes.HomeContainer.destination
+            route = Routes.ContainerRoutes.LOGIN_CONTAINER,
         ) {
+            LoginContainer(
+                mainNavController = mainNavController,
+                startDestination = Routes.LoginContainerRoutes.LOGIN
+            )
+        }
+        composable(
+            route = Routes.ContainerRoutes.HOME_CONTAINER,
+            arguments = listOf(startDestinationArg())
+        ) { backStackEntry ->
             HomeContainer(
-                navigateTo = { destination -> navController.navigate(destination) }
+                mainNavController = mainNavController,
+                startDestination = backStackEntry.arguments?.getString(START_DESTINATION_ARG)
             )
         }
     }
+}
+
+fun startDestinationArg(defaultValue: String? = null) = navArgument(START_DESTINATION_ARG) {
+    type = NavType.StringType
+    nullable = true
+    this.defaultValue = defaultValue
 }

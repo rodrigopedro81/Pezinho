@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             PezinhoTheme {
                 navController = rememberNavController()
-                MainNavGraph(navController = navController)
+                MainNavGraph(mainNavController = navController)
                 RequestPermissions(
                     onResult = { areGranted ->
                         GPSClient.locationPermissionsGranted = areGranted
