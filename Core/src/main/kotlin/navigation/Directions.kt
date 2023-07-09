@@ -1,6 +1,6 @@
 package navigation
 
-import navigation.Directions.Constants.Args.replaceStartDestination
+import navigation.Directions.Args.replaceStartDestination
 
 /**
  * Use this class to navigate to any main container's screen.
@@ -14,6 +14,14 @@ import navigation.Directions.Constants.Args.replaceStartDestination
  *
  */
 sealed class Directions(val container: String) {
+
+    object EntryContainer : Directions(Constants.Containers.ENTRY_CONTAINER) {
+
+        val splashScreen
+            get() = Constants.Containers.ENTRY_CONTAINER.replaceStartDestination(
+                Constants.EntryScreens.SPLASH_SCREEN
+            )
+    }
 
     object LoginContainer : Directions(Constants.Containers.LOGIN_CONTAINER) {
 
@@ -41,15 +49,14 @@ sealed class Directions(val container: String) {
 
     object Constants {
 
-        object Args {
-            const val START_DESTINATION_ARG = "{startDestination}"
-
-            fun String.replaceStartDestination(route: String) = replace(START_DESTINATION_ARG, route)
+        object Containers {
+            const val ENTRY_CONTAINER = "entry_container/${Args.START_DESTINATION_ARG}"
+            const val LOGIN_CONTAINER = "login_graph/${Args.START_DESTINATION_ARG}"
+            const val HOME_CONTAINER = "home_container/${Args.START_DESTINATION_ARG}"
         }
 
-        object Containers {
-            const val HOME_CONTAINER = "home_container/${Args.START_DESTINATION_ARG}"
-            const val LOGIN_CONTAINER = "login_graph/${Args.START_DESTINATION_ARG}"
+        object EntryScreens {
+            const val SPLASH_SCREEN = "splash"
         }
 
         object HomeScreens {
@@ -61,5 +68,11 @@ sealed class Directions(val container: String) {
             const val REGISTER_SCREEN = "register"
             const val LOGIN_SCREEN = "login"
         }
+    }
+
+    object Args {
+        const val START_DESTINATION_ARG = "{startDestination}"
+
+        fun String.replaceStartDestination(route: String) = replace(START_DESTINATION_ARG, route)
     }
 }

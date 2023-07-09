@@ -40,4 +40,5 @@ dependencies {
     implementation ComposeDependencies.material
     implementation ComposeDependencies.preview
     implementation ComposeDependencies.composeUI
+    implementation OtherDependencies.lottie
 }

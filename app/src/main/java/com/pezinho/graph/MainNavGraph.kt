@@ -9,8 +9,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.home.container.HomeContainer
 import com.login.container.LoginContainer
+import com.entry.EntryContainer
 import navigation.Directions
-import navigation.Directions.Constants.Args.START_DESTINATION_ARG
+import navigation.Directions.Args.START_DESTINATION_ARG
 
 @Composable
 fun MainNavGraph(
@@ -18,8 +19,15 @@ fun MainNavGraph(
 ) {
     NavHost(
         navController = mainNavController,
-        startDestination = Directions.LoginContainer.container
+        startDestination = Directions.EntryContainer.container
     ) {
+        composable(
+            route = Directions.EntryContainer.container
+        ) {
+            EntryContainer(
+                mainNavController = mainNavController
+            )
+        }
         composable(
             route = Directions.LoginContainer.container,
             arguments = listOf(startDestinationArg())
