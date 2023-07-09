@@ -17,7 +17,6 @@ import com.designsystem.theme.PezinhoTheme
 import com.home.container.bottomNavigation.BottomNavigationBar
 import com.home.screens.home.HomeScreen
 import navigation.Directions
-import navigation.Routes
 
 @Composable
 fun HomeContainer(
@@ -49,12 +48,12 @@ fun HomeContainerContent(
         ) {
             NavHost(
                 navController = homeContainerNavController,
-                startDestination = startDestination ?: Routes.HomeContainerRoutes.HOME
+                startDestination = startDestination ?: Directions.HomeContainer.homeScreen
             ) {
-                composable(route = Routes.HomeContainerRoutes.HOME) {
+                composable(route = Directions.HomeContainer.homeScreen) {
                     HomeScreen()
                 }
-                composable(route = Routes.HomeContainerRoutes.PROFILE) {
+                composable(route = Directions.HomeContainer.profileScreen) {
 
                 }
             }

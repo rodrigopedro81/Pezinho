@@ -9,15 +9,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.navigation.NavHostController
-import androidx.navigation.Navigator
-import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.rememberNavController
 import com.designsystem.theme.PezinhoTheme
 import com.maps.GPSClient
 import com.pezinho.graph.MainNavGraph
 import com.repositories.authentication.AuthenticationRepository
 import dagger.hilt.android.AndroidEntryPoint
-import navigation.Routes
 import javax.inject.Inject
 
 @AndroidEntryPoint

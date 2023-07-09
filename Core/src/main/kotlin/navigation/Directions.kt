@@ -1,6 +1,6 @@
 package navigation
 
-import navigation.Args.replaceStartDestination
+import navigation.Directions.Constants.Args.replaceStartDestination
 
 /**
  * Use this class to navigate to any main container's screen.
@@ -12,32 +12,54 @@ import navigation.Args.replaceStartDestination
  *    * mainNavController.navigate(Directions.LoginContainer.loginScreen)
  *    * mainNavController.navigate(Directions.HomeContainer.loginScreen)
  *
- * @see Routes
- * @see Args
  */
-sealed class Directions {
+sealed class Directions(val container: String) {
 
-    object LoginContainer : Directions() {
+    object LoginContainer : Directions(Constants.Containers.LOGIN_CONTAINER) {
 
         val loginScreen
-            get() = Routes.ContainerRoutes.LOGIN_CONTAINER.replaceStartDestination(
-                Routes.LoginContainerRoutes.LOGIN
+            get() = Constants.Containers.LOGIN_CONTAINER.replaceStartDestination(
+                Constants.LoginScreens.LOGIN_SCREEN
             )
         val registerScreen
-            get() = Routes.ContainerRoutes.LOGIN_CONTAINER.replaceStartDestination(
-                Routes.LoginContainerRoutes.REGISTER
+            get() = Constants.Containers.LOGIN_CONTAINER.replaceStartDestination(
+                Constants.LoginScreens.REGISTER_SCREEN
             )
     }
 
-    object HomeContainer : Directions() {
+    object HomeContainer : Directions(Constants.Containers.HOME_CONTAINER) {
 
         val homeScreen
-            get() = Routes.ContainerRoutes.HOME_CONTAINER.replaceStartDestination(
-                Routes.HomeContainerRoutes.HOME
+            get() = Constants.Containers.HOME_CONTAINER.replaceStartDestination(
+                Constants.HomeScreens.HOME_SCREEN
             )
         val profileScreen
-            get() = Routes.ContainerRoutes.HOME_CONTAINER.replaceStartDestination(
-                Routes.HomeContainerRoutes.PROFILE
+            get() = Constants.Containers.HOME_CONTAINER.replaceStartDestination(
+                Constants.HomeScreens.PROFILE_SCREEN
             )
+    }
+
+    object Constants {
+
+        object Args {
+            const val START_DESTINATION_ARG = "{startDestination}"
+
+            fun String.replaceStartDestination(route: String) = replace(START_DESTINATION_ARG, route)
+        }
+
+        object Containers {
+            const val HOME_CONTAINER = "home_container/${Args.START_DESTINATION_ARG}"
+            const val LOGIN_CONTAINER = "login_graph/${Args.START_DESTINATION_ARG}"
+        }
+
+        object HomeScreens {
+            const val PROFILE_SCREEN = "profile"
+            const val HOME_SCREEN = "home"
+        }
+
+        object LoginScreens {
+            const val REGISTER_SCREEN = "register"
+            const val LOGIN_SCREEN = "login"
+        }
     }
 }

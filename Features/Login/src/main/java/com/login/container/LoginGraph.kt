@@ -13,7 +13,6 @@ import androidx.navigation.compose.rememberNavController
 import com.login.screens.login.LoginScreen
 import com.login.screens.register.RegisterScreen
 import navigation.Directions
-import navigation.Routes
 
 @Composable
 fun LoginContainer(
@@ -22,14 +21,14 @@ fun LoginContainer(
 ) {
     LoginContainerContent(
         mainNavController = mainNavController,
-        startDestination = startDestination
+        startDestination = startDestination ?: Directions.LoginContainer.loginScreen
     )
 }
 
 @Composable
 fun LoginContainerContent(
     mainNavController: NavHostController,
-    startDestination: String?
+    startDestination: String
 ) {
     val loginContainerNavController = rememberNavController()
     Scaffold(
@@ -40,7 +39,7 @@ fun LoginContainerContent(
         ) {
             NavHost(
                 navController = loginContainerNavController,
-                startDestination = startDestination ?: Routes.LoginContainerRoutes.LOGIN
+                startDestination = startDestination
             ) {
                 composable(route = Directions.LoginContainer.loginScreen) {
                     LoginScreen(
