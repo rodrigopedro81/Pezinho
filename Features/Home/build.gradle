@@ -46,6 +46,7 @@ dependencies {
     implementation ComposeDependencies.composeUI
     implementation DaggerDependencies.dagger
     implementation DaggerDependencies.hiltNavigation
+    kapt DaggerDependencies.kaptCompiler
     implementation project(path: ':Core')
     implementation project(path: ':Core:Entities')
     implementation(project(":Core:Repositories"))

@@ -1,5 +1,6 @@
 object Versions {
     const val compose = "1.3.3"
+    const val lottieCompose = "6.0.1"
     const val composeTooling = "1.3.3"
     const val activityCompose = "1.6.1"
     const val composeMaterial = "1.3.1"

@@ -13,7 +13,11 @@ import Versions.hiltNavigationCompose
 import Versions.jUnit
 import Versions.leakCanaryVersion
 import Versions.navigation
+import Versions.lottieCompose
 
+object OtherDependencies {
+    const val lottie = "com.airbnb.android:lottie-compose:$lottieCompose"
+}
 
 object AndroidXDependencies {
     const val core: String = "androidx.core:core-ktx:$androidXCore"
