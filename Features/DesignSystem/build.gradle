@@ -37,7 +37,7 @@ android {
 }
 
 dependencies {
-
-    implementation composeUIDependencies.values()
-    debugImplementation debugDependencies.values()
+    implementation ComposeDependencies.material
+    implementation ComposeDependencies.preview
+    implementation ComposeDependencies.composeUI
 }

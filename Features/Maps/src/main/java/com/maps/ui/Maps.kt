@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.designsystem.NoPreviewComponent
 import com.entities.MarkerInfo
 import com.maps.GPSClient
@@ -21,6 +20,8 @@ import com.maps.utils.moveCameraTo
 import com.maps.utils.placeMarkers
 import com.maps.utils.removeMarkers
 import com.maps.utils.then
+import org.osmdroid.config.Configuration
+import org.osmdroid.library.BuildConfig
 
 @Composable
 fun Maps(
@@ -49,7 +50,7 @@ private fun List<Pair<Double, Double>>.getMarkers(): List<MarkerInfo> {
             lng = it.second,
             title = "Barbeiro",
             snippet = "Barbeiro",
-            icon = R.drawable.ic_baseline_location_on_24
+            icon = R.drawable.salon
         )
     }
 }
@@ -61,6 +62,7 @@ private fun MapsContent(
     markers: List<MarkerInfo>,
 ) {
     NoPreviewComponent(modifier) {
+        Configuration.getInstance().userAgentValue = BuildConfig.LIBRARY_PACKAGE_NAME
         AndroidView(
             modifier = modifier,
             factory = { context ->
@@ -71,9 +73,9 @@ private fun MapsContent(
             },
             update = { map ->
                 map.run {
-                    moveCameraTo(currentLocation)
                     removeMarkers()
                     placeMarkers(markers)
+                    moveCameraTo(currentLocation)
                 }
             }
         )

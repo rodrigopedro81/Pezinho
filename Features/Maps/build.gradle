@@ -39,16 +39,13 @@ android {
 
 dependencies {
 
-    implementation 'androidx.preference:preference:1.2.0'
-    implementation 'org.osmdroid:osmdroid-android:6.1.13'
-    implementation composeUIDependencies.values()
-    implementation debugDependencies.values()
-    implementation androidX.values()
-    implementation dagger.values()
-    implementation locationServices.values()
+    implementation ComposeDependencies.composeUI
+    implementation ComposeDependencies.material
+    implementation ComposeDependencies.preview
+    implementation LocationServicesDependencies.locationService
+    implementation LocationServicesDependencies.osmdroid
     implementation project(path: ':Core:Repositories')
-    implementation project(path: ':Features:Network')
-    kapt daggerCompiler.values()
     implementation project(path: ':Core:Entities')
-    implementation(project(":Features:DesignSystem"))
+    implementation project(path: ':Features:Network')
+    implementation(project(path: ':Features:DesignSystem'))
 }

@@ -33,6 +33,6 @@ android {
 dependencies {
     implementation(project(path:':Core:Repositories'))
     implementation(project(path:':Core:Entities'))
-    implementation(firebaseAuth.auth)
-    implementation(firebaseFirestore.firestore)
+    implementation('com.google.firebase:firebase-auth-ktx:22.0.0')
+    implementation('com.google.firebase:firebase-firestore-ktx:24.6.1')
 }

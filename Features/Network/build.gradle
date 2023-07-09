@@ -32,7 +32,8 @@ android {
 
 dependencies {
 
-    implementation retrofit.values()
+    implementation RetrofitDependencies.retrofit
+    implementation RetrofitDependencies.gsonConverter
     implementation project(path: ':Core:Entities')
     implementation project(path: ':Core:Repositories')
 }

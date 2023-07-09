@@ -32,6 +32,6 @@ android {
 
 dependencies {
     implementation(project(path:':Core:Entities'))
-    implementation(firebaseFirestore.firestore)
+    implementation('com.google.firebase:firebase-firestore-ktx:24.6.1')
     implementation project(path: ':Core:Repositories')
 }

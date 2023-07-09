@@ -39,13 +39,14 @@ android {
 
 dependencies {
 
-    implementation composeUIDependencies.values()
-    implementation debugDependencies.values()
-    implementation androidX.values()
-    implementation dagger.values()
+    implementation DaggerDependencies.dagger
+    implementation DaggerDependencies.hiltNavigation
+    implementation ComposeDependencies.composeUI
+    implementation ComposeDependencies.material
+    implementation ComposeDependencies.preview
+    implementation ComposeDependencies.lifecycleCompose
     implementation project(path: ':Core')
     implementation project(path: ':Core:Entities')
-    kapt daggerCompiler.values()
     implementation(project(":Core:Repositories"))
     implementation(project(":Features:DesignSystem"))
 }
