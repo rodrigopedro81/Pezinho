@@ -57,7 +57,7 @@ dependencies {
     implementation ComposeDependencies.navigationCompose
     implementation ComposeDependencies.material
     implementation RetrofitDependencies.retrofit
-    implementation FirebaseDependencies.bom
+    implementation platform(FirebaseDependencies.bom)
     implementation FirebaseDependencies.firestore
     implementation DaggerDependencies.dagger
     implementation DaggerDependencies.hiltNavigation
