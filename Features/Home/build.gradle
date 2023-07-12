@@ -47,6 +47,9 @@ dependencies {
     implementation DaggerDependencies.dagger
     implementation DaggerDependencies.hiltNavigation
     kapt DaggerDependencies.kaptCompiler
+    debugImplementation DebugDependencies.uiTooling
+    debugImplementation DebugDependencies.uiTestManifest
+    debugImplementation DebugDependencies.leakCanary
     implementation project(path: ':Core')
     implementation project(path: ':Core:Entities')
     implementation(project(":Core:Repositories"))
