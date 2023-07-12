@@ -16,7 +16,8 @@ import com.designsystem.theme.PezinhoTheme
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
     val items = listOf(
-        BottomNavigationItems.Home
+        BottomNavigationItems.Home,
+        BottomNavigationItems.Profile
     )
     BottomNavigation {
         val backStackEntry by navController.currentBackStackEntryAsState()

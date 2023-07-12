@@ -1,5 +1,6 @@
 package com.home.screens.home
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.BottomSheetScaffold
@@ -9,6 +10,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -67,16 +69,18 @@ fun MainBottomSheet(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight(0.5f),
-        backgroundColor = Color.LightGray
+        backgroundColor = Color.LightGray,
     ) {
-        AutoCompleteTextField(
-            modifier = Modifier.fillMaxWidth(0.8f),
-            text = state.address,
-            isTextValid = state.isAddressValid,
-            autoCompletePredictions = state.autoCompletePredictions.map { it.formattedAddress },
-            onSelect = { onTypeEvent(HomeScreenEvent.TypeEvent.SELECT_ADDRESS, it) },
-            onSearch = { onTypeEvent(HomeScreenEvent.TypeEvent.NEW_SEARCH, it) }
-        )
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            AutoCompleteTextField(
+                modifier = Modifier.fillMaxWidth(0.8f),
+                text = state.address,
+                isTextValid = state.isAddressValid,
+                autoCompletePredictions = state.autoCompletePredictions.map { it.formattedAddress },
+                onSelect = { onTypeEvent(HomeScreenEvent.TypeEvent.SELECT_ADDRESS, it) },
+                onSearch = { onTypeEvent(HomeScreenEvent.TypeEvent.NEW_SEARCH, it) }
+            )
+        }
     }
 }
 

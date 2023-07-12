@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.designsystem.theme.PezinhoTheme
 import com.home.container.bottomNavigation.BottomNavigationBar
 import com.home.screens.home.HomeScreen
+import com.home.screens.profile.ProfileScreen
 import navigation.Directions
 
 @Composable
@@ -54,7 +55,7 @@ fun HomeContainerContent(
                     HomeScreen()
                 }
                 composable(route = Directions.HomeContainer.profileScreen) {
-
+                    ProfileScreen()
                 }
             }
         }
