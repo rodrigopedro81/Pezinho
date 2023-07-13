@@ -12,14 +12,14 @@ class FirestoreRepositoryImpl : FirestoreRepository {
     private val databaseInstance: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     override fun createBarberInDatabase(barber: Barber) {
-        databaseInstance.run {
-            collection(USERS_COLLECTION)
-                .document(barber.email)
-                .set(User.getUser(barber))
-            collection(BARBERS_COLLECTION)
-                .document(barber.email)
-                .set(barber)
-        }
+//        databaseInstance.run {
+//            collection(USERS_COLLECTION)
+//                .document(barber.email)
+//                .set(User.getUser(barber))
+//            collection(BARBERS_COLLECTION)
+//                .document(barber.email)
+//                .set(barber)
+//        }
     }
 
     override fun createClientInDatabase(client: Client) {
@@ -32,20 +32,39 @@ class FirestoreRepositoryImpl : FirestoreRepository {
         onResult: (List<Barber>) -> Unit,
         onError: (Exception) -> Unit
     ) {
-        databaseInstance.collection(BARBERS_COLLECTION).get()
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    val documents = it.result.documents.filterNotNull()
-                    if (documents.isEmpty()) return@addOnCompleteListener
-                    val barbers = documents.mapNotNull { document ->
-                        document.toObject(Barber::class.java)
-                    }
-                    onResult.invoke(barbers)
-                } else {
-                    onError.invoke(it.exception ?: Exception("Unknown error"))
-                }
-            }
+//        databaseInstance.collection(BARBERS_COLLECTION).get()
+//            .addOnCompleteListener {
+//                if (it.isSuccessful) {
+//                    val documents = it.result.documents.filterNotNull()
+//                    if (documents.isEmpty()) return@addOnCompleteListener
+//                    val barbers = documents.mapNotNull { document ->
+//                        document.toObject(Barber::class.java)
+//                    }
+//                    onResult.invoke(barbers)
+//                } else {
+//                    onError.invoke(it.exception ?: Exception("Unknown error"))
+//                }
+//            }
+        onResult.invoke(getMockedBarbers())
     }
+
+    private fun getMockedBarbers() = listOf<Barber>(
+        Barber(
+            id = 1,
+            name = "Barber 1",
+            email = "",
+        ),
+        Barber(
+            id = 2,
+            name = "Barber 2",
+            email = "",
+        ),
+        Barber(
+            id = 3,
+            name = "Barber 3",
+            email = "",
+        ),
+    )
 
     companion object {
         private const val USERS_COLLECTION = "users"

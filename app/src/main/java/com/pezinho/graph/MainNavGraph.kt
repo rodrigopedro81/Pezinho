@@ -19,7 +19,7 @@ fun MainNavGraph(
 ) {
     NavHost(
         navController = mainNavController,
-        startDestination = Directions.EntryContainer.container
+        startDestination = Directions.HomeContainer.container
     ) {
         composable(
             route = Directions.EntryContainer.container

@@ -1,7 +1,7 @@
 object Versions {
-    const val compose = "1.3.3"
+    const val compose = "1.4.3"
     const val lottieCompose = "6.0.1"
-    const val composeTooling = "1.3.3"
+    const val composeTooling = "1.4.2"
     const val activityCompose = "1.6.1"
     const val composeMaterial = "1.3.1"
     const val androidXJunit = "1.1.5"
@@ -14,5 +14,5 @@ object Versions {
     const val composeUITest = "1.3.3"
     const val daggerHilt = "2.44"
     const val hiltNavigationCompose = "1.0.0"
-    const val composeLifecycle = "2.6.0-alpha05"
+    const val composeLifecycle = "2.6.1"
 }

@@ -135,21 +135,6 @@ class RegisterScreenViewModel @Inject constructor(
         onResult.invoke(AuthResult(true))
     }
 
-    private fun getClient(): Client = Client(
-        name = state.value.name,
-        email = state.value.email,
-        phone = state.value.phone
-    )
-
-    private fun getBarber(): Barber = Barber(
-        name = state.value.name,
-        email = state.value.email,
-        phone = state.value.phone,
-        address = state.value.address,
-        latitude = state.value.latitude,
-        longitude = state.value.longitude
-    )
-
     private fun updateIsLoading(isLoading: Boolean) {
         _state.update { currentState ->
             return@update currentState.copy(isLoading = isLoading)
