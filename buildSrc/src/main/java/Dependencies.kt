@@ -47,8 +47,8 @@ object DaggerDependencies {
 object DebugDependencies {
     const val uiTooling: String = "androidx.compose.ui:ui-tooling:$composeTooling"
     const val uiTestManifest: String = "androidx.compose.ui:ui-test-manifest:$composeTooling"
-    const val customView = "androidx.customview:customview:1.2.0-alpha01"
-    const val poolingContainer = "androidx.customview:customview-poolingcontainer:1.0.0"
+    const val customView = "androidx.customview:customview:1.1.0"
+    const val poolingContainer = "androidx.customview:customview-poolingcontainer:1.1.0"
     const val leakCanary: String =
         "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
 }

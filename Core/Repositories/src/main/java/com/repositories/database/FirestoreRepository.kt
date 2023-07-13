@@ -1,8 +1,8 @@
 package com.repositories.database
 
 import com.entities.Barber
+import com.entities.BarberShop
 import com.entities.Client
-import com.entities.User
 
 interface FirestoreRepository {
 
@@ -10,8 +10,8 @@ interface FirestoreRepository {
 
     fun createClientInDatabase(client: Client)
 
-    fun getBarbers(
-        onResult: (List<Barber>) -> Unit,
+    fun getBarberShops(
+        onResult: (List<BarberShop>) -> Unit,
         onError: (Exception) -> Unit = {}
     )
 }

@@ -33,6 +33,7 @@ import com.designsystem.MainButtonPreview
 import com.designsystem.PrimaryMainButton
 import com.entities.AutoComplete
 import com.entities.Barber
+import com.entities.BarberShop
 import com.maps.GPSClient
 
 @Composable
@@ -64,7 +65,6 @@ fun HomeScreenContent(
                 buttonText = "Autônomos",
                 isButtonEnabled = true,
             ) {
-
             }
             HorizontalSpacer(dp = 16.dp)
             PrimaryMainButton(
@@ -72,14 +72,13 @@ fun HomeScreenContent(
                 buttonText = "Barbearias",
                 isButtonEnabled = true
             ) {
-
             }
         }
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
             content = {
-                itemsIndexed(state.barbers) { index, barber ->
-                    BarberCard(barber = barber, onTypeEvent = onTypeEvent)
+                itemsIndexed(state.barberShops) { index, barberShop ->
+                    BarberCard(barberShop = barberShop, onTypeEvent = onTypeEvent)
                 }
             },
         )
@@ -88,7 +87,7 @@ fun HomeScreenContent(
 
 @Composable
 fun BarberCard(
-    barber: Barber,
+    barberShop: BarberShop,
     onTypeEvent: (HomeScreenEvent.TypeEvent, String) -> Unit
 ) {
     Card(
@@ -105,6 +104,7 @@ fun BarberCard(
 
             verticalAlignment = Alignment.CenterVertically
         ) {
+
             Box(
                 modifier = Modifier
                     .size(64.dp)
@@ -113,21 +113,22 @@ fun BarberCard(
                 
             }
             HorizontalSpacer(dp = 24.dp)
+
             Column(
                 modifier = Modifier.fillMaxHeight()
             ) {
-                Text(text = barber.name, style = TextStyle(fontSize = 24.sp))
+                Text(text = barberShop.title, style = TextStyle(fontSize = 24.sp))
             }
         }
     }
 }
 
-@Preview
+@Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun HomeScreenPreview() {
     val state = HomeScreenState(
         isLoading = false,
-        barbers = getMockedBarbers(),
+        barberShops = getMockedBarberShops(),
         error = "",
         autoCompletePredictions = listOf(),
         address = "",
@@ -138,20 +139,14 @@ fun HomeScreenPreview() {
     )
 }
 
-private fun getMockedBarbers() = listOf(
-    Barber(
-        id = 1,
-        name = "Barber 1",
-        email = "",
+private fun getMockedBarberShops() = listOf(
+    BarberShop(
+        title = "Barbearia 1",
     ),
-    Barber(
-        id = 2,
-        name = "Barber 2",
-        email = "",
+    BarberShop(
+        title = "Barbearia 2",
     ),
-    Barber(
-        id = 3,
-        name = "Barber 3",
-        email = "",
+    BarberShop(
+        title = "Barbearia 3",
     ),
 )

@@ -48,8 +48,6 @@ dependencies {
     implementation DaggerDependencies.hiltNavigation
     kapt DaggerDependencies.kaptCompiler
     debugImplementation DebugDependencies.uiTooling
-    debugImplementation DebugDependencies.customView
-    debugImplementation DebugDependencies.poolingContainer
     debugImplementation DebugDependencies.uiTestManifest
     debugImplementation DebugDependencies.leakCanary
     implementation project(path: ':Core')

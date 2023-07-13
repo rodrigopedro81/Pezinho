@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.entities.AutoComplete
 import com.entities.Barber
+import com.entities.BarberShop
 import com.repositories.database.FirestoreRepository
 import com.repositories.network.GeoCodingRepository
 import commons.shouldSearchCompletions
@@ -25,7 +26,7 @@ data class HomeScreenState(
     val autoCompletePredictions: List<AutoComplete> = emptyList(),
     val address: String = "",
     val isAddressValid: Boolean = false,
-    val barbers: List<Barber> = emptyList(),
+    val barberShops: List<BarberShop> = emptyList(),
 )
 
 class HomeScreenEvent {
@@ -51,9 +52,9 @@ class HomeScreenViewModel @Inject constructor(
 
     private fun getBarbers() {
         startScreenLoading()
-        firestoreRepository.getBarbers(
-            onResult = { barbers ->
-                _state.update { it.copy(barbers = barbers) }
+        firestoreRepository.getBarberShops(
+            onResult = { barberShops ->
+                _state.update { it.copy(barberShops = barberShops) }
                 stopScreenLoading()
             },
         )

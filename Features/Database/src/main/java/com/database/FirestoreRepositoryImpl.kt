@@ -1,6 +1,7 @@
 package com.database
 
 import com.entities.Barber
+import com.entities.BarberShop
 import com.entities.Client
 import com.entities.User
 import com.entities.UserType
@@ -28,8 +29,8 @@ class FirestoreRepositoryImpl : FirestoreRepository {
 //            .set(user)
     }
 
-    override fun getBarbers(
-        onResult: (List<Barber>) -> Unit,
+    override fun getBarberShops(
+        onResult: (List<BarberShop>) -> Unit,
         onError: (Exception) -> Unit
     ) {
 //        databaseInstance.collection(BARBERS_COLLECTION).get()
@@ -45,24 +46,18 @@ class FirestoreRepositoryImpl : FirestoreRepository {
 //                    onError.invoke(it.exception ?: Exception("Unknown error"))
 //                }
 //            }
-        onResult.invoke(getMockedBarbers())
+        onResult.invoke(getMockedBarberShops())
     }
 
-    private fun getMockedBarbers() = listOf<Barber>(
-        Barber(
-            id = 1,
-            name = "Barber 1",
-            email = "",
+    private fun getMockedBarberShops() = listOf<BarberShop>(
+        BarberShop(
+            title = "Barber Shop 1",
         ),
-        Barber(
-            id = 2,
-            name = "Barber 2",
-            email = "",
+        BarberShop(
+            title = "Barber Shop 2",
         ),
-        Barber(
-            id = 3,
-            name = "Barber 3",
-            email = "",
+        BarberShop(
+            title = "Barber Shop 3",
         ),
     )
 
