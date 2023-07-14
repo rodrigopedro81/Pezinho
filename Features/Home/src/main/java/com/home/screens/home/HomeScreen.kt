@@ -13,83 +13,87 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.designsystem.AutoCompleteTextField
 import com.designsystem.HorizontalSpacer
-import com.designsystem.MainButtonPreview
 import com.designsystem.PrimaryMainButton
-import com.entities.AutoComplete
-import com.entities.Barber
 import com.entities.BarberShop
-import com.maps.GPSClient
 
 @Composable
 fun HomeScreen(viewModel: HomeScreenViewModel = hiltViewModel()) {
     val state = viewModel.state.collectAsStateWithLifecycle()
     HomeScreenContent(
         state = state.value,
-        onTypeEvent = viewModel::onTypeEvent
+        onClickEvent = viewModel::onClickEvent
     )
 }
 
 @Composable
 fun HomeScreenContent(
     state: HomeScreenState,
-    onTypeEvent: (HomeScreenEvent.TypeEvent, String) -> Unit = { _, _ -> }
+    onClickEvent: (HomeScreenEvent.ClickEvent, BarberShop) -> Unit = { _, _ -> }
 ) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(96.dp)
                 .padding(16.dp)
-                .background(Color.LightGray)
+                .background(Color.LightGray),
         ) {
-            PrimaryMainButton(
-                modifier = Modifier.weight(1f).fillMaxHeight(),
-                buttonText = "Autônomos",
-                isButtonEnabled = true,
-            ) {
-            }
-            HorizontalSpacer(dp = 16.dp)
-            PrimaryMainButton(
-                modifier = Modifier.weight(1f).fillMaxHeight(),
-                buttonText = "Barbearias",
-                isButtonEnabled = true
-            ) {
-            }
+
         }
         LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(1f),
             content = {
                 itemsIndexed(state.barberShops) { index, barberShop ->
-                    BarberCard(barberShop = barberShop, onTypeEvent = onTypeEvent)
+                    BarberCard(barberShop = barberShop, onClickEvent = onClickEvent)
                 }
             },
         )
     }
 }
 
+//Button(
+//onClick = { /* Do something */ },
+//// Assign reference "button" to the Button composable
+//// and constrain it to the top of the ConstraintLayout
+//modifier = Modifier.constrainAs(button) {
+//    top.linkTo(parent.top, margin = 16.dp)
+//}
+//) {
+//    Text("Button")
+//}
+//
+//// Assign reference "text" to the Text composable
+//// and constrain it to the bottom of the Button composable
+//Text(
+//"Text",
+//Modifier.constrainAs(text) {
+//    top.linkTo(button.bottom, margin = 16.dp)
+//}
+//)
+
 @Composable
 fun BarberCard(
     barberShop: BarberShop,
-    onTypeEvent: (HomeScreenEvent.TypeEvent, String) -> Unit
+    onClickEvent: (HomeScreenEvent.ClickEvent, BarberShop) -> Unit
 ) {
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -97,56 +101,87 @@ fun BarberCard(
             .padding(16.dp),
         backgroundColor = Color.White,
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 16.dp, top = 12.dp, bottom = 12.dp, end = 16.dp),
-
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
+        ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+            val (picture, title, snippet, distance) = createRefs()
             Box(
                 modifier = Modifier
                     .size(64.dp)
                     .background(Color.Red, CircleShape)
-            ) {
-                
-            }
-            HorizontalSpacer(dp = 24.dp)
-
-            Column(
-                modifier = Modifier.fillMaxHeight()
-            ) {
-                Text(text = barberShop.title, style = TextStyle(fontSize = 24.sp))
-            }
+                    .constrainAs(picture) {
+                        start.linkTo(parent.start, 12.dp)
+                        top.linkTo(parent.top, 12.dp)
+                        bottom.linkTo(parent.bottom, 12.dp)
+                    },
+            )
+            Text(
+                text = barberShop.title,
+                style = TextStyle(fontSize = 24.sp),
+                modifier = Modifier.constrainAs(title) {
+                    top.linkTo(picture.top)
+                    start.linkTo(picture.end, margin = 16.dp)
+                }
+            )
+            Text(
+                text = barberShop.snippet,
+                style = TextStyle(fontSize = 14.sp),
+                modifier = Modifier.constrainAs(snippet) {
+                    start.linkTo(title.start)
+                    top.linkTo(title.bottom, margin = 8.dp)
+                }
+            )
+            Text(
+                text = "0.3km",
+                style = TextStyle(fontSize = 12.sp),
+                modifier = Modifier.constrainAs(distance) {
+                    end.linkTo(parent.end, margin = 24.dp)
+                    top.linkTo(parent.top, margin = 24.dp)
+                }
+            )
         }
     }
 }
 
-@Preview(showSystemUi = true, showBackground = true)
+@Preview
 @Composable
 fun HomeScreenPreview() {
     val state = HomeScreenState(
         isLoading = false,
         barberShops = getMockedBarberShops(),
         error = "",
-        autoCompletePredictions = listOf(),
-        address = "",
-        isAddressValid = true
+        selectedBarberShop = null
     )
     HomeScreenContent(
-        state = state
+        state = state,
+        onClickEvent = { _, _ -> }
     )
 }
 
-private fun getMockedBarberShops() = listOf(
+fun getMockedBarberShops() = listOf(
     BarberShop(
         title = "Barbearia 1",
+        address = "",
+        snippet = "Pra quem sabe o que quer!",
+        latitude = 0.0,
+        longitude = 0.0,
+        barbers = listOf(),
+        services = listOf()
     ),
     BarberShop(
         title = "Barbearia 2",
+        address = "",
+        snippet = "A melhor barbearia do engenho!",
+        latitude = 0.0,
+        longitude = 0.0,
+        barbers = listOf(),
+        services = listOf()
     ),
     BarberShop(
         title = "Barbearia 3",
+        address = "",
+        snippet = "Especializados em cortes masculinos",
+        latitude = 0.0,
+        longitude = 0.0,
+        barbers = listOf(),
+        services = listOf()
     ),
 )

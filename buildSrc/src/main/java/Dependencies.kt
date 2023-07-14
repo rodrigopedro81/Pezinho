@@ -1,18 +1,14 @@
 import Versions.activityCompose
 import Versions.androidXCore
-import Versions.androidXJunit
 import Versions.androidXLifecycle
 import Versions.compose
+import Versions.composeConstraintLayout
 import Versions.composeLifecycle
 import Versions.composeMaterial
 import Versions.composeTooling
-import Versions.composeUITest
 import Versions.daggerHilt
-import Versions.espresso
 import Versions.hiltNavigationCompose
-import Versions.jUnit
 import Versions.leakCanaryVersion
-import Versions.navigation
 import Versions.lottieCompose
 
 object OtherDependencies {
@@ -34,7 +30,8 @@ object ComposeDependencies {
     const val lifecycleCompose: String =
         "androidx.lifecycle:lifecycle-runtime-compose:$composeLifecycle"
     const val composeUI: String = "androidx.compose.ui:ui:$compose"
-    const val navigationCompose: String = "androidx.navigation:navigation-compose:$navigation"
+    const val constraintLayout: String =
+        "androidx.constraintlayout:constraintlayout-compose:$composeConstraintLayout"
 }
 
 object DaggerDependencies {
@@ -46,18 +43,8 @@ object DaggerDependencies {
 
 object DebugDependencies {
     const val uiTooling: String = "androidx.compose.ui:ui-tooling:$composeTooling"
-    const val uiTestManifest: String = "androidx.compose.ui:ui-test-manifest:$composeTooling"
-    const val customView = "androidx.customview:customview:1.1.0"
-    const val poolingContainer = "androidx.customview:customview-poolingcontainer:1.1.0"
     const val leakCanary: String =
         "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
-}
-
-object TestDependencies {
-    const val junit: String = "junit:junit:$jUnit"
-    const val junitExt: String = "androidx.test.ext:junit:$androidXJunit"
-    const val espressoCore: String = "androidx.test.espresso:espresso-core:$espresso"
-    const val composeUI: String = "androidx.compose.ui:ui-test-junit4:$composeUITest"
 }
 
 object FirebaseDependencies {
@@ -74,5 +61,5 @@ object RetrofitDependencies {
 
 object LocationServicesDependencies {
     const val locationService: String = "com.google.android.gms:play-services-location:21.0.1"
-    const val osmdroid : String = "org.osmdroid:osmdroid-android:6.1.16"
+    const val osmdroid: String = "org.osmdroid:osmdroid-android:6.1.16"
 }

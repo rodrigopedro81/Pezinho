@@ -12,9 +12,26 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
+private val String.withoutBlank: String
+    get() = replace(" ", "")
+
+private fun shouldSearchCompletions(search: String): Boolean =
+    with(search.withoutBlank) {
+        when {
+            length < 5 -> false
+            lowercase().contains("rua") && length < 7 -> false
+            lowercase().contains("avenida") && length < 10 -> false
+            else -> true
+        }
+    }
 
 @Composable
 fun AutoCompleteTextField(
@@ -63,3 +80,17 @@ fun AutoCompleteTextField(
         )
     }
 }
+
+//TODO () -> Esse composable deveria ser responsável pelo próprio carregamento das sugestões?
+//private var job: Job? = null
+//job?.cancel()
+//clearAutoCompletePredictions()
+//if (shouldSearchCompletions(search)) {
+//    job = viewModelScope.launch {
+//        delay(1000)
+//        val autoCompleteList = geoCodingRepository.getAutoCompletes(search)
+//        _state.update {
+//            it.copy(autoCompletePredictions = autoCompleteList)
+//        }
+//    }
+//}

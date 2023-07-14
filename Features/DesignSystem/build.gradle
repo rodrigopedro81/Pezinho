@@ -41,6 +41,5 @@ dependencies {
     implementation ComposeDependencies.preview
     implementation ComposeDependencies.composeUI
     debugImplementation DebugDependencies.uiTooling
-    debugImplementation DebugDependencies.uiTestManifest
     implementation OtherDependencies.lottie
 }

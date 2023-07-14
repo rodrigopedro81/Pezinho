@@ -54,7 +54,6 @@ dependencies {
     implementation ComposeDependencies.activity
     implementation ComposeDependencies.composeUI
     implementation ComposeDependencies.lifecycleCompose
-    implementation ComposeDependencies.navigationCompose
     implementation ComposeDependencies.material
     implementation RetrofitDependencies.retrofit
     implementation platform(FirebaseDependencies.bom)

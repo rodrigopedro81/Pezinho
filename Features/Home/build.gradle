@@ -39,17 +39,14 @@ android {
 
 dependencies {
 
-    implementation ComposeDependencies.lifecycleCompose
+    implementation ComposeDependencies.composeUI
     implementation ComposeDependencies.material
     implementation ComposeDependencies.preview
-    implementation ComposeDependencies.navigationCompose
-    implementation ComposeDependencies.composeUI
+    implementation ComposeDependencies.lifecycleCompose
+    implementation ComposeDependencies.constraintLayout
     implementation DaggerDependencies.dagger
     implementation DaggerDependencies.hiltNavigation
     kapt DaggerDependencies.kaptCompiler
-    debugImplementation DebugDependencies.uiTooling
-    debugImplementation DebugDependencies.uiTestManifest
-    debugImplementation DebugDependencies.leakCanary
     implementation project(path: ':Core')
     implementation project(path: ':Core:Entities')
     implementation(project(":Core:Repositories"))
