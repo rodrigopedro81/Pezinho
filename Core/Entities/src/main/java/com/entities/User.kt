@@ -1,5 +1,7 @@
 package com.entities
 
+import java.io.Serializable
+
 abstract class User() {
     abstract val id: Long
     abstract val name: String
@@ -29,7 +31,7 @@ data class BarberShop(
     val longitude: Double = 0.0,
     val barbers: List<Barber> = listOf(),
     val services: List<AvailableService> = listOf()
-)
+): Serializable
 
 class AvailableService(
     val id: Long,

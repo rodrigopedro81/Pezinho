@@ -7,7 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.designsystem.LoadingAnimation
-import navigation.Directions
+import com.navigation.Directions
+import com.navigation.navigateToLoginScreen
 
 
 @Composable
@@ -17,7 +18,7 @@ fun SplashScreen(mainNavController: NavHostController) {
             LoadingAnimation(
                 duration = 2000L,
                 onFinish = {
-                    mainNavController.navigate(Directions.LoginContainer.loginScreen)
+                    mainNavController.navigateToLoginScreen()
                 }
             )
         }

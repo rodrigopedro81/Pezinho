@@ -19,7 +19,9 @@ import com.designsystem.SimpleHeader
 import com.designsystem.VerticalSpacer
 import com.designsystem.theme.PezinhoTheme
 import com.entities.AuthResult
-import navigation.Directions
+import com.navigation.Directions
+import com.navigation.navigateToBarberListScreen
+import com.navigation.navigateToRegisterScreen
 
 @Composable
 fun LoginScreen(
@@ -73,7 +75,7 @@ fun LoginScreenContent(
             onClick = {
                 onAuthEvent.invoke(LoginEvent.AuthEvent.CLICK_LOGIN) { result ->
                     if (result.success) {
-                        mainNavController.navigate(Directions.HomeContainer.homeScreen)
+                        mainNavController.navigateToBarberListScreen()
                     } else {
                         Log.d("Teste", "deu ruim por causa disso -> ${result.error}")
                         // TODO () -> O que fazer caso não logue?
@@ -85,7 +87,7 @@ fun LoginScreenContent(
         )
         VerticalSpacer(dp = 20.dp)
         SecondaryMainButton(
-            onClick = { loginContainerNavController.navigate(Directions.LoginContainer.registerScreen) },
+            onClick = { loginContainerNavController.navigateToRegisterScreen() },
             buttonText = "Registrar"
         )
         VerticalSpacer(dp = 20.dp)

@@ -49,5 +49,6 @@ dependencies {
     implementation project(path: ':Core')
     implementation project(path: ':Core:Entities')
     implementation project(path: ':Features:DesignSystem')
+    implementation(project(":Features:Navigation"))
 
 }

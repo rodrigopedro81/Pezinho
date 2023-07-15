@@ -11,7 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.entry.splashScreen.SplashScreen
-import navigation.Directions
+import com.navigation.Directions
 
 @Composable
 fun EntryContainer(

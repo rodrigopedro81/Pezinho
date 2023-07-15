@@ -28,7 +28,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.designsystem.WhiteBoard
 import com.designsystem.theme.PezinhoTheme
-import navigation.Directions
+import com.navigation.Directions
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
@@ -98,7 +98,7 @@ sealed class NavigationItems(
     ) {
     object Home :
         NavigationItems(
-            route = Directions.HomeContainer.homeScreen,
+            route = Directions.HomeContainer.barberListScreen,
             label = "Home",
             icon = Icons.Filled.Home,
             selectedColor = Color.DarkGray,

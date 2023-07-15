@@ -1,15 +1,15 @@
-package com.home.screens.home
+package com.home.screens.barberList
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
@@ -20,30 +20,35 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.designsystem.HorizontalSpacer
-import com.designsystem.PrimaryMainButton
+import androidx.navigation.NavController
 import com.entities.BarberShop
+import com.navigation.navigateToBarberShopScreen
 
 @Composable
-fun HomeScreen(viewModel: HomeScreenViewModel = hiltViewModel()) {
+fun BarberListScreen(
+    viewModel: BarberListScreenViewModel = hiltViewModel(),
+    navController: NavController
+) {
     val state = viewModel.state.collectAsStateWithLifecycle()
-    HomeScreenContent(
+    BarberListScreenContent(
         state = state.value,
-        onClickEvent = viewModel::onClickEvent
+        onClickEvent = { BarberShop ->
+            navController.navigateToBarberShopScreen(BarberShop)
+        }
     )
 }
 
 @Composable
-fun HomeScreenContent(
-    state: HomeScreenState,
-    onClickEvent: (HomeScreenEvent.ClickEvent, BarberShop) -> Unit = { _, _ -> }
+fun BarberListScreenContent(
+    state: BarberListScreenState,
+    onClickEvent: (BarberShop) -> Unit = { _ -> },
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -55,10 +60,13 @@ fun HomeScreenContent(
                 .padding(16.dp)
                 .background(Color.LightGray),
         ) {
-
+            // TODO () -> O que entrará aqui?
         }
         LazyColumn(
-            modifier = Modifier.fillMaxWidth(1f),
+            modifier = Modifier
+                .fillMaxWidth(1f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(12.dp),
             content = {
                 itemsIndexed(state.barberShops) { index, barberShop ->
                     BarberCard(barberShop = barberShop, onClickEvent = onClickEvent)
@@ -68,49 +76,29 @@ fun HomeScreenContent(
     }
 }
 
-//Button(
-//onClick = { /* Do something */ },
-//// Assign reference "button" to the Button composable
-//// and constrain it to the top of the ConstraintLayout
-//modifier = Modifier.constrainAs(button) {
-//    top.linkTo(parent.top, margin = 16.dp)
-//}
-//) {
-//    Text("Button")
-//}
-//
-//// Assign reference "text" to the Text composable
-//// and constrain it to the bottom of the Button composable
-//Text(
-//"Text",
-//Modifier.constrainAs(text) {
-//    top.linkTo(button.bottom, margin = 16.dp)
-//}
-//)
-
 @Composable
 fun BarberCard(
     barberShop: BarberShop,
-    onClickEvent: (HomeScreenEvent.ClickEvent, BarberShop) -> Unit
+    onClickEvent: (BarberShop) -> Unit
 ) {
-
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(120.dp)
-            .padding(16.dp),
         backgroundColor = Color.White,
+        modifier = Modifier
+            .fillMaxWidth(0.9f)
+            .height(112.dp)
+            .clickable { onClickEvent(barberShop) },
     ) {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
             val (picture, title, snippet, distance) = createRefs()
             Box(
                 modifier = Modifier
-                    .size(64.dp)
                     .background(Color.Red, CircleShape)
                     .constrainAs(picture) {
                         start.linkTo(parent.start, 12.dp)
                         top.linkTo(parent.top, 12.dp)
                         bottom.linkTo(parent.bottom, 12.dp)
+                        width = Dimension.value(64.dp)
+                        height = Dimension.value(64.dp)
                     },
             )
             Text(
@@ -127,11 +115,14 @@ fun BarberCard(
                 modifier = Modifier.constrainAs(snippet) {
                     start.linkTo(title.start)
                     top.linkTo(title.bottom, margin = 8.dp)
+                    end.linkTo(parent.end)
+                    width = Dimension.fillToConstraints
+                    height = Dimension.wrapContent
                 }
             )
             Text(
                 text = "0.3km",
-                style = TextStyle(fontSize = 12.sp),
+                style = TextStyle(fontSize = 16.sp),
                 modifier = Modifier.constrainAs(distance) {
                     end.linkTo(parent.end, margin = 24.dp)
                     top.linkTo(parent.top, margin = 24.dp)
@@ -144,15 +135,15 @@ fun BarberCard(
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    val state = HomeScreenState(
+    val state = BarberListScreenState(
         isLoading = false,
         barberShops = getMockedBarberShops(),
         error = "",
         selectedBarberShop = null
     )
-    HomeScreenContent(
+    BarberListScreenContent(
         state = state,
-        onClickEvent = { _, _ -> }
+        onClickEvent = { _ -> }
     )
 }
 

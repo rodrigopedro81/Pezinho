@@ -15,15 +15,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.designsystem.theme.PezinhoTheme
 import com.home.container.bottomNavigation.BottomNavigationBar
-import com.home.screens.home.HomeScreen
+import com.home.screens.barberList.BarberListScreen
 import com.home.screens.profile.ProfileScreen
-import navigation.Directions
+import com.navigation.Directions
 
 @Composable
 fun HomeContainer(
     mainNavController: NavHostController,
-    viewModel: HomeContainerViewModel = hiltViewModel(),
-    startDestination: String?
+    startDestination: String?,
+    viewModel: HomeContainerViewModel = hiltViewModel()
 ) {
     val homeContainerState = viewModel.uiState.collectAsStateWithLifecycle()
     HomeContainerContent(
@@ -49,10 +49,13 @@ fun HomeContainerContent(
         ) {
             NavHost(
                 navController = homeContainerNavController,
-                startDestination = startDestination ?: Directions.HomeContainer.homeScreen
+                startDestination = startDestination ?: Directions.HomeContainer.barberListScreen
             ) {
-                composable(route = Directions.HomeContainer.homeScreen) {
-                    HomeScreen()
+                composable(route = Directions.HomeContainer.barberListScreen) {
+                    BarberListScreen(navController = homeContainerNavController)
+                }
+                composable(route = Directions.HomeContainer.barberShopScreen) {
+                    ProfileScreen()
                 }
                 composable(route = Directions.HomeContainer.profileScreen) {
                     ProfileScreen()
@@ -70,7 +73,7 @@ fun HomeContainerPreview() {
         HomeContainerContent(
             mainNavController = mainNavController,
             homeContainerState = HomeContainerState(),
-            startDestination = Directions.HomeContainer.homeScreen
+            startDestination = Directions.HomeContainer.barberListScreen
         )
     }
 }

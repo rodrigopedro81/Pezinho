@@ -12,7 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.login.screens.login.LoginScreen
 import com.login.screens.register.RegisterScreen
-import navigation.Directions
+import com.navigation.Directions
 
 @Composable
 fun LoginContainer(

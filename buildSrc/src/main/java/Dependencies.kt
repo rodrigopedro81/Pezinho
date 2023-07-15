@@ -8,6 +8,7 @@ import Versions.composeMaterial
 import Versions.composeTooling
 import Versions.daggerHilt
 import Versions.hiltNavigationCompose
+import Versions.navigationCompose
 import Versions.leakCanaryVersion
 import Versions.lottieCompose
 
@@ -32,6 +33,7 @@ object ComposeDependencies {
     const val composeUI: String = "androidx.compose.ui:ui:$compose"
     const val constraintLayout: String =
         "androidx.constraintlayout:constraintlayout-compose:$composeConstraintLayout"
+    const val composeNavigation: String = "androidx.navigation:navigation-compose:$navigationCompose"
 }
 
 object DaggerDependencies {

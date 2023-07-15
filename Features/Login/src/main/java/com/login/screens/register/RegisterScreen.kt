@@ -20,7 +20,9 @@ import com.designsystem.SimpleHeader
 import com.designsystem.VerticalSpacer
 import com.entities.AuthResult
 import com.entities.UserType
-import navigation.Directions
+import com.navigation.Directions
+import com.navigation.navigateToBarberListScreen
+import com.navigation.navigateToProfileScreen
 import java.lang.Exception
 
 @Composable
@@ -83,8 +85,9 @@ fun RegisterScreenContent(
                     onRegister.invoke() { authResult ->
                         if (authResult.success) {
                             when (state.userType) {
-                                UserType.CLIENT -> mainNavController.navigate(Directions.HomeContainer.profileScreen)
-                                UserType.BARBER -> mainNavController.navigate(Directions.HomeContainer.homeScreen)
+                                // TODO () -> Por que ta indo pra profile screen?
+                                UserType.CLIENT -> mainNavController.navigateToProfileScreen()
+                                UserType.BARBER -> mainNavController.navigateToBarberListScreen()
                                 else -> throw Exception("Invalid User type")
                             }
                         } else {

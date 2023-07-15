@@ -5,7 +5,7 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import navigation.Directions
+import com.navigation.Directions
 
 sealed class BottomNavigationItems(
     val route: String,
@@ -15,7 +15,7 @@ sealed class BottomNavigationItems(
 ) {
     object Home :
         BottomNavigationItems(
-            Directions.HomeContainer.homeScreen,
+            Directions.HomeContainer.barberListScreen,
             "Home",
             Icons.Filled.Home
         )

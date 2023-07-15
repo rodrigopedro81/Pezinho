@@ -49,15 +49,33 @@ class FirestoreRepositoryImpl : FirestoreRepository {
         onResult.invoke(getMockedBarberShops())
     }
 
-    private fun getMockedBarberShops() = listOf<BarberShop>(
+    private fun getMockedBarberShops() = listOf(
         BarberShop(
-            title = "Barber Shop 1",
+            title = "Barbearia 1",
+            address = "",
+            snippet = "Pra quem sabe o que quer!",
+            latitude = 0.0,
+            longitude = 0.0,
+            barbers = listOf(),
+            services = listOf()
         ),
         BarberShop(
-            title = "Barber Shop 2",
+            title = "Barbearia 2",
+            address = "",
+            snippet = "A melhor barbearia do engenho!",
+            latitude = 0.0,
+            longitude = 0.0,
+            barbers = listOf(),
+            services = listOf()
         ),
         BarberShop(
-            title = "Barber Shop 3",
+            title = "Barbearia 3",
+            address = "",
+            snippet = "Especializados em cortes masculinos",
+            latitude = 0.0,
+            longitude = 0.0,
+            barbers = listOf(),
+            services = listOf()
         ),
     )
 

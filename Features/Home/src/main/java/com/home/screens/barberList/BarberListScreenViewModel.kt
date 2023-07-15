@@ -1,4 +1,4 @@
-package com.home.screens.home
+package com.home.screens.barberList
 
 import androidx.lifecycle.ViewModel
 import com.entities.BarberShop
@@ -10,41 +10,34 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
-data class HomeScreenState(
+data class BarberListScreenState(
     val isLoading: Boolean = false,
     val error: String = "",
     val barberShops: List<BarberShop> = emptyList(),
     val selectedBarberShop: BarberShop? = null,
 )
 
-interface HomeScreenEvent {
-
-    enum class ClickEvent: HomeScreenEvent {
-        SELECTED_BARBERSHOP
-    }
-}
-
 @HiltViewModel
-class HomeScreenViewModel @Inject constructor(
+class BarberListScreenViewModel @Inject constructor(
     private val firestoreRepository: FirestoreRepository
 ) : ViewModel() {
 
-    private val _state: MutableStateFlow<HomeScreenState> = MutableStateFlow(HomeScreenState())
-    val state: StateFlow<HomeScreenState> = _state.asStateFlow()
+    private val _state: MutableStateFlow<BarberListScreenState> = MutableStateFlow(BarberListScreenState())
+    val state: StateFlow<BarberListScreenState> = _state.asStateFlow()
 
     init {
         getBarbers()
     }
 
-    fun onClickEvent(event: HomeScreenEvent.ClickEvent, selectedBarberShop: BarberShop) {
-        when (event) {
-            HomeScreenEvent.ClickEvent.SELECTED_BARBERSHOP -> {
-                _state.update {
-                    it.copy(selectedBarberShop = selectedBarberShop)
-                }
-            }
-        }
-    }
+//    fun onClickEvent(event: HomeScreenEvent.ClickEvent, selectedBarberShop: BarberShop) {
+//        when (event) {
+//            HomeScreenEvent.ClickEvent.SELECTED_BARBERSHOP -> {
+//                _state.update {
+//                    it.copy(selectedBarberShop = selectedBarberShop)
+//                }
+//            }
+//        }
+//    }
 
     private fun getBarbers() {
         startScreenLoading()

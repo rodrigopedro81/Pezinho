@@ -50,24 +50,27 @@ android {
 }
 
 dependencies {
+    implementation platform(FirebaseDependencies.bom)
+    implementation RetrofitDependencies.retrofit
+    implementation FirebaseDependencies.firestore
     implementation ComposeDependencies.preview
     implementation ComposeDependencies.activity
     implementation ComposeDependencies.composeUI
     implementation ComposeDependencies.lifecycleCompose
     implementation ComposeDependencies.material
-    implementation RetrofitDependencies.retrofit
-    implementation platform(FirebaseDependencies.bom)
-    implementation FirebaseDependencies.firestore
+    implementation ComposeDependencies.composeNavigation
     implementation DaggerDependencies.dagger
     implementation DaggerDependencies.hiltNavigation
     kapt DaggerDependencies.kaptCompiler
     implementation project(path: ':Core')
+    implementation project(path: ':Core:Entities')
     implementation project(path: ':Core:Repositories')
     implementation project(path: ':Features:Database')
     implementation project(path: ':Features:Network')
     implementation project(path: ':Features:Maps')
     implementation project(path: ':Features:Login')
     implementation project(path: ':Features:Entry')
+    implementation project(path: ':Features:Navigation')
     implementation project(path: ':Features:Home')
     implementation project(path: ':Features:Authentication')
     implementation project(path: ':Features:DesignSystem')

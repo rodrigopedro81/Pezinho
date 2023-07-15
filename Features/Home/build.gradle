@@ -52,4 +52,5 @@ dependencies {
     implementation(project(":Core:Repositories"))
     implementation(project(":Features:DesignSystem"))
     implementation(project(":Features:Maps"))
+    implementation(project(":Features:Navigation"))
 }

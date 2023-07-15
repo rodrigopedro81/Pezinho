@@ -1,17 +1,15 @@
 package com.pezinho.graph
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
+import com.entry.EntryContainer
 import com.home.container.HomeContainer
 import com.login.container.LoginContainer
-import com.entry.EntryContainer
-import navigation.Directions
-import navigation.Directions.Args.START_DESTINATION_ARG
+import com.navigation.Args.getStartDestination
+import com.navigation.Args.startDestinationArg
+import com.navigation.Directions
 
 @Composable
 fun MainNavGraph(
@@ -48,11 +46,3 @@ fun MainNavGraph(
         }
     }
 }
-
-fun startDestinationArg(direction: String? = null) = navArgument(START_DESTINATION_ARG) {
-    type = NavType.StringType
-    nullable = true
-    defaultValue = direction
-}
-
-fun NavBackStackEntry.getStartDestination() = arguments?.getString(START_DESTINATION_ARG)

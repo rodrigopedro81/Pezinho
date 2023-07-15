@@ -10,5 +10,6 @@ object Versions {
     const val leakCanaryVersion = "2.10"
     const val daggerHilt = "2.44"
     const val hiltNavigationCompose = "1.0.0"
+    const val navigationCompose = "2.6.0"
     const val composeLifecycle = "2.6.1"
 }

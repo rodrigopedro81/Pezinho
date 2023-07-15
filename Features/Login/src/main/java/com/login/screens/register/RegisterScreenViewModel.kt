@@ -3,8 +3,6 @@ package com.login.screens.register
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.entities.AuthResult
-import com.entities.Barber
-import com.entities.Client
 import com.entities.UserType.BARBER
 import com.entities.UserType.CLIENT
 import com.entities.UserType.UNKNOWN
@@ -15,7 +13,6 @@ import commons.checkEmail
 import commons.checkName
 import commons.checkPassword
 import commons.checkPhone
-import commons.shouldSearchCompletions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -65,15 +62,15 @@ class RegisterScreenViewModel @Inject constructor(
         updateAddress(search)
         job?.cancel()
         clearAutoCompletePredictions()
-        if (shouldSearchCompletions(search)) {
-            job = viewModelScope.launch {
-                delay(1000)
-                val autoCompleteList = geoCodingRepository.getAutoCompletes(search)
-                _state.update {
-                    it.copy(autoCompletePredictions = autoCompleteList)
-                }
-            }
-        }
+//        if (shouldSearchCompletions(search)) {
+//            job = viewModelScope.launch {
+//                delay(1000)
+//                val autoCompleteList = geoCodingRepository.getAutoCompletes(search)
+//                _state.update {
+//                    it.copy(autoCompletePredictions = autoCompleteList)
+//                }
+//            }
+//        }
     }
 
     private fun selectAutoComplete(selectedAddress: String) {
