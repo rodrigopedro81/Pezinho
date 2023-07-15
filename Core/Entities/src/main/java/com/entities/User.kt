@@ -24,6 +24,8 @@ class Client(
 ) : User()
 
 data class BarberShop(
+    val wallpaper: String = "",
+    val icon: String = "",
     val address: String = "",
     val title: String = "",
     val snippet: String = "",

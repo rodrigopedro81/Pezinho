@@ -28,6 +28,7 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.entities.AvailableService
 import com.entities.BarberShop
 import com.navigation.navigateToBarberShopScreen
 
@@ -148,31 +149,29 @@ fun HomeScreenPreview() {
 }
 
 fun getMockedBarberShops() = listOf(
-    BarberShop(
-        title = "Barbearia 1",
-        address = "",
-        snippet = "Pra quem sabe o que quer!",
-        latitude = 0.0,
-        longitude = 0.0,
-        barbers = listOf(),
-        services = listOf()
-    ),
-    BarberShop(
-        title = "Barbearia 2",
-        address = "",
-        snippet = "A melhor barbearia do engenho!",
-        latitude = 0.0,
-        longitude = 0.0,
-        barbers = listOf(),
-        services = listOf()
-    ),
-    BarberShop(
-        title = "Barbearia 3",
-        address = "",
-        snippet = "Especializados em cortes masculinos",
-        latitude = 0.0,
-        longitude = 0.0,
-        barbers = listOf(),
-        services = listOf()
+    getMockedBarber(),
+    getMockedBarber(),
+    getMockedBarber(),
+)
+
+fun getMockedBarber() = BarberShop(
+    wallpaper = "https://i.stack.imgur.com/BH6zF.png",
+    title = "Barbearia do Zé",
+    address = "Rua dos bobos, 0",
+    services = listOf(
+        AvailableService(
+            id = 1,
+            title = "Corte de cabelo",
+            price = "R$ 30",
+            description = "Corte de cabelo",
+            duration = "45 minutos",
+        ),
+        AvailableService(
+            id = 2,
+            title = "Barba",
+            price = "R$ 15",
+            description = "Barba",
+            duration = "10 minutos",
+        ),
     ),
 )

@@ -11,9 +11,12 @@ import Versions.hiltNavigationCompose
 import Versions.navigationCompose
 import Versions.leakCanaryVersion
 import Versions.lottieCompose
+import Versions.coilVersion
 
 object OtherDependencies {
-    const val lottie = "com.airbnb.android:lottie-compose:$lottieCompose"
+    const val lottie: String = "com.airbnb.android:lottie-compose:$lottieCompose"
+    const val coil: String = "com.github.skydoves:landscapist-glide:2.2.2"
+
 }
 
 object AndroidXDependencies {
@@ -33,7 +36,8 @@ object ComposeDependencies {
     const val composeUI: String = "androidx.compose.ui:ui:$compose"
     const val constraintLayout: String =
         "androidx.constraintlayout:constraintlayout-compose:$composeConstraintLayout"
-    const val composeNavigation: String = "androidx.navigation:navigation-compose:$navigationCompose"
+    const val composeNavigation: String =
+        "androidx.navigation:navigation-compose:$navigationCompose"
 }
 
 object DaggerDependencies {

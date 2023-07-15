@@ -2,6 +2,7 @@ object Versions {
     const val compose = "1.4.3"
     const val composeConstraintLayout = "1.0.1"
     const val lottieCompose = "6.0.1"
+    const val coilVersion = "2.4.0"
     const val composeTooling = "1.4.2"
     const val activityCompose = "1.7.2"
     const val composeMaterial = "1.3.1"
