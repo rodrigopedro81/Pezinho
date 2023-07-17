@@ -9,7 +9,7 @@ import com.home.container.HomeContainer
 import com.login.container.LoginContainer
 import com.navigation.Args.getStartDestination
 import com.navigation.Args.startDestinationArg
-import com.navigation.Directions
+import com.navigation.Destinations
 
 @Composable
 fun MainNavGraph(
@@ -17,17 +17,17 @@ fun MainNavGraph(
 ) {
     NavHost(
         navController = mainNavController,
-        startDestination = Directions.HomeContainer.container
+        startDestination = Destinations.Entry.container
     ) {
         composable(
-            route = Directions.EntryContainer.container
+            route = Destinations.Entry.container
         ) {
             EntryContainer(
                 mainNavController = mainNavController
             )
         }
         composable(
-            route = Directions.LoginContainer.container,
+            route = Destinations.Login.container,
             arguments = listOf(startDestinationArg())
         ) { backStackEntry ->
             LoginContainer(
@@ -36,7 +36,7 @@ fun MainNavGraph(
             )
         }
         composable(
-            route = Directions.HomeContainer.container,
+            route = Destinations.Main.container,
             arguments = listOf(startDestinationArg())
         ) { backStackEntry ->
             HomeContainer(

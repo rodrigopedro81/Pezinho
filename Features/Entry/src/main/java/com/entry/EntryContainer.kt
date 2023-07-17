@@ -11,7 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.entry.splashScreen.SplashScreen
-import com.navigation.Directions
+import com.navigation.Destinations
 
 @Composable
 fun EntryContainer(
@@ -35,9 +35,9 @@ fun EntryContainerContent(
         ) {
             NavHost(
                 navController = entryContainerNavController,
-                startDestination = Directions.EntryContainer.splashScreen
+                startDestination = Destinations.Entry.splashScreen.route
             ) {
-                composable(route =  Directions.EntryContainer.splashScreen) {
+                composable(route =  Destinations.Entry.splashScreen.route) {
                     SplashScreen(mainNavController)
                 }
             }

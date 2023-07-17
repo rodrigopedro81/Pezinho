@@ -5,7 +5,7 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.navigation.Directions
+import com.navigation.Destinations
 
 sealed class BottomNavigationItems(
     val route: String,
@@ -15,14 +15,14 @@ sealed class BottomNavigationItems(
 ) {
     object Home :
         BottomNavigationItems(
-            Directions.HomeContainer.barberListScreen,
+            Destinations.Main.barberListScreen.route,
             "Home",
             Icons.Filled.Home
         )
 
     object Profile :
         BottomNavigationItems(
-            Directions.HomeContainer.profileScreen,
+            Destinations.Main.profileScreen.route,
             "Perfil",
             Icons.Filled.AccountCircle
         )

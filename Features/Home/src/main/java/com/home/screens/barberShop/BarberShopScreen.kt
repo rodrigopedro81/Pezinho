@@ -10,13 +10,9 @@ import androidx.compose.material.Text
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,13 +22,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.entities.AvailableService
 import com.entities.BarberShop
 import com.home.screens.barberList.getMockedBarber
-import com.navigation.navigateToProfileScreen
-import com.skydoves.landscapist.ImageOptions
-import com.skydoves.landscapist.glide.GlideImage
-import kotlinx.coroutines.launch
+import com.navigation.Destinations
 
 @Composable
 fun BarberShopScreen(
@@ -44,8 +38,7 @@ fun BarberShopScreen(
         key1 = selectedBarberShop,
         block = {
             if (selectedBarberShop == null) {
-                // TODO () -> Corrigir pra onde navega
-                navController.navigateToProfileScreen()
+                navController.navigate(Destinations.Main.barberListScreen.route)
             }
         }
     )
@@ -62,27 +55,27 @@ fun BarberShopScreen(
 @Composable
 fun BarberShopScreenContent(
     navController: NavController,
-    selectedBarberShop: BarberShop
+    selectedBarberShop: BarberShop,
 ) {
-    val coroutineScope = rememberCoroutineScope()
-    val modalSheetState = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden,
-        confirmValueChange = { it != ModalBottomSheetValue.HalfExpanded },
-        skipHalfExpanded = false
-    )
-    SideEffect { coroutineScope.launch { modalSheetState.show() } }
+//    val coroutineScope = rememberCoroutineScope()
+//    val modalSheetState = rememberModalBottomSheetState(
+//        initialValue = ModalBottomSheetValue.Hidden,
+//        confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded },
+//        skipHalfExpanded = false
+//    )
+//    SideEffect { coroutineScope.launch { modalSheetState.show() } }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.LightGray)
     ) {
         val (image, bottomSheet) = createRefs()
-        GlideImage(
-            imageModel = { selectedBarberShop.wallpaper },
-            imageOptions = ImageOptions(
-                contentScale = ContentScale.Crop,
-                alignment = Alignment.Center
-            )
+        AsyncImage(
+            model = selectedBarberShop.wallpaper,
+            contentDescription = null,
+            onError = {
+                Log.e("coil", "${it.result.throwable}")
+            }
         )
     }
 }
@@ -103,6 +96,6 @@ fun AvailableServiceItem(availableService: AvailableService) {
 fun BarberShopScreenContentPreview() {
     BarberShopScreenContent(
         navController = rememberNavController(),
-        selectedBarberShop = getMockedBarber()
+        selectedBarberShop = getMockedBarber(),
     )
 }

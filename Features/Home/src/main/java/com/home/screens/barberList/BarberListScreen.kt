@@ -30,7 +30,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.entities.AvailableService
 import com.entities.BarberShop
-import com.navigation.navigateToBarberShopScreen
+import com.navigation.Destinations
+import com.navigation.navigateWithSavedStateHandle
 
 @Composable
 fun BarberListScreen(
@@ -41,7 +42,10 @@ fun BarberListScreen(
     BarberListScreenContent(
         state = state.value,
         onClickEvent = { BarberShop ->
-            navController.navigateToBarberShopScreen(BarberShop)
+            navController.navigateWithSavedStateHandle(
+                Destinations.Main.barberShopScreen,
+                BarberShop
+            )
         }
     )
 }
@@ -155,7 +159,7 @@ fun getMockedBarberShops() = listOf(
 )
 
 fun getMockedBarber() = BarberShop(
-    wallpaper = "https://i.stack.imgur.com/BH6zF.png",
+    wallpaper = "https://blog.consumer.com.br/wp-content/uploads/2020/11/culinária-regional-brasileira.jpg",
     title = "Barbearia do Zé",
     address = "Rua dos bobos, 0",
     services = listOf(

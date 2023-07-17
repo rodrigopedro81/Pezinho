@@ -28,7 +28,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.designsystem.WhiteBoard
 import com.designsystem.theme.PezinhoTheme
-import com.navigation.Directions
+import com.navigation.Destinations
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
@@ -41,17 +41,6 @@ fun BottomNavigationBar(navController: NavHostController) {
     val initialBarColor = Color.LightGray
     val backgroundColor = remember { mutableStateOf(initialBarColor) }
     BottomNavigation(backgroundColor = backgroundColor.value) {
-//        items.forEach { item ->
-//            BottomNavigationItem(
-//                selected = currentRoute == item.route,
-//                onClick = {
-//                    if (currentRoute != null && currentRoute != item.route) {
-//                        navController.navigate(item.route)
-//                    }
-//                },
-//                icon = { Image(item.icon, null) },
-//                label = { Text(text = item.label) }
-//            )
         Items(
             updateBarColor = { color ->
                 backgroundColor.value = color
@@ -98,7 +87,7 @@ sealed class NavigationItems(
     ) {
     object Home :
         NavigationItems(
-            route = Directions.HomeContainer.barberListScreen,
+            route = Destinations.Main.barberListScreen.route,
             label = "Home",
             icon = Icons.Filled.Home,
             selectedColor = Color.DarkGray,
@@ -107,7 +96,7 @@ sealed class NavigationItems(
 
     object Profile :
         NavigationItems(
-            route = Directions.HomeContainer.profileScreen,
+            route = Destinations.Main.profileScreen.route,
             label = "Perfil",
             icon = Icons.Filled.AccountCircle,
             selectedColor = Color.DarkGray,
