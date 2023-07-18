@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -31,14 +33,11 @@ fun BarberShopScreen(
     selectedBarberShop: BarberShop?,
     viewModel: BarberShopScreenViewModel = hiltViewModel()
 ) {
-    LaunchedEffect(
-        key1 = selectedBarberShop,
-        block = {
-            if (selectedBarberShop == null) {
-                navController.navigate(Destinations.Main.barberListScreen.route)
-            }
+    LaunchedEffect(key1 = Unit) {
+        if (selectedBarberShop == null) {
+            navController.navigate(Destinations.Main.barberListScreen.route)
         }
-    )
+    }
     selectedBarberShop?.let {
         val state = viewModel.state.collectAsStateWithLifecycle()
         BarberShopScreenContent(

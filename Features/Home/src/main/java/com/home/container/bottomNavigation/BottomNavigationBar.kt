@@ -37,11 +37,16 @@ fun BottomNavigationBar(navController: NavHostController) {
         BottomNavigationItems.Profile
     )
     val backStackEntry by navController.currentBackStackEntryAsState()
-//    val currentRoute = backStackEntry?.destination?.route
+    val currentRoute = backStackEntry?.destination?.route
     val initialBarColor = Color.LightGray
     val backgroundColor = remember { mutableStateOf(initialBarColor) }
     BottomNavigation(backgroundColor = backgroundColor.value) {
         Items(
+//                onClick = {
+//                    if (currentRoute != null && currentRoute != item.route) {
+//                        navController.navigate(item.route)
+//                    }
+//                },
             updateBarColor = { color ->
                 backgroundColor.value = color
             },
@@ -57,10 +62,11 @@ fun RowScope.Items(
     navController: NavHostController
 ) {
     val items = listOf(
-        NavigationItems.Home,
-        NavigationItems.Profile
+        BottomNavigationItems.Home,
+        BottomNavigationItems.Profile
     )
     for (item in items) {
+        val selected = item.route.route == navController.currentDestination?.route
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -69,40 +75,15 @@ fun RowScope.Items(
                 .background(item.selectedColor, RoundedCornerShape(62.dp))
                 .selectableGroup()
                 .clickable {
-                    navController.navigate(item.route)
+                    navController.navigate(item.route.route)
                 },
         ) {
-            Text(text = item.label, style = TextStyle(color = Color.White))
+            Text(text = item.label, style = TextStyle(color = if (selected) Color.Red else Color.White))
         }
     }
 }
 
-sealed class NavigationItems(
-    val route: String,
-    val label: String,
-    val icon: ImageVector,
-    val selectedColor: Color,
-    val barColor: Color,
 
-    ) {
-    object Home :
-        NavigationItems(
-            route = Destinations.Main.barberListScreen.route,
-            label = "Home",
-            icon = Icons.Filled.Home,
-            selectedColor = Color.DarkGray,
-            barColor = Color.LightGray
-        )
-
-    object Profile :
-        NavigationItems(
-            route = Destinations.Main.profileScreen.route,
-            label = "Perfil",
-            icon = Icons.Filled.AccountCircle,
-            selectedColor = Color.DarkGray,
-            barColor = Color.LightGray
-        )
-}
 
 @Preview
 @Composable

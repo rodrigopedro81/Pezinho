@@ -7,9 +7,10 @@ import androidx.navigation.compose.composable
 import com.entry.EntryContainer
 import com.home.container.HomeContainer
 import com.login.container.LoginContainer
-import com.navigation.Args.getStartDestination
-import com.navigation.Args.startDestinationArg
+import com.navigation.Args
 import com.navigation.Destinations
+import com.navigation.getArgument
+import com.navigation.navArguments
 
 @Composable
 fun MainNavGraph(
@@ -28,20 +29,20 @@ fun MainNavGraph(
         }
         composable(
             route = Destinations.Login.container,
-            arguments = listOf(startDestinationArg())
+            arguments = Destinations.Login.container.navArguments()
         ) { backStackEntry ->
             LoginContainer(
                 mainNavController = mainNavController,
-                startDestination = backStackEntry.getStartDestination()
+                startDestination = backStackEntry.getArgument(Args.StartDestination)
             )
         }
         composable(
             route = Destinations.Main.container,
-            arguments = listOf(startDestinationArg())
+            arguments = Destinations.Main.container.navArguments()
         ) { backStackEntry ->
             HomeContainer(
                 mainNavController = mainNavController,
-                startDestination = backStackEntry.getStartDestination()
+                startDestination = backStackEntry.getArgument(Args.StartDestination)
             )
         }
     }

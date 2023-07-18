@@ -6,24 +6,31 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.navigation.Destinations
+import com.navigation.Route
 
 sealed class BottomNavigationItems(
-    val route: String,
+    val route: Route,
     val label: String,
     val icon: ImageVector,
-    val barColor: Color = Color.LightGray
-) {
+    val selectedColor: Color,
+    val barColor: Color,
+
+    ) {
     object Home :
         BottomNavigationItems(
-            Destinations.Main.barberListScreen.route,
-            "Home",
-            Icons.Filled.Home
+            route = Destinations.Main.barberListScreen,
+            label = "Home",
+            icon = Icons.Filled.Home,
+            selectedColor = Color.DarkGray,
+            barColor = Color.LightGray
         )
 
     object Profile :
         BottomNavigationItems(
-            Destinations.Main.profileScreen.route,
-            "Perfil",
-            Icons.Filled.AccountCircle
+            route = Destinations.Main.profileScreen,
+            label = "Perfil",
+            icon = Icons.Filled.AccountCircle,
+            selectedColor = Color.DarkGray,
+            barColor = Color.LightGray
         )
 }

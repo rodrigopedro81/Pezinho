@@ -84,8 +84,8 @@ fun RegisterScreenContent(
                         if (authResult.success) {
                             when (state.userType) {
                                 // TODO () -> Por que ta indo pra profile screen?
-                                UserType.CLIENT -> mainNavController.navigate(Destinations.Main.profileScreen.containerRoute)
-                                UserType.BARBER -> mainNavController.navigate(Destinations.Main.profileScreen.containerRoute)
+                                UserType.CLIENT -> mainNavController.navigate(Destinations.Main.profileScreen.getFullRoute())
+                                UserType.BARBER -> mainNavController.navigate(Destinations.Main.profileScreen.getFullRoute())
                                 else -> throw Exception("Invalid User type")
                             }
                         } else {

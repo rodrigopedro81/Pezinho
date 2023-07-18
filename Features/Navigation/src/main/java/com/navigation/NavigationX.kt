@@ -11,5 +11,5 @@ fun NavController.navigateWithObject(
     navigate(route)
 }
 
-inline fun <reified T : Serializable> NavController.retrieveObject() =
-    previousBackStackEntry?.savedStateHandle?.get<T>(T::class.java.simpleName)
+inline fun <reified T : Serializable> NavController.retrieveObject(key: String = T::class.java.simpleName) =
+    previousBackStackEntry?.savedStateHandle?.get<T>(key)

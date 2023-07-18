@@ -19,7 +19,7 @@ fun SplashScreen(
             LoadingAnimation(
                 duration = 2000L,
                 onFinish = {
-                    mainNavController.navigate(Destinations.Login.loginScreen.containerRoute)
+                    mainNavController.navigate(Destinations.Login.loginScreen.getFullRoute())
                 }
             )
         }

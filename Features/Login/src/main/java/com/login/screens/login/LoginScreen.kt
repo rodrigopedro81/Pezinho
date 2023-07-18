@@ -73,7 +73,7 @@ fun LoginScreenContent(
             onClick = {
                 onAuthEvent.invoke(LoginEvent.AuthEvent.CLICK_LOGIN) { result ->
                     if (result.success) {
-                        mainNavController.navigate(Destinations.Main.barberListScreen.containerRoute)
+                        mainNavController.navigate(Destinations.Main.barberListScreen.getFullRoute())
                     } else {
                         Log.d("Teste", "deu ruim por causa disso -> ${result.error}")
                         // TODO () -> O que fazer caso não logue?
@@ -85,7 +85,7 @@ fun LoginScreenContent(
         )
         VerticalSpacer(dp = 20.dp)
         SecondaryMainButton(
-            onClick = { loginContainerNavController.navigate(Destinations.Login.loginScreen.containerRoute) },
+            onClick = { loginContainerNavController.navigate(Destinations.Login.loginScreen.getFullRoute()) },
             buttonText = "Registrar"
         )
         VerticalSpacer(dp = 20.dp)
