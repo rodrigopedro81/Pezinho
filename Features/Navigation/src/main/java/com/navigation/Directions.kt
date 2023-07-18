@@ -4,6 +4,8 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.navigation.Args.START_DESTINATION_ARG
+import com.navigation.Args.replaceArgs
+import com.navigation.Args.withArgs
 
 open class Route(
     val route: String,
@@ -33,7 +35,15 @@ sealed class Destinations(val container: String) {
 
 object Args {
 
-    internal const val START_DESTINATION_ARG = "startDestination"
+    fun String.withArgs(vararg strings: String): String =
+        strings.joinToString("", prefix = this, postfix = "") { "{$it}" }
+
+    fun String.replaceArgs(vararg args: Pair<String, String>): String =
+        args.fold(this) { acc, (key, value) ->
+            acc.replace("{${key}}", value)
+        }
+
+    const val START_DESTINATION_ARG = "startDestination"
 
     fun NavBackStackEntry.getStartDestination() = arguments?.getString(START_DESTINATION_ARG)
 
