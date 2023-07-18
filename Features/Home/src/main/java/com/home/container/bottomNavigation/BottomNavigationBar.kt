@@ -75,6 +75,7 @@ fun RowScope.Items(
                 .background(item.selectedColor, RoundedCornerShape(62.dp))
                 .selectableGroup()
                 .clickable {
+                    navController.popBackStack(Destinations.Main.barberListScreen.route, false)
                     navController.navigate(item.route.route)
                 },
         ) {
