@@ -14,12 +14,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.designsystem.theme.PezinhoTheme
+import com.entities.BarberShop
 import com.home.container.bottomNavigation.BottomNavigationBar
 import com.home.screens.barberList.BarberListScreen
 import com.home.screens.barberShop.BarberShopScreen
 import com.home.screens.profile.ProfileScreen
 import com.navigation.Destinations
-import com.navigation.SavedStateHandleArgs.getBarberShop
+import com.navigation.retrieveObject
 
 @Composable
 fun HomeContainer(
@@ -57,7 +58,7 @@ fun HomeContainerContent(
                     BarberListScreen(navController = homeContainerNavController)
                 }
                 composable(route = Destinations.Main.barberShopScreen.route) {
-                    val selectedBarberShop = homeContainerNavController.getBarberShop()
+                    val selectedBarberShop = homeContainerNavController.retrieveObject<BarberShop>()
                     BarberShopScreen(
                         navController = homeContainerNavController,
                         selectedBarberShop = selectedBarberShop

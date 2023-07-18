@@ -1,53 +1,26 @@
 package com.navigation
 
-import androidx.navigation.NavBackStackEntry
+import androidx.compose.runtime.Composable
+import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
-import androidx.navigation.NavOptionsBuilder
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
-import com.entities.BarberShop
+import androidx.navigation.NavHostController
+import java.io.Serializable
 
-fun NavController.navigateToOtherContainer(
-    destination: Route,
-    builder: NavOptionsBuilder.() -> Unit = {}
-) = navigate(destination.container.replace(Args.START_DESTINATION_ARG, destination.route), builder)
+fun String.withArgs(vararg strings: String): String =
+    strings.joinToString("", prefix = this, postfix = "") { "{$it}" }
 
-fun <T> NavController.navigateWithSavedStateHandle(
-    destination: Route,
-    `object`: T,
-    builder: NavOptionsBuilder.() -> Unit = {}
+fun String.replaceArgs(vararg args: Pair<String, String>): String =
+    args.fold(this) { acc, (key, value) ->
+        acc.replace("{${key}}", value)
+    }
+
+fun NavController.navigateWithObject(
+    route: String,
+    objectToPass: Serializable
 ) {
-    previousBackStackEntry?.savedStateHandle?.set(
-        when (`object`) {
-            is BarberShop -> SavedStateHandleArgs.BARBER_SHOP_KEY
-            else -> throw IllegalArgumentException("Unknown object type, must map type in navigateWithSavedStateHandle")
-        }, `object`
-    )
-    navigate(destination.route, builder)
+    currentBackStackEntry?.savedStateHandle?.set(objectToPass::class.java.simpleName, objectToPass)
+    navigate(route)
 }
 
-object Args {
-
-    internal const val START_DESTINATION_ARG = "startDestination"
-
-    fun NavBackStackEntry.getStartDestination() = arguments?.getString(START_DESTINATION_ARG)
-
-    fun startDestinationArg(direction: String? = null) = navArgument(START_DESTINATION_ARG) {
-        type = NavType.StringType
-        nullable = true
-        defaultValue = direction
-    }
-}
-
-// TODO () -> Envio do barber shop comprometido
-// TODO () -> Implementar nova navegação por meio da nova lib
-object SavedStateHandleArgs {
-
-    const val BARBER_SHOP_KEY = "barberShop"
-
-    private fun <T> NavController.getBackStackValue(key: String): T? {
-        return previousBackStackEntry?.savedStateHandle?.get<T>(key)
-    }
-
-    fun NavController.getBarberShop(): BarberShop? = getBackStackValue(BARBER_SHOP_KEY)
-}
+inline fun <reified T : Serializable> NavController.retrieveObject() =
+    previousBackStackEntry?.savedStateHandle?.get<T>(T::class.java.simpleName)

@@ -4,7 +4,6 @@ plugins {
     id 'com.google.dagger.hilt.android'
     id 'kotlin-kapt'
     id 'com.google.gms.google-services'
-    id 'com.google.devtools.ksp' version '1.6.10-1.0.2'
 }
 
 android {
@@ -68,8 +67,6 @@ dependencies {
     implementation ComposeDependencies.lifecycleCompose
     implementation ComposeDependencies.material
     implementation ComposeDependencies.composeNavigation
-    implementation ComposeDependencies.composeNavigationCore
-    ksp ComposeDependencies.kspNavigationCore
     implementation DaggerDependencies.dagger
     implementation DaggerDependencies.hiltNavigation
     kapt DaggerDependencies.kaptCompiler

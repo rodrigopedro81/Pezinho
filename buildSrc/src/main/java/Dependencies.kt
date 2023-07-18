@@ -36,8 +36,6 @@ object ComposeDependencies {
         "androidx.constraintlayout:constraintlayout-compose:$composeConstraintLayout"
     const val composeNavigation: String =
         "androidx.navigation:navigation-compose:$navigationCompose"
-    const val composeNavigationCore = "io.github.raamcosta.compose-destinations:core:1.5.1-beta"
-    const val kspNavigationCore = "io.github.raamcosta.compose-destinations:ksp:1.5.1-beta"
 }
 
 object DaggerDependencies {

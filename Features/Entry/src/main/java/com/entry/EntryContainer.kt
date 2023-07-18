@@ -38,7 +38,10 @@ fun EntryContainerContent(
                 startDestination = Destinations.Entry.splashScreen.route
             ) {
                 composable(route =  Destinations.Entry.splashScreen.route) {
-                    SplashScreen(mainNavController)
+                    SplashScreen(
+                        mainNavController,
+                        entryContainerNavController
+                    )
                 }
             }
         }

@@ -31,7 +31,7 @@ import androidx.navigation.NavController
 import com.entities.AvailableService
 import com.entities.BarberShop
 import com.navigation.Destinations
-import com.navigation.navigateWithSavedStateHandle
+import com.navigation.navigateWithObject
 
 @Composable
 fun BarberListScreen(
@@ -42,8 +42,8 @@ fun BarberListScreen(
     BarberListScreenContent(
         state = state.value,
         onClickEvent = { BarberShop ->
-            navController.navigateWithSavedStateHandle(
-                Destinations.Main.barberShopScreen,
+            navController.navigateWithObject(
+                Destinations.Main.barberShopScreen.route,
                 BarberShop
             )
         }

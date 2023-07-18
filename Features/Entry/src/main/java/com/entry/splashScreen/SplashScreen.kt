@@ -8,16 +8,18 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.designsystem.LoadingAnimation
 import com.navigation.Destinations
-import com.navigation.navigateToOtherContainer
 
 @Composable
-fun SplashScreen(mainNavController: NavHostController) {
+fun SplashScreen(
+    mainNavController: NavHostController,
+    entryContainerNavController: NavHostController
+) {
     Scaffold { padding ->
         Column(modifier = Modifier.padding(padding)) {
             LoadingAnimation(
                 duration = 2000L,
                 onFinish = {
-                    mainNavController.navigateToOtherContainer(Destinations.Login.loginScreen)
+                    mainNavController.navigate(Destinations.Login.loginScreen.containerRoute)
                 }
             )
         }

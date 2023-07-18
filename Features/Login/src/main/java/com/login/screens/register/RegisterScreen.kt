@@ -21,7 +21,6 @@ import com.designsystem.VerticalSpacer
 import com.entities.AuthResult
 import com.entities.UserType
 import com.navigation.Destinations
-import com.navigation.navigateToOtherContainer
 import java.lang.Exception
 
 @Composable
@@ -85,8 +84,8 @@ fun RegisterScreenContent(
                         if (authResult.success) {
                             when (state.userType) {
                                 // TODO () -> Por que ta indo pra profile screen?
-                                UserType.CLIENT -> mainNavController.navigateToOtherContainer(Destinations.Main.profileScreen)
-                                UserType.BARBER -> mainNavController.navigateToOtherContainer(Destinations.Main.profileScreen)
+                                UserType.CLIENT -> mainNavController.navigate(Destinations.Main.profileScreen.containerRoute)
+                                UserType.BARBER -> mainNavController.navigate(Destinations.Main.profileScreen.containerRoute)
                                 else -> throw Exception("Invalid User type")
                             }
                         } else {
