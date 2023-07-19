@@ -29,6 +29,7 @@ sealed class Destinations(val container: String) {
         val barberListScreen = Route("barber_list_screen", container)
         val barberShopScreen = Route("barber_shop_screen", container)
         val profileScreen = Route("profile_screen", container)
+        val servicesScreen = Route("services_screen", container)
     }
 }
 

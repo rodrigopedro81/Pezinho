@@ -70,6 +70,9 @@ fun HomeContainerContent(
                     composable(route = Destinations.Main.profileScreen.route) {
                         ProfileScreen()
                     }
+                    composable(route = Destinations.Main.servicesScreen.route) {
+//                      TODO () -> Construir tela de serviços feitos
+                    }
                 }
             }
         }

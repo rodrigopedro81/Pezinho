@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 
 @Composable
 fun ProfileScreen(viewModel: ProfileScreenViewModel = hiltViewModel()) {
+//  TODO () -> Construir tela de perfil
     val state = viewModel.state.collectAsStateWithLifecycle()
     ProfileScreenContent(
         state = state.value

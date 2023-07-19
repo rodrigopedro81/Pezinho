@@ -70,13 +70,6 @@ fun BarberShopScreenContent(
     navController: NavController,
     selectedBarberShop: BarberShop,
 ) {
-//    val coroutineScope = rememberCoroutineScope()
-//    val modalSheetState = rememberModalBottomSheetState(
-//        initialValue = ModalBottomSheetValue.Expanded,
-//        confirmStateChange = { false },
-//        skipHalfExpanded = true
-//    )
-//    SideEffect { coroutineScope.launch { modalSheetState.show() } }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -87,13 +80,14 @@ fun BarberShopScreenContent(
             url = selectedBarberShop.wallpaper,
             modifier = Modifier.constrainAs(image) {
                 top.linkTo(parent.top)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
                 width = Dimension.fillToConstraints
                 height = Dimension.value(200.dp)
-            }
+                centerHorizontallyTo(parent)
+            },
         )
         BottomSheetScaffold(
+            backgroundColor = Color.Transparent,
+            sheetBackgroundColor = Color.Transparent,
             scaffoldState = rememberBottomSheetScaffoldState(
                 bottomSheetState = rememberBottomSheetState(
                     initialValue = BottomSheetValue.Expanded,
@@ -111,12 +105,11 @@ fun BarberShopScreenContent(
             sheetShape = RoundedCornerShape(24.dp, 24.dp, 0.dp, 0.dp),
             content = {},
             modifier = Modifier.constrainAs(bottomSheet) {
-                top.linkTo(image.bottom)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
+                top.linkTo(image.bottom, (-24).dp)
                 bottom.linkTo(parent.bottom)
                 width = Dimension.fillToConstraints
                 height = Dimension.fillToConstraints
+                centerHorizontallyTo(parent)
             },
         )
     }
