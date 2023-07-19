@@ -20,7 +20,7 @@ import com.home.screens.barberList.BarberListScreen
 import com.home.screens.barberShop.BarberShopScreen
 import com.home.screens.profile.ProfileScreen
 import com.navigation.Destinations
-import com.navigation.retrieveObject
+import com.navigation.recoverObject
 
 @Composable
 fun HomeContainer(
@@ -28,7 +28,7 @@ fun HomeContainer(
     viewModel: HomeContainerViewModel = hiltViewModel(),
     startDestination: String?
 ) {
-    val homeContainerState = viewModel.uiState.collectAsStateWithLifecycle()
+    val homeContainerState = viewModel.state.collectAsStateWithLifecycle()
     HomeContainerContent(
         mainNavController = mainNavController,
         homeContainerState = homeContainerState.value,
@@ -45,31 +45,35 @@ fun HomeContainerContent(
     val homeContainerNavController = rememberNavController()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        bottomBar = { BottomNavigationBar(homeContainerNavController) },
-    ) { padding ->
-        Column(
-            modifier = Modifier.padding(padding),
-        ) {
-            NavHost(
-                navController = homeContainerNavController,
-                startDestination = startDestination
+        bottomBar = {
+            BottomNavigationBar(homeContainerNavController)
+        },
+        content = { padding ->
+            Column(
+                modifier = Modifier.padding(padding),
             ) {
-                composable(route = Destinations.Main.barberListScreen.route) {
-                    BarberListScreen(navController = homeContainerNavController)
-                }
-                composable(route = Destinations.Main.barberShopScreen.route) {
-                    val selectedBarberShop = homeContainerNavController.retrieveObject<BarberShop>()
-                    BarberShopScreen(
-                        navController = homeContainerNavController,
-                        selectedBarberShop = selectedBarberShop
-                    )
-                }
-                composable(route = Destinations.Main.profileScreen.route) {
-                    ProfileScreen()
+                NavHost(
+                    navController = homeContainerNavController,
+                    startDestination = startDestination
+                ) {
+                    composable(route = Destinations.Main.barberListScreen.route) {
+                        BarberListScreen(navController = homeContainerNavController)
+                    }
+                    composable(route = Destinations.Main.barberShopScreen.route) {
+                        val selectedBarberShop =
+                            homeContainerNavController.recoverObject<BarberShop>()
+                        BarberShopScreen(
+                            navController = homeContainerNavController,
+                            selectedBarberShop = selectedBarberShop
+                        )
+                    }
+                    composable(route = Destinations.Main.profileScreen.route) {
+                        ProfileScreen()
+                    }
                 }
             }
         }
-    }
+    )
 }
 
 @Preview

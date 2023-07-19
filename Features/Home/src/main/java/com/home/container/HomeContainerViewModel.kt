@@ -17,9 +17,9 @@ enum class HomeContainerEvent {
 @HiltViewModel
 class HomeContainerViewModel @Inject constructor(): ViewModel() {
 
-    private val _uiState : MutableStateFlow<HomeContainerState> =
+    private val _state : MutableStateFlow<HomeContainerState> =
         MutableStateFlow(HomeContainerState())
-    val uiState = _uiState.asStateFlow()
+    val state = _state.asStateFlow()
 
 }
 
