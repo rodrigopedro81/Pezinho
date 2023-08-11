@@ -1,5 +1,6 @@
 package com.home.screens.barberList
 
+import android.graphics.fonts.FontStyle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
@@ -18,8 +20,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,6 +32,7 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.entities.AvailableService
 import com.entities.BarberShop
 import com.navigation.Destinations
@@ -90,37 +95,47 @@ fun BarberCard(
         backgroundColor = Color.White,
         modifier = Modifier
             .fillMaxWidth(0.9f)
-            .height(112.dp)
+            .wrapContentHeight()
             .clickable { onClickEvent(barberShop) },
     ) {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-            val (picture, title, snippet, distance) = createRefs()
-            Box(
+            val (picture, title, isOpen, address, distance) = createRefs()
+            AsyncImage(
+                model = barberShop.icon,
+                contentDescription = null,
                 modifier = Modifier
-                    .background(Color.Red, CircleShape)
                     .constrainAs(picture) {
-                        start.linkTo(parent.start, 12.dp)
-                        top.linkTo(parent.top, 12.dp)
-                        bottom.linkTo(parent.bottom, 12.dp)
+                        start.linkTo(parent.start, 6.dp)
+                        top.linkTo(parent.top, 6.dp)
+                        bottom.linkTo(parent.bottom, 6.dp)
                         width = Dimension.value(64.dp)
                         height = Dimension.value(64.dp)
-                    },
+                    }
+                    .clip(CircleShape)
             )
             Text(
                 text = barberShop.title,
-                style = TextStyle(fontSize = 24.sp),
+                style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.SemiBold),
                 modifier = Modifier.constrainAs(title) {
                     top.linkTo(picture.top)
-                    start.linkTo(picture.end, margin = 16.dp)
+                    start.linkTo(picture.end, margin = 12.dp)
                 }
             )
             Text(
-                text = barberShop.snippet,
-                style = TextStyle(fontSize = 14.sp),
-                modifier = Modifier.constrainAs(snippet) {
+                text = if (barberShop.isOpen) "Aberto" else "Fechado",
+                style = TextStyle(fontSize = 12.sp, color = if (barberShop.isOpen) Color.Green else Color.Red),
+                modifier = Modifier.constrainAs(isOpen) {
+                    top.linkTo(title.bottom)
+                    bottom.linkTo(address.top)
                     start.linkTo(title.start)
-                    top.linkTo(title.bottom, margin = 8.dp)
-                    end.linkTo(parent.end)
+                }
+            )
+            Text(
+                text = barberShop.address,
+                style = TextStyle(fontSize = 12.sp),
+                modifier = Modifier.constrainAs(address) {
+                    start.linkTo(isOpen.start)
+                    top.linkTo(isOpen.bottom)
                     width = Dimension.fillToConstraints
                     height = Dimension.wrapContent
                 }
@@ -159,9 +174,10 @@ fun getMockedBarberShops() = listOf(
 )
 
 fun getMockedBarber() = BarberShop(
-    wallpaper = "https://blog.consumer.com.br/wp-content/uploads/2020/11/culinária-regional-brasileira.jpg",
-    title = "Barbearia do Zé",
-    address = "Rua dos bobos, 0",
+    icon = "https://scontent-gig4-2.xx.fbcdn.net/v/t39.30808-6/346982757_1587514885072337_8575966607121764005_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=be3454&_nc_ohc=KSvcqs_vpwcAX_XFk62&_nc_ht=scontent-gig4-2.xx&oh=00_AfBgjV9jw8-uAXDFJk7Yc8rVL0RrtN9kSmg22gzuotQ0jA&oe=64DB3057",
+    title = "Peres Barber",
+    address = "Coronel Pimenta",
+    isOpen = true,
     services = listOf(
         AvailableService(
             id = 1,

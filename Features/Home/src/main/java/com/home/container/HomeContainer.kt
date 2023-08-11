@@ -45,9 +45,9 @@ fun HomeContainerContent(
     val homeContainerNavController = rememberNavController()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        bottomBar = {
-            BottomNavigationBar(homeContainerNavController)
-        },
+//        bottomBar = {
+//            BottomNavigationBar(homeContainerNavController)
+//        },
         content = { padding ->
             Column(
                 modifier = Modifier.padding(padding),
@@ -63,7 +63,7 @@ fun HomeContainerContent(
                         val selectedBarberShop =
                             homeContainerNavController.recoverObject<BarberShop>()
                         BarberShopScreen(
-                            navController = homeContainerNavController,
+                            homeNavController = homeContainerNavController,
                             selectedBarberShop = selectedBarberShop
                         )
                     }

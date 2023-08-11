@@ -1,5 +1,6 @@
 package com.database
 
+import com.entities.AvailableService
 import com.entities.Barber
 import com.entities.BarberShop
 import com.entities.Client
@@ -49,33 +50,32 @@ class FirestoreRepositoryImpl : FirestoreRepository {
         onResult.invoke(getMockedBarberShops())
     }
 
-    private fun getMockedBarberShops() = listOf(
-        BarberShop(
-            title = "Barbearia 1",
-            address = "",
-            snippet = "Pra quem sabe o que quer!",
-            latitude = 0.0,
-            longitude = 0.0,
-            barbers = listOf(),
-            services = listOf()
-        ),
-        BarberShop(
-            title = "Barbearia 2",
-            address = "",
-            snippet = "A melhor barbearia do engenho!",
-            latitude = 0.0,
-            longitude = 0.0,
-            barbers = listOf(),
-            services = listOf()
-        ),
-        BarberShop(
-            title = "Barbearia 3",
-            address = "",
-            snippet = "Especializados em cortes masculinos",
-            latitude = 0.0,
-            longitude = 0.0,
-            barbers = listOf(),
-            services = listOf()
+    fun getMockedBarberShops() = listOf(
+        getMockedBarber(),
+        getMockedBarber(),
+        getMockedBarber(),
+    )
+
+    fun getMockedBarber() = BarberShop(
+        icon = "https://scontent-gig4-2.xx.fbcdn.net/v/t39.30808-6/346982757_1587514885072337_8575966607121764005_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=be3454&_nc_ohc=KSvcqs_vpwcAX_XFk62&_nc_ht=scontent-gig4-2.xx&oh=00_AfBgjV9jw8-uAXDFJk7Yc8rVL0RrtN9kSmg22gzuotQ0jA&oe=64DB3057",
+        title = "Peres Barber",
+        address = "Coronel Pimenta",
+        isOpen = true,
+        services = listOf(
+            AvailableService(
+                id = 1,
+                title = "Corte de cabelo",
+                price = "R$ 30",
+                description = "Corte de cabelo",
+                duration = "45 minutos",
+            ),
+            AvailableService(
+                id = 2,
+                title = "Barba",
+                price = "R$ 15",
+                description = "Barba",
+                duration = "10 minutos",
+            ),
         ),
     )
 

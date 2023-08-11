@@ -1,6 +1,7 @@
 import Versions.activityCompose
 import Versions.androidXCore
 import Versions.androidXLifecycle
+import Versions.coilVersion
 import Versions.compose
 import Versions.composeConstraintLayout
 import Versions.composeLifecycle
@@ -14,7 +15,7 @@ import Versions.lottieCompose
 
 object OtherDependencies {
     const val lottie: String = "com.airbnb.android:lottie-compose:$lottieCompose"
-    const val coil: String = "io.coil-kt:coil-compose:2.0.0"
+    const val coil: String ="io.coil-kt:coil-compose:$coilVersion"
 }
 
 object AndroidXDependencies {

@@ -32,7 +32,8 @@ data class BarberShop(
     val latitude: Double = 0.0,
     val longitude: Double = 0.0,
     val barbers: List<Barber> = listOf(),
-    val services: List<AvailableService> = listOf()
+    val services: List<AvailableService> = listOf(),
+    val isOpen: Boolean,
 ): Serializable
 
 class AvailableService(
